@@ -1,32 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100;900&display=swap');
+
+@layer components {
+  .h1 {
+    @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
+  }
+  .h2 {
+    @apply text-center uppercase text-xl pt-6 text-white;
+  }
+  .link {
+    @apply font-black text-xl text-white;
+  }
+  .panel {
+    background: rgba(0, 0, 0, 0.3);
+    @apply rounded md:-mx-4 my-4 p-4 ;
+  }
+
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Montserrat Alternates', sans-serif;
+ 
 }
 
 body {
-  background-color: white;
-  color: black;
+  background: #ccc url('/background.png') fixed;
+  background-size: cover;
+  background-position: center;
+  color: rgba(255,255,255,0.9);
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: rgb(24, 24, 31);
-    color: rgb(238, 238, 238);
-  }
+.icon-cal::before {
+  content:"";
+  background: url('/icon-cal.svg') center no-repeat;
+  width: 1rem;
+  height: 1rem;
+  margin-right:0.5rem;
+  display: inline-block;
 }
 
-a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-h1 {
-  font-weight: 800;
+.icon-pin::before {
+  content:"";
+  background: url('/icon-pin.svg') center no-repeat;
+  width: 1rem;
+  height: 1rem;
+  margin-right:0.5rem;
+  display: inline-block;
 }

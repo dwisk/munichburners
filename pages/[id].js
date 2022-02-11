@@ -4,6 +4,7 @@ import { getDatabase, getPage, getBlocks } from "../lib/notion";
 import Link from "next/link";
 import { databaseId } from "./index.js";
 import styles from "./post.module.css";
+import ActivityMeta from "../components/ActivityMeta";
 
 export const Text = ({ text }) => {
   if (!text) {
@@ -14,20 +15,25 @@ export const Text = ({ text }) => {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
     } = value;
-    return (
-      <span
-        className={[
-          bold ? styles.bold : "",
-          code ? styles.code : "",
-          italic ? styles.italic : "",
-          strikethrough ? styles.strikethrough : "",
-          underline ? styles.underline : "",
-        ].join(" ")}
-        style={color !== "default" ? { color } : {}}
-      >
-        {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
-      </span>
-    );
+    const hasStyles = bold || code || italic || strikethrough || underline;
+    const content = text.link ? <a href={text.link.url} className="underline">{text.content}</a> : text.content;
+    if (hasStyles || color !== "default") {
+      return (
+        <span
+          className={[
+            bold ? styles.bold : "",
+            code ? styles.code : "",
+            italic ? styles.italic : "",
+            strikethrough ? styles.strikethrough : "",
+            underline ? styles.underline : "",
+          ].join(" ")}
+          style={color !== "default" ? { color } : {}}
+        >
+          {content}
+        </span>
+      );
+    }
+    return content;
   });
 };
 
@@ -38,7 +44,7 @@ const renderBlock = (block) => {
   switch (type) {
     case "paragraph":
       return (
-        <p>
+        <p className="pb-4">
           <Text text={value.text} />
         </p>
       );
@@ -139,64 +145,28 @@ export default function Post({ page, blocks }) {
   if (!page || !blocks) {
     return <div />;
   }
-
-  const date = new Date(page.properties.Date.date.start).toLocaleString(
-    "de-DE",
-    page.properties.Date.date.start.length > 10 ? {
-      month: "long",
-      day: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    } : {
-      month: "long",
-      day: "2-digit",
-      year: "numeric"
-    }
-  );
-  const enddate = page.properties.Date.date.end && new Date(page.properties.Date.date.end).toLocaleString(
-    "de-DE",
-    page.properties.Date.date.start.length > 10 ? {
-      month: "long",
-      day: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    } : {
-      month: "long",
-      day: "2-digit",
-      year: "numeric"
-    }
-  );
-
   return (
-    <div>
+    <div className="container mx-auto">
       <Head>
         <title>{page.properties.Name.title[0].plain_text}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <article className={styles.container}>
-        <h1 className={styles.name}>
+      <article className="">
+        <h1 className="h1">
           <Text text={page.properties.Name.title} />
         </h1>
-        <p className={styles.postDescription}>
-          {date}
-          {enddate && (
-            <>{` - ${enddate}`}</>
-          )}
-          {' '}
-          <Text text={page.properties.Location.rich_text} />
-        </p>
-        <section>
+
+        <section className="mb-10 panel">
+          <ActivityMeta post={page} />
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
           ))}
-          <Link href="/">
-            <a className={styles.back}>← Go home</a>
-          </Link>
         </section>
       </article>
+      <Link href="/">
+        <a className="link p-4">← Startseite</a>
+      </Link>
     </div>
   );
 }
