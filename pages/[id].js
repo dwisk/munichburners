@@ -139,6 +139,36 @@ export default function Post({ page, blocks }) {
   if (!page || !blocks) {
     return <div />;
   }
+
+  const date = new Date(page.properties.Date.date.start).toLocaleString(
+    "de-DE",
+    page.properties.Date.date.start.length > 10 ? {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    } : {
+      month: "long",
+      day: "2-digit",
+      year: "numeric"
+    }
+  );
+  const enddate = page.properties.Date.date.end && new Date(page.properties.Date.date.end).toLocaleString(
+    "de-DE",
+    page.properties.Date.date.start.length > 10 ? {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    } : {
+      month: "long",
+      day: "2-digit",
+      year: "numeric"
+    }
+  );
+
   return (
     <div>
       <Head>
@@ -150,6 +180,14 @@ export default function Post({ page, blocks }) {
         <h1 className={styles.name}>
           <Text text={page.properties.Name.title} />
         </h1>
+        <p className={styles.postDescription}>
+          {date}
+          {enddate && (
+            <>{` - ${enddate}`}</>
+          )}
+          {' '}
+          <Text text={page.properties.Location.rich_text} />
+        </p>
         <section>
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
@@ -203,6 +241,6 @@ export const getStaticProps = async (context) => {
       page,
       blocks: blocksWithChildren,
     },
-    revalidate: 1,
+    revalidate: 120,
   };
 };

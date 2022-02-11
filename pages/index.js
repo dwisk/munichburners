@@ -67,7 +67,6 @@ export default function Home({ posts }) {
             );
             return (
               <li key={post.id} className={styles.post}>
-                {/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
                 <h3 className={styles.postTitle}>
                   <Link href={`/${post.id}`}>
                     <a>
@@ -81,7 +80,14 @@ export default function Home({ posts }) {
                   {enddate && (
                     <>{` - ${enddate}`}</>
                   )}
+                  {' '}
+                  <Text text={post.properties.Location.rich_text} />
                 </p>
+                {post.properties.Description && (
+                  <p className={styles.postDescription}>
+                    <Text text={post.properties.Description.rich_text} />
+                  </p>
+                )}
                 <Link href={`/${post.id}`}>
                   <a> Mehr lesen →</a>
                 </Link>
@@ -101,6 +107,6 @@ export const getStaticProps = async () => {
     props: {
       posts: database,
     },
-    revalidate: 1,
+    revalidate: 120,
   };
 };
