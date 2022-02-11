@@ -65,7 +65,7 @@ export default function Home({ posts }) {
           })}
         </ol>
         <p className="px-4 md:px-0 pb-4 text-center">
-          <a href="/api/activities.ics" target="_blank" className="link">In Kalender importieren ↓</a>
+          <a href="/api/activities.ics" className="link">In Kalender importieren ↓</a>
         </p>
       </main>
     </div>
