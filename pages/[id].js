@@ -152,21 +152,29 @@ export default function Post({ page, blocks }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <article className="">
+      <article>
         <h1 className="h1">
           <Text text={page.properties.Name.title} />
         </h1>
 
-        <section className="mb-10 panel">
+        <section className="panel">
           <ActivityMeta post={page} />
+          {blocks.length === 0 && page.properties.Description && (
+            <p className="mb-4">
+              <Text text={page.properties.Description.rich_text} />
+            </p>
+          )}
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
           ))}
         </section>
       </article>
-      <Link href="/">
-        <a className="link p-4">← Startseite</a>
-      </Link>
+      <p className="px-4 md:px-0 pb-4">
+        <Link href="/">
+          <a className="link">← Startseite</a>
+        </Link>
+        <a href={`/api/activities/${page.id}.ics`} className="link float-right">Kalender ↓</a>
+      </p>
     </div>
   );
 }
