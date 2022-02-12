@@ -21,8 +21,8 @@ export function transformEvent (post) {
   // return event-json
   return {
     title: post.properties.Name.title[0].text.content,
-    description: post.properties.Description?.rich_text[0]?.plain_text,
-    location: post.properties.Location?.rich_text[0]?.plain_text,
+    description: post.properties.Description?.rich_text.map(t => t.plain_text).join(' '),
+    location: post.properties.Location?.rich_text.map(t => t.plain_text).join(' '),
     start,
     end: post.properties.Date.date.end ? end : undefined,
     url: `https://munichburners.de/activities/${post.id}`
