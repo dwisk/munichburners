@@ -25,7 +25,7 @@ export function transformEvent (post) {
     location: post.properties.Location?.rich_text[0]?.plain_text,
     start,
     end: post.properties.Date.date.end ? end : undefined,
-    url: `https://munichburners.de/${post.id}`
+    url: `https://munichburners.de/activities/${post.id}`
   }
 }
 

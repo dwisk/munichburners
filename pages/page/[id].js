@@ -8,7 +8,7 @@ import Text from "../../components/Text";
 
 
 export default function Page({ page, blocks, parent }) {
-  return <pre>{JSON.stringify(blocks, null, 2)}</pre>
+  // return <pre>{JSON.stringify(blocks, null, 2)}</pre>
   if (!page || !blocks) {
     return <div />;
   }
