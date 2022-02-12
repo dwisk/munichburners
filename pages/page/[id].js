@@ -8,7 +8,7 @@ import Text from "../../components/Text";
 
 
 export default function Page({ page, blocks, parent }) {
-  // return <pre>{JSON.stringify(blocks, null, 2)}</pre>
+  return <pre>{JSON.stringify(blocks, null, 2)}</pre>
   if (!page || !blocks) {
     return <div />;
   }
@@ -46,9 +46,9 @@ export default function Page({ page, blocks, parent }) {
 }
 
 export const getStaticPaths = async () => {
-  const database = await getDatabase(databaseId);
+  // const database = await getDatabase(databaseId);
   return {
-    paths: database.map((page) => ({ params: { id: page.id } })),
+    paths: [],
     fallback: true,
   };
 };
