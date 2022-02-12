@@ -12,7 +12,7 @@
     @apply text-center uppercase text-xl pt-6 text-white;
   }
   .page-h1 {
-    @apply uppercase text-3xl font-black pt-6 mb-6 text-white;
+    @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
   }
   .page-h2 {
     @apply uppercase font-black text-xl pt-6 text-white;

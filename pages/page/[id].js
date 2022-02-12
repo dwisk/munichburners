@@ -1,17 +1,20 @@
 import Head from "next/head";
-import { getDatabase, getPage, getBlocks } from "../../lib/notion";
+import { getPage, getBlocks } from "../../lib/notion";
 import Link from "next/link";
-import { databaseId } from "../index.js";
-import ActivityMeta from "../../components/ActivityMeta";
-import NotionPage from "../../components/Blocks";
+import Blocks from "../../components/Blocks";
 import Text from "../../components/Text";
 
 
 export default function Page({ page, blocks, parent }) {
-  // return <pre>{JSON.stringify(blocks, null, 2)}</pre>
+  // return <pre>{JSON.stringify(page, null, 2)}</pre>
   if (!page || !blocks) {
     return <div />;
   }
+
+  const ico =  {
+    "type": "emoji",
+    "emoji": "📃"
+  };
   return (
     <div className="container mx-auto">
       <Head>
@@ -21,12 +24,24 @@ export default function Page({ page, blocks, parent }) {
 
       <article>
         <h1 className="h1">
+          {parent && (
+            <>
+              <Link href={`/page/${parent.id}`}>
+                <a><Text text={parent.properties.title.title} /> </a>
+              </Link>
+              {' → '} 
+            </>
+          )}
           <Text text={page.properties.title.title} />
         </h1>
 
         <section className="panel">
-
-          <NotionPage blocks={blocks} />
+        {page.icon?.emoji === "📃" ? (
+          // <pre>{JSON.stringify(blocks, null, 2)}</pre>
+          <Blocks blocks={blocks} showChildren />
+        ) : (
+            <Blocks blocks={blocks} />
+            )}
         </section>
       </article>
       <p className="px-4 md:px-0 pb-4">

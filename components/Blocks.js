@@ -4,7 +4,7 @@ import styles from "./notionstyles.module.css";
 import Text from "./Text";
 
   
-export const Block = ({block}) => {
+export const Block = ({block, showChildren}) => {
     const { type, id } = block;
     const value = block[type];
 
@@ -61,6 +61,16 @@ export const Block = ({block}) => {
             </details>
         );
         case "child_page":
+            if (showChildren) { 
+                return <>
+                    <h1 className="page-h1 border-b border-orange-700">
+                        <a href={`/page/${block.id}`}>
+                            {value.title}
+                        </a>
+                    </h1>
+                    <Blocks blocks={value.children} />
+                </>;
+            } 
             return <p><a className="font-black" href={`/page/${block.id}`}>→ {value.title}</a></p>;
         case "image":
         const src =
@@ -75,7 +85,16 @@ export const Block = ({block}) => {
         case "divider":
         return <hr key={id} />;
         case "quote":
-        return <blockquote key={id}>{value.text[0].plain_text}</blockquote>;
+        return <blockquote className="panel m-0 mb-4 border-l-4" key={id}>
+                <Text text={value.text} />
+            </blockquote>;
+        case "callout":
+            // return <pre>{JSON.stringify(block, null, 2)}</pre>
+        return <div className="panel flex m-0 mb-4 border-l-4 mt-2">
+            <div className="mr-4">{value.icon.emoji}</div>
+            <div><Text text={value.text}/></div>
+
+        </div>
         case "code":
         return (
             <pre className={styles.pre}>
@@ -108,10 +127,10 @@ export const Block = ({block}) => {
     }
 };
 
-export default function Blocks({blocks}) {
+export default function Blocks({blocks, showChildren}) {
    return (<>
        {blocks.map((block) => (
-           <Block key={block.id} block={block} />
+           <Block key={block.id} block={block} showChildren={showChildren} />
           ))}
    </>)
 } 
