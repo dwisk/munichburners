@@ -1,4 +1,4 @@
-import { Text } from "../pages/[id].js";
+import Text from "./Text.js";
 
 export default function ActivityMeta({post}) {
     const date = new Date(post.properties.Date.date.start).toLocaleString(

@@ -11,6 +11,15 @@
   .h2 {
     @apply text-center uppercase text-xl pt-6 text-white;
   }
+  .page-h1 {
+    @apply uppercase text-3xl font-black pt-6 mb-6 text-white;
+  }
+  .page-h2 {
+    @apply uppercase font-black text-xl pt-6 text-white;
+  }
+  .page-h3 {
+    @apply uppercase pt-6 text-white;
+  }
   .link {
     @apply font-black text-xl text-white;
   }

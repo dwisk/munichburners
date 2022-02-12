@@ -2,8 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import ActivityMeta from "../components/ActivityMeta";
 import { getDatabase } from "../lib/notion";
-import { Text } from "./[id].js";
-// import styles from "./index.module.css";
+import Text from "../components/Text.js";
 
 export const databaseId = process.env.NOTION_DATABASE_ID;
 
@@ -24,15 +23,17 @@ export default function Home({ posts }) {
 
           </h1>
         </header>
-        <h2 className="h2">Community Places</h2>
-        <ul className="panel grid grid-cols-2 md:grid-cols-4 gap-4">
-          <li className="link text-center"><a href="https://munichburners.slack.com" target="_blank">SLACK  </a> </li>
-          <li className="link text-center"><a href="https://www.facebook.com/groups/1421833524754523" target="_blank">FACEBOOK</a> </li>
-          <li className="link text-center"><a href="https://t.me/munichburners" target="_blank">TELEGRAM</a> </li>
-          <li className="link text-center line-through">WHATSAPP </li>
-        </ul>
+        <h2 className="h2 text-center">Community Places</h2>
+        <div className="panel">
+          <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <li className="link text-center"><a href="https://munichburners.slack.com" target="_blank">SLACK  </a> </li>
+            <li className="link text-center"><a href="https://www.facebook.com/groups/1421833524754523" target="_blank">FACEBOOK</a> </li>
+            <li className="link text-center"><a href="https://t.me/munichburners" target="_blank">TELEGRAM</a> </li>
+            <li className="link text-center line-through">WHATSAPP </li>
+          </ul>
+          </div>
 
-        <h2 className="h2">Burner Activities</h2>
+        <h2 className="h2 text-center">Burner Activities</h2>
         <ol className="">
           {posts.filter(post => new Date(post.properties.Date.date.start.substr(0, 10)) > new Date().setHours(0) )
                 .sort((a,b) => a.properties.Date.date.start > b.properties.Date.date.start ? 1 : -1)
@@ -42,7 +43,7 @@ export default function Home({ posts }) {
               <li key={post.id} className="panel">
                 {/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
                 <h3 className="link">
-                  <Link href={`/${post.id}`}>
+                  <Link href={`/activities/${post.id}`}>
                     <a>
                       <Text text={post.properties.Name.title} />
                     </a>
@@ -56,7 +57,7 @@ export default function Home({ posts }) {
                   </p>
                 )}
                 <p className="text-right">
-                <Link href={`/${post.id}`}>
+                <Link href={`/activities/${post.id}`}>
                   <a className="font-black"> Mehr lesen →</a>
                 </Link>
                 </p>
