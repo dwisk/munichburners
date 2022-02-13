@@ -1,5 +1,6 @@
 
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import { useLanguage } from "../lib/LanguageContext";
 import styles from "./notionstyles.module.css";
 import Text from "./Text";
 
@@ -7,6 +8,11 @@ import Text from "./Text";
 export const Block = ({block, showChildren}) => {
     const { type, id } = block;
     const value = block[type];
+
+    const { language, setLanguage } = useLanguage();
+    useEffect(() => {
+      setLanguage(language)
+    }, [language])
 
     switch (type) {
         case "paragraph":
@@ -134,16 +140,21 @@ export const Block = ({block, showChildren}) => {
                             langs[i].children.push(<p><Text text={cell} /></p>);
                         })
                     }
-                })
+                });
 
-                return (<div className={`grid grid-cols-1 md:grid-cols-${langs.length} gap-10`}>
-                    {langs.map(lang => (
-                        <div>
-                            <small className="block border-b border-orange-700 border-dotted text-orange-500 mb-4">{lang.title}</small>
-                            {lang.children}
-                        </div>
-                    ))}
-                </div>);
+                const lang = langs.find(l => l.title === language) || langs[0];
+
+                return (
+                    <div className="relative">
+                        <small className="float-right mt-1 border-orange-700 border-dotted text-orange-500 ml-4 my-2">
+                            <span className="font-bold">{lang.title}</span>
+                            {langs.filter(l => l.title !== language).map(l => (
+                                <button className="ml-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+                            ))}
+                        </small>
+                        {lang.children}
+                    </div>
+                );
             }
 
             // simple table
@@ -176,4 +187,4 @@ export default function Blocks({blocks, showChildren}) {
            <Block key={block.id} block={block} showChildren={showChildren} />
           ))}
    </>)
-} 
+}   
