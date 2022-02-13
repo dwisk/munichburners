@@ -79,7 +79,7 @@ export const getStaticProps = async (context) => {
 
   // Retrieve block children for nested blocks (one level deep), for example toggle blocks
   // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
-  const childBlocks = await Promise.all(
+  const childBlocks1 = await Promise.all(
     blocks
       .filter((block) => block.has_children)
       .map(async (block) => {
@@ -89,13 +89,40 @@ export const getStaticProps = async (context) => {
         };
       })
   );
+  const childBlocks2 = await Promise.all(
+    childBlocks1
+    .filter((block) => block.children.length > 0)
+    .reduce((a, c) => ([...a, ...c.children]),[])
+    .filter((block) => block.has_children)
+    .map(async (block) => {
+      return {
+        id: block.id,
+        children: await getBlocks(block.id),
+      };
+    })
+  );
+
+  const childBlocks = [...childBlocks1, ...childBlocks2];
+
   const blocksWithChildren = blocks.map((block) => {
     // Add child blocks if the block should contain children but none exists
-    if (block.has_children && !block[block.type].children) {
+    if ((block.has_children && !block[block.type].children)) {
       block[block.type]["children"] = childBlocks.find(
         (x) => x.id === block.id
       )?.children;
     }
+
+    // add level 2
+    if (block[block.type].children) {      
+      block[block.type].children.filter(childBlock => childBlock.has_children)
+      .forEach(childBlock => {
+        childBlock[childBlock.type]["children"] = childBlocks.find(
+          (x) => x.id === childBlock.id
+        )?.children;
+        return childBlock;
+      });
+    }
+  
     return block;
   });
 
