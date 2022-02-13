@@ -11,6 +11,8 @@ export default function Text ({ text }) {
       } = value;
       const hasStyles = bold || code || italic || strikethrough || underline;
       const content = text.link ? <a href={text.link.url} className="underline">{text.content}</a> : text.content;
+      if (text.content === "\n") return <br />
+      if (text.content === "\n\n") return <><br /><br/></>;
       if (hasStyles || color !== "default") {
         return (
           <span
