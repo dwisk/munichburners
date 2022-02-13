@@ -30,8 +30,6 @@ export function transformEvent (post) {
 }
 
 export default async (req, res) => {
-  console.log(req);
-
   const database = await getDatabase(databaseId);
 
   // parse database

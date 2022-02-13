@@ -5,10 +5,16 @@ import { databaseId } from "../index.js";
 import ActivityMeta from "../../components/ActivityMeta";
 import NotionPage from "../../components/Blocks";
 import Text from "../../components/Text";
+import { usePage } from "../../lib/_clienthelpers";
+import { useState } from "react";
 
 
-export default function Activity({ page, blocks }) {
+export default function Activity({ publicPage, blocks }) {
   // return <pre>{JSON.stringify(page, null, 2)}</pre>
+
+  const [codeword, setcodeword] = useState('');
+
+  const { page } = usePage(publicPage, codeword);
   
   if (!page || !blocks) {
     return <div />;
@@ -19,7 +25,6 @@ export default function Activity({ page, blocks }) {
         <title>{page.properties.Name.title[0].plain_text}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <article>
         <h1 className="h1">
           <Text text={page.properties.Name.title} />
@@ -35,12 +40,21 @@ export default function Activity({ page, blocks }) {
           <NotionPage blocks={blocks} />
         </section>
       </article>
-      <p className="px-4 md:px-0 pb-4">
+      <p className="px-4 md:px-0 ">
         <Link href="/">
           <a className="link">← Startseite</a>
         </Link>
         <a href={`/api/activities/${page.id}.ics`} className="link float-right">Kalender ↓</a>
       </p>
+      {page.properties.Secret ? (
+        <section className="panel">
+          <Text text={page.properties.Secret?.rich_text} />
+        </section>      
+      ) : (
+        <section className="panel flex">
+          Privat:{' '}<input type="text" className="w-full bg-transparent ml-4 text-white" value={codeword} onChange={(e) => setcodeword(e.currentTarget.value)} />
+        </section>
+      )}
     </div>
   );
 }
@@ -82,7 +96,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      page,
+      publicPage: page,
       blocks: blocksWithChildren,
     },
     revalidate: 120,
