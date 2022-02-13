@@ -120,6 +120,49 @@ export const Block = ({block, showChildren}) => {
             {caption_file && <figcaption>{caption_file}</figcaption>}
             </figure>
         );
+        case "table":
+            // language "table"
+            if (value.table_width === 2 && value.has_column_header && ["DE","EN","Deutsch","English"].includes(value.children[0]?.table_row?.cells[0][0]?.plain_text)) {
+                const langs = value.children[0].table_row.cells.map(lang => ({
+                    title: lang.map(t => t.plain_text).join(" "),
+                    children: []
+                }));
+                
+                value.children.forEach((row, i) => {
+                    if (i > 0) {
+                        row.table_row.cells.forEach((cell, i) => {
+                            langs[i].children.push(<p><Text text={cell} /></p>);
+                        })
+                    }
+                })
+
+                return (<div className={`grid grid-cols-1 md:grid-cols-${langs.length} gap-10`}>
+                    {langs.map(lang => (
+                        <div>
+                            <small className="block border-b border-orange-700 border-dotted text-orange-500 mb-4">{lang.title}</small>
+                            {lang.children}
+                        </div>
+                    ))}
+                </div>);
+            }
+
+            // simple table
+            return (
+                <table className="w-full my-4 border-separate" style={{borderSpacing: 2}}>
+                    {value.children.map((row, i) => (
+                        <tr>
+                            {row.table_row.cells.map((cell, j) => (
+                                <td className={`border border-transparent p-2 ${value.has_column_header & i === 0 || value.has_row_header & j === 0 ? 'font-bold bg-black/50' : 'bg-black/25'}`}>
+                                    <Text text={cell} />
+                                </td>
+                            ))}
+                            
+                        </tr>
+                    ))}
+                </table>
+            )
+
+        
         default:
         return `❌ Unsupported block (${
             type === "unsupported" ? "unsupported by Notion API" : type
