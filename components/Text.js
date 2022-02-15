@@ -4,7 +4,7 @@ export default function Text ({ text }) {
     if (!text) {
       return null;
     }
-    return text.map((value) => {
+    return text.map((value, id) => {
       const {
         annotations: { bold, code, color, italic, strikethrough, underline },
         text,
@@ -16,6 +16,7 @@ export default function Text ({ text }) {
       if (hasStyles || color !== "default") {
         return (
           <span
+            key={id}
             className={[
               bold ? styles.bold : "",
               code ? styles.code : "",

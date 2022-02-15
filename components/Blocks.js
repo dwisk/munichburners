@@ -149,7 +149,7 @@ export const Block = ({block, showChildren}) => {
                         <small className="float-right mt-1 border-orange-700 border-dotted text-orange-500 ml-4 my-2">
                             <span className="font-bold">{lang.title}</span>
                             {langs.filter(l => l.title !== language).map(l => (
-                                <button className="ml-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+                                <button key={l.title} className="ml-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
                             ))}
                         </small>
                         {lang.children}
