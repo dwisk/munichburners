@@ -6,7 +6,7 @@ import Text from "../../components/Text";
 import { useRouter } from "next/dist/client/router";
 
 
-export default function Page({ page, blocks, parent }) {
+export default function Page({ page, blocks, parent, onepager }) {
   if (!page || !blocks) {
     return <div />;
   }
@@ -14,9 +14,8 @@ export default function Page({ page, blocks, parent }) {
   // refreshPage if notion data is older than 1h, aws-image links expire
   const router = useRouter();
   const cacheAge = Math.floor((new Date() - new Date(page.lastFetch)) / 1000) ;
-  if (cacheAge > 3600)  router.replace(router.asPath);
+  if (cacheAge > 3600 * 2)  router.replace(router.asPath);
 
-  const onepager = page.icon?.emoji === "📃";
   const showSignet = onepager || page.icon?.emoji === "🔥";
   const hasCover = page.cover?.file?.url;
 
@@ -95,89 +94,20 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const { id } = context.params;
   const page = await getPage(id);
-  const blocks = await getBlocks(id);
+  const onepager = page.icon?.emoji === "📃";
+  const blocks = await getBlocks(id, true, true);
   let parent = false;
   if (page.parent.type === "page_id") {
     parent = await getPage(page.parent.page_id);
   }
 
-  // Retrieve block children for nested blocks (one level deep), for example toggle blocks
-  // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
-  const childBlocks1 = await Promise.all(
-    blocks
-      .filter((block) => block.has_children)
-      .map(async (block) => {
-        return {
-          id: block.id,
-          children: await getBlocks(block.id),
-        };
-      })
-  );
-  const childBlocks2 = await Promise.all(
-    childBlocks1
-    .filter((block) => block.children.length > 0)
-    .reduce((a, c) => ([...a, ...c.children]),[])
-    .filter((block) => block.has_children)
-    .map(async (block) => {
-      return {
-        id: block.id,
-        children: await getBlocks(block.id),
-      };
-    })
-  );
-  const childPages = await Promise.all(
-    blocks
-      .filter((block) => block.type === "child_page")
-      .map(async (block) => {
-        return {
-          id: block.id,
-          page: await getPage(block.id),
-        };
-      })
-  );
-
-  const childBlocks = [
-    ...childBlocks1,
-    ...childBlocks2
-  ];
-
-  const blocksWithChildren = blocks.map((block) => {
-    // Add child blocks if the block should contain children but none exists
-    if ((block.has_children && !block[block.type].children)) {
-      block[block.type]["children"] = childBlocks.find(
-        (x) => x.id === block.id
-      )?.children;
-    }
-
-    // add level 2
-    if (block[block.type].children) {      
-      block[block.type].children.filter(childBlock => childBlock.has_children)
-      .forEach(childBlock => {
-        childBlock[childBlock.type]["children"] = childBlocks.find(
-          (x) => x.id === childBlock.id
-        )?.children;
-        return childBlock;
-      });
-    }
-    if (block.type === "child_page") {
-      block[block.type] = {
-        ...block[block.type],
-        ...childPages.find(
-          (x) => x.id === block.id
-        )?.page
-      }
-    }      
-
-  
-    return block;
-  });
-
   return {
     props: {
       page,
-      blocks: blocksWithChildren,
+      onepager,
+      blocks,
       parent,
     },
-    revalidate: 120,
+    revalidate: onepager ? 3600 : 60, // 1 hour / 1 minute
   };
 };

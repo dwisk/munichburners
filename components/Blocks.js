@@ -179,8 +179,58 @@ export const Block = ({block, showChildren}) => {
                     ))}
                 </table>
             )
-            case "embed":
-                return <iframe src={value.url} style={{width: '100%', height:'60vh'}} className="mt-8"></iframe>
+        case "embed":
+        return <iframe src={value.url} style={{width: '100%', height:'60vh'}} className="mt-8"></iframe>
+        case "column_list":
+            // return <pre>{JSON.stringify(value,null,2)}</pre>
+            // empty column list
+            if (!value.children[0].column?.children) return false;
+            
+            // language "table"
+            const typ = value.children[0]?.column?.children[0]?.type;
+            if (value.children.length === 2 && ["DE","EN"].includes(value.children[0]?.column?.children[0][typ].text[0]?.plain_text)) {
+                const langs = value.children.map(lang => {
+                    const ty = lang.column?.children[0]?.type
+                    return {
+                        title: lang.column.children[0][ty].text.map(t => t.plain_text).join(" "),
+                        children: []
+                    }
+                });
+                
+                value.children.forEach((lang, i) => {
+                    lang.column?.children?.forEach((langblock, j) => {
+                        if (j > 0) langs[i].children.push(langblock);
+                    })
+                });
+
+                const lang = langs.find(l => l.title === language) || langs[0];
+
+                return (
+                    <div className="lang relative mt-4">
+                        <small className="float-right mt-1 ml-4 my-2">
+                            {/* <span className="font-bold">{lang.title}</span> */}
+                            {langs.filter(l => l.title !== language).map(l => (
+                                <button key={l.title} className="ml-2 font-bold" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+                            ))}
+                        </small>
+                        {lang.children.map(bl => (<Block block={bl} />))}
+                    </div>
+                );
+            }
+
+            // simple columns
+            return <div className="flex mt-4">
+            {value.children.map(col => (
+                <Block key={col.id} block={col} />
+                ))}
+        </div>
+        case "column":
+            // return <pre>{JSON.stringify(value, null, 2)}</pre>
+        return <div className="col flex-1">
+            {value.children?.map(row => (
+                <Block key={row.id} block={row} />
+            ))}
+        </div>
         default:
         return `❌ Unsupported block (${
             type === "unsupported" ? "unsupported by Notion API" : type
