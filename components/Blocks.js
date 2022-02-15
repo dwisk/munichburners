@@ -178,8 +178,8 @@ export const Block = ({block, showChildren}) => {
                     ))}
                 </table>
             )
-
-        
+            case "embed":
+                return <iframe src={value.url} style={{width: '100%', height:'75vh'}}></iframe>
         default:
         return `❌ Unsupported block (${
             type === "unsupported" ? "unsupported by Notion API" : type
