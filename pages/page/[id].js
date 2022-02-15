@@ -53,7 +53,7 @@ export default function Page({ page, blocks, parent }) {
         </h1>
 
         {onepager ? (
-          <div>
+          <div className="px-4">
             <Blocks blocks={blocks} showChildren />
           </div>
         ) : (

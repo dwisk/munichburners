@@ -71,6 +71,10 @@ p + p {
   @apply mt-2;
 }
 
+.childpage + .childpage {
+  @apply mt-0;
+}
+
 :root {
---container-padding: 0rem;
+--container-padding: 1rem;
 }

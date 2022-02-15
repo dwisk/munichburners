@@ -69,7 +69,7 @@ export const Block = ({block, showChildren}) => {
         case "child_page":
             if (showChildren) { 
                 const hasCover = value.cover?.file?.url;
-                const className = hasCover ? "bx-container md:bg-fixed bg-cover bg-center py-20" : "py-20";
+                const className = hasCover ? "childpage mt-20 bx-container md:bg-fixed bg-cover bg-center py-20" : "py-20";
                 const style = hasCover ? {backgroundImage: `url('${hasCover}')`} : {};
 
                 return <div className={className} style={style} >
@@ -153,9 +153,9 @@ export const Block = ({block, showChildren}) => {
                 return (
                     <div className="relative">
                         <small className="float-right mt-1 ml-4 my-2">
-                            <span className="font-bold">{lang.title}</span>
+                            {/* <span className="font-bold">{lang.title}</span> */}
                             {langs.filter(l => l.title !== language).map(l => (
-                                <button key={l.title} className="ml-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+                                <button key={l.title} className="ml-2 font-bold" onClick={() => setLanguage(l.title)}>{l.title}</button> 
                             ))}
                         </small>
                         {lang.children}
