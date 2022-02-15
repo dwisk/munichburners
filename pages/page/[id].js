@@ -17,6 +17,7 @@ export default function Page({ page, blocks, parent }) {
   if (cacheAge > 3600)  router.replace(router.asPath);
 
   const onepager = page.icon?.emoji === "📃";
+  const showSignet = onepager || page.icon?.emoji === "🔥";
   const hasCover = page.cover?.file?.url;
 
   return (
@@ -34,7 +35,7 @@ export default function Page({ page, blocks, parent }) {
         )} 
 
       <article>
-        {onepager && (
+        {showSignet && (
           <div className="max-w-xs mx-auto mt-10 mb-4">
             <img className="mx-auto" src="/signet.svg" />
           </div>

@@ -17,7 +17,7 @@ export const Block = ({block, showChildren}) => {
     switch (type) {
         case "paragraph":
         return (
-            <p className="pb-4">
+            <p>
             <Text text={value.text} />
             </p>
         );
@@ -151,7 +151,7 @@ export const Block = ({block, showChildren}) => {
                 const lang = langs.find(l => l.title === language) || langs[0];
 
                 return (
-                    <div className="relative">
+                    <div className="lang relative mt-4">
                         <small className="float-right mt-1 ml-4 my-2">
                             {/* <span className="font-bold">{lang.title}</span> */}
                             {langs.filter(l => l.title !== language).map(l => (
@@ -179,7 +179,7 @@ export const Block = ({block, showChildren}) => {
                 </table>
             )
             case "embed":
-                return <iframe src={value.url} style={{width: '100%', height:'75vh'}}></iframe>
+                return <iframe src={value.url} style={{width: '100%', height:'60vh'}} className="mt-8"></iframe>
         default:
         return `❌ Unsupported block (${
             type === "unsupported" ? "unsupported by Notion API" : type

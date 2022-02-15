@@ -67,8 +67,8 @@ body {
   display: inline-block;
 }
 
-p + p {
-  @apply mt-2;
+p + p, .lang + p, table + p, h1 + p, h2 + p, h3 + p {
+  @apply mt-4;
 }
 
 .childpage + .childpage {
