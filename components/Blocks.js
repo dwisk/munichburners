@@ -17,7 +17,7 @@ export const Block = ({block, showChildren}) => {
     switch (type) {
         case "paragraph":
         return (
-            <p>
+            <p className="overflow-hidden">
             <Text text={value.text} />
             </p>
         );
@@ -69,7 +69,7 @@ export const Block = ({block, showChildren}) => {
         case "child_page":
             if (showChildren) { 
                 const hasCover = value.cover?.file?.url;
-                const className = hasCover ? "childpage mt-20 bx-container md:bg-fixed bg-cover bg-center py-20" : "py-20";
+                const className = hasCover ? "childpage mt-20 bx-container dsk:bg-fixed bg-cover bg-center py-20" : "py-20";
                 const style = hasCover ? {backgroundImage: `url('${hasCover}')`} : {};
 
                 return <div className={className} style={style} >
@@ -134,7 +134,7 @@ export const Block = ({block, showChildren}) => {
         );
         case "table":
             // language "table"
-            if (value.table_width === 2 && value.has_column_header && ["DE","EN","Deutsch","English"].includes(value.children[0]?.table_row?.cells[0][0]?.plain_text)) {
+            if (value.table_width === 2 && value.has_column_header && ["DE","EN"].includes(value.children[0]?.table_row?.cells[0][0]?.plain_text)) {
                 const langs = value.children[0].table_row.cells.map(lang => ({
                     title: lang.map(t => t.plain_text).join(" "),
                     children: []

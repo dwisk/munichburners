@@ -28,7 +28,7 @@ export default function Page({ page, blocks, parent }) {
       </Head>
       {hasCover && (
           <style>{`
-            body {
+            html::before {
               background-image: url('${hasCover}') !important;
             }
         `}</style>

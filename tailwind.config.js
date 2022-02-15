@@ -17,6 +17,7 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
+      dsk: {'raw': '(hover: hover)'},
       sm: '400px',
       md: '708px',
       lg: '916px',
