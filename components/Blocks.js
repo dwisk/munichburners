@@ -69,7 +69,7 @@ export const Block = ({block, showChildren}) => {
         case "child_page":
             if (showChildren) { 
                 const hasCover = value.cover?.file?.url;
-                const className = hasCover ? "bx-container bg-fixed bg-cover bg-center py-20" : "py-20";
+                const className = hasCover ? "bx-container md:bg-fixed bg-cover bg-center py-20" : "py-20";
                 const style = hasCover ? {backgroundImage: `url('${hasCover}')`} : {};
 
                 return <div className={className} style={style} >
