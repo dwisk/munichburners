@@ -54,7 +54,7 @@ export default function Page({ page, blocks, parent }) {
         </h1>
 
         {onepager ? (
-          <div className="px-4">
+          <div className="px-4 mb-4">
             <Blocks blocks={blocks} showChildren />
           </div>
         ) : (
@@ -63,7 +63,8 @@ export default function Page({ page, blocks, parent }) {
           </section>
         )}
       </article>
-      <p className="px-4 md:px-0 pb-4">
+      <p className="px-4 md:px-0 pb-4 relative">
+        <div className={onepager ? 'mb:pt-4' : ''}>
         {parent ? (
         <Link href={`/page/${parent.id}`}>
           <a className="link">← <Text text={parent.properties.title.title} /> </a>
@@ -73,6 +74,10 @@ export default function Page({ page, blocks, parent }) {
             <a className="link">← Startseite</a>
           </Link>
           
+        )}
+        </div>
+        {onepager && (
+          <div className="childsticky dsk:hidden bx-container" style={{backgroundImage: "url('/background-red.jpg')"}}  />
         )}
       </p>
     </div>
