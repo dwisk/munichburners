@@ -68,14 +68,20 @@ export const Block = ({block, showChildren}) => {
         );
         case "child_page":
             if (showChildren) { 
-                return <>
-                    <h1 className="page-h1 border-b border-orange-700">
+                const hasCover = value.cover?.file?.url;
+                const className = hasCover ? "bx-container bg-fixed bg-cover bg-center py-20" : "py-20";
+                const style = hasCover ? {backgroundImage: `url('${hasCover}')`} : {};
+
+                return <div className={className} style={style} >
+                    <h1 className="page-h1 py-4">
                         <a href={`/page/${block.id}`}>
                             {value.title}
                         </a>
                     </h1>
-                    <Blocks blocks={value.children} />
-                </>;
+                    <section className="panel">
+                        <Blocks blocks={value.children} />
+                    </section>
+                </div>;
             } 
             return <p><a className="font-black" href={`/page/${block.id}`}>→ {value.title}</a></p>;
         case "image":
@@ -146,7 +152,7 @@ export const Block = ({block, showChildren}) => {
 
                 return (
                     <div className="relative">
-                        <small className="float-right mt-1 border-orange-700 border-dotted text-orange-500 ml-4 my-2">
+                        <small className="float-right mt-1 ml-4 my-2">
                             <span className="font-bold">{lang.title}</span>
                             {langs.filter(l => l.title !== language).map(l => (
                                 <button key={l.title} className="ml-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 

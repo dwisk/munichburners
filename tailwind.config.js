@@ -23,5 +23,7 @@ module.exports = {
       xl: '916px',
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-container-bleed'),
+  ],
 }

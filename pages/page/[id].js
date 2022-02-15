@@ -16,15 +16,31 @@ export default function Page({ page, blocks, parent }) {
   const cacheAge = Math.floor((new Date() - new Date(page.lastFetch)) / 1000) ;
   if (cacheAge > 3600)  router.replace(router.asPath);
 
+  const onepager = page.icon?.emoji === "📃";
+  const hasCover = page.cover?.file?.url;
+
   return (
     <div className="container mx-auto">
       <Head>
         <title>{page.properties.title.title[0].plain_text}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {hasCover && (
+          <style>{`
+            body {
+              background-image: url('${hasCover}') !important;
+            }
+        `}</style>
+        )} 
 
       <article>
-        <h1 className="h1">
+        {onepager && (
+          <div className="max-w-xs mx-auto mt-10 mb-4">
+            <img className="mx-auto" src="/signet.svg" />
+          </div>
+        )}
+
+        <h1 className={onepager ? 'h1-title mb-10' : 'h1'}>
           {parent && (
             <>
               <Link href={`/page/${parent.id}`}>
@@ -36,14 +52,15 @@ export default function Page({ page, blocks, parent }) {
           <Text text={page.properties.title.title} />
         </h1>
 
-        <section className="panel">
-        {page.icon?.emoji === "📃" ? (
-          // <pre>{JSON.stringify(blocks, null, 2)}</pre>
-          <Blocks blocks={blocks} showChildren />
+        {onepager ? (
+          <div>
+            <Blocks blocks={blocks} showChildren />
+          </div>
         ) : (
+          <section className="panel">
             <Blocks blocks={blocks} />
-            )}
-        </section>
+          </section>
+        )}
       </article>
       <p className="px-4 md:px-0 pb-4">
         {parent ? (
@@ -102,8 +119,21 @@ export const getStaticProps = async (context) => {
       };
     })
   );
+  const childPages = await Promise.all(
+    blocks
+      .filter((block) => block.type === "child_page")
+      .map(async (block) => {
+        return {
+          id: block.id,
+          page: await getPage(block.id),
+        };
+      })
+  );
 
-  const childBlocks = [...childBlocks1, ...childBlocks2];
+  const childBlocks = [
+    ...childBlocks1,
+    ...childBlocks2
+  ];
 
   const blocksWithChildren = blocks.map((block) => {
     // Add child blocks if the block should contain children but none exists
@@ -123,6 +153,15 @@ export const getStaticProps = async (context) => {
         return childBlock;
       });
     }
+    if (block.type === "child_page") {
+      block[block.type] = {
+        ...block[block.type],
+        ...childPages.find(
+          (x) => x.id === block.id
+        )?.page
+      }
+    }      
+
   
     return block;
   });

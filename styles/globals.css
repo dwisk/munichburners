@@ -8,6 +8,9 @@
   .h1 {
     @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
   }
+  .h1-title {
+    @apply text-center uppercase text-5xl font-black pt-6 mb-6 text-white;
+  }
   .h2 {
     @apply text-center uppercase text-xl pt-6 text-white;
   }
@@ -36,7 +39,7 @@ body {
   margin: 0;
   font-family: 'Montserrat Alternates', sans-serif;
   background-color: #211 ;
-  background-image: url('/background.png');
+  background-image: url('/background-red.jpg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -67,4 +70,8 @@ body {
 
 p + p {
   @apply mt-2;
+}
+
+:root {
+--container-padding: 0rem;
 }
