@@ -7,6 +7,7 @@ import NotionPage from "../../components/Blocks";
 import Text from "../../components/Text";
 import { usePage } from "../../lib/_clienthelpers";
 import { useState } from "react";
+import { useRouter } from "next/dist/client/router";
 
 
 export default function Activity({ publicPage, blocks }) {
@@ -19,6 +20,12 @@ export default function Activity({ publicPage, blocks }) {
   if (!page || !blocks) {
     return <div />;
   }
+
+  // refreshPage if notion data is older than 1h, aws-image links expire
+  const router = useRouter();
+  const cacheAge = Math.floor((new Date() - new Date(page.lastFetch)) / 1000) ;
+  if (cacheAge > 3600)  router.replace(router.asPath);
+
   return (
     <div className="container mx-auto">
       <Head>

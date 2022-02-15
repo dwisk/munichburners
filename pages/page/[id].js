@@ -3,18 +3,19 @@ import { getPage, getBlocks } from "../../lib/notion";
 import Link from "next/link";
 import Blocks from "../../components/Blocks";
 import Text from "../../components/Text";
+import { useRouter } from "next/dist/client/router";
 
 
 export default function Page({ page, blocks, parent }) {
-  // return <pre>{JSON.stringify(page, null, 2)}</pre>
   if (!page || !blocks) {
     return <div />;
   }
 
-  const ico =  {
-    "type": "emoji",
-    "emoji": "📃"
-  };
+  // refreshPage if notion data is older than 1h, aws-image links expire
+  const router = useRouter();
+  const cacheAge = Math.floor((new Date() - new Date(page.lastFetch)) / 1000) ;
+  if (cacheAge > 3600)  router.replace(router.asPath);
+
   return (
     <div className="container mx-auto">
       <Head>
