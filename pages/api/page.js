@@ -8,6 +8,10 @@ export default async (req, res) => {
         blocks = await getBlocks(page.id, true);
     }
 
+    res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=3600, stale-while-revalidate=3600'
+      )
     res.statusCode = 200;
     res.json({ page, blocks })
 }

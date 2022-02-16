@@ -2591,6 +2591,11 @@
     "inherits" "^2.0.1"
     "safe-buffer" "^5.1.2"
 
+"memory-cache@^0.2.0":
+  "integrity" "sha1-eJCwHVLADI68nVM+H46xfjA0hxo="
+  "resolved" "https://registry.npmjs.org/memory-cache/-/memory-cache-0.2.0.tgz"
+  "version" "0.2.0"
+
 "memory-fs@^0.4.1":
   "integrity" "sha1-OpoguEYlI+RHz7x+i7gO1me/xVI="
   "resolved" "https://registry.npmjs.org/memory-fs/-/memory-fs-0.4.1.tgz"
