@@ -108,6 +108,6 @@ export const getStaticProps = async (context) => {
       blocks,
       parent,
     },
-    revalidate: onepager ? 3600 : 60, // 1 hour / 1 minute
+    revalidate: onepager ? 300 : 60, // 5min / 1 minute
   };
 };
