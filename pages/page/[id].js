@@ -95,7 +95,7 @@ export const getStaticProps = async (context) => {
   const { id } = context.params;
   const page = await getPage(id);
   const onepager = page.icon?.emoji === "📃";
-  const blocks = await getBlocks(id, true, true);
+  const blocks = await getBlocks(id, true, false);
   let parent = false;
   if (page.parent.type === "page_id") {
     parent = await getPage(page.parent.page_id);
