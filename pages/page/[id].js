@@ -4,6 +4,7 @@ import Link from "next/link";
 import Blocks from "../../components/Blocks";
 import Text from "../../components/Text";
 import { useRouter } from "next/dist/client/router";
+import { revalidatePage } from "../../lib/_clienthelpers";
 
 
 export default function Page({ page, blocks, parent, onepager }) {
@@ -18,6 +19,11 @@ export default function Page({ page, blocks, parent, onepager }) {
 
   const showSignet = onepager || page.icon?.emoji === "🔥";
   const hasCover = page.cover?.file?.url;
+
+  const reval = (e) => {
+    e.preventDefault();
+    revalidatePage(page.id);
+  }
 
   return (
     <div className="container mx-auto">
@@ -49,7 +55,9 @@ export default function Page({ page, blocks, parent, onepager }) {
               {' → '} 
             </>
           )}
-          <Text text={page.properties.title.title} />
+          <a href="#" onClick={(e) => e.preventDefault()} onDoubleClick={reval}>
+            <Text text={page.properties.title.title} />
+          </a>
         </h1>
 
         {onepager ? (
