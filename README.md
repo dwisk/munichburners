@@ -1,4 +1,4 @@
-# Munich Burners Website
+# Munich Burners Website 
 
 This is the source-code for [https://munichburners.de](https://munichburners.de) 
 
