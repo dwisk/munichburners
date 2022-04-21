@@ -25,10 +25,11 @@ export default function Home({ posts }) {
         </header>
         <h2 className="h2 text-center">Community Places</h2>
         <div className="panel">
-          <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <li className="link text-center"><a href="https://munichburners.slack.com" target="_blank">SLACK  </a> </li>
             <li className="link text-center"><a href="https://www.facebook.com/groups/1421833524754523" target="_blank">FACEBOOK</a> </li>
             <li className="link text-center"><a href="https://t.me/munichburners" target="_blank">TELEGRAM</a> </li>
+            <li className="link text-center"><a href="https://signal.group/#CjQKIJKoahwgU17POla-pxn4RYg5Mo1ZhwueohJVEIDd-E-xEhC5WeXbA9OoDzc7cH-ytA_o" target="_blank">SIGNAL</a> </li>
             <li className="link text-center line-through">WHATSAPP </li>
           </ul>
           </div>
