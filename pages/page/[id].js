@@ -15,14 +15,21 @@ export default function Page({ page, blocks, parent, onepager }) {
   // refreshPage if notion data is older than 1h, aws-image links expire
   const router = useRouter();
   const cacheAge = Math.floor((new Date() - new Date(page.lastFetch)) / 1000) ;
-  if (cacheAge > 3600 * 2)  router.replace(router.asPath);
+
+  const refresh = async () => {
+    await revalidatePage(page.id);
+    console.info("refresh projects cache", cacheAge);
+    router.replace(router.asPath, router.asPath, { scroll: false }); // soft refresh
+  };
+
+  if (cacheAge > 3600) refresh();
 
   const showSignet = onepager || page.icon?.emoji === "🔥";
   const hasCover = page.cover?.file?.url;
 
   const reval = (e) => {
     e.preventDefault();
-    revalidatePage(page.id);
+    refresh();
   }
 
   return (
