@@ -7,3 +7,4 @@ It's a [Next.js](https://nextjs.org/) site using [Notions Public API](https://de
 - and hidden gems
 
 If you want to help editing, please get in contact with [Mephy](mailto:mail@dwi.sk). 
+ 
