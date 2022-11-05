@@ -1,10 +1,20 @@
 import { LanguageProvider } from "../lib/LanguageContext";
 import "../styles/globals.css";
+import { Montserrat_Alternates } from '@next/font/google'
+
+const burnerFont = Montserrat_Alternates({
+  weight: ["400", "900"],
+  display: "auto",
+  variable: '--burner-font',
+});
+
 
 function MyApp({ Component, pageProps }) {
-  return <LanguageProvider>
-    <Component {...pageProps} />
-  </LanguageProvider>;
+  return   <main  className={burnerFont.className}>
+    <LanguageProvider>
+      <Component {...pageProps} />
+    </LanguageProvider>
+  </main>;
 }
 
 export default MyApp;

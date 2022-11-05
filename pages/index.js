@@ -45,9 +45,9 @@ export default function Home({ posts }) {
                 {/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
                 <h3 className="link">
                   <Link href={`/activities/${post.id}`}>
-                    <a>
-                      <Text text={post.properties.Name.title} />
-                    </a>
+
+                    <Text text={post.properties.Name.title} />
+
                   </Link>
                 </h3>
 
@@ -58,8 +58,8 @@ export default function Home({ posts }) {
                   </p>
                 )}
                 <p className="text-right">
-                <Link href={`/activities/${post.id}`}>
-                  <a className="font-black"> Mehr lesen →</a>
+                <Link href={`/activities/${post.id}`} className="font-black">
+                   Mehr lesen →
                 </Link>
                 </p>
               </li>

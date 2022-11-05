@@ -48,8 +48,8 @@ export default function Activity({ publicPage, blocks }) {
         </section>
       </article>
       <p className="px-4 md:px-0 ">
-        <Link href="/">
-          <a className="link">← Startseite</a>
+        <Link href="/" className="link">
+          ← Startseite
         </Link>
         <a href={`/api/activities/${page.id}.ics`} className="link float-right">Kalender ↓</a>
       </p>

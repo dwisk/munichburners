@@ -57,7 +57,7 @@ export default function Page({ page, blocks, parent, onepager }) {
           {parent && (
             <>
               <Link href={`/page/${parent.id}`}>
-                <a><Text text={parent.properties.title.title} /> </a>
+                <Text text={parent.properties.title.title} /> 
               </Link>
               {' → '} 
             </>
@@ -80,12 +80,12 @@ export default function Page({ page, blocks, parent, onepager }) {
       <p className="px-4 md:px-0 pb-4 relative">
         <div className={onepager ? 'mb:pt-4' : ''}>
         {parent ? (
-        <Link href={`/page/${parent.id}`}>
-          <a className="link">← <Text text={parent.properties.title.title} /> </a>
-        </Link>
+        (<Link href={`/page/${parent.id}`} className="link">
+          ←<Text text={parent.properties.title.title} /> 
+        </Link>)
       ) : (
-        <Link href="/">
-            <a className="link">← Startseite</a>
+        <Link href="/" className="link">
+            ← Startseite
           </Link>
           
         )}
