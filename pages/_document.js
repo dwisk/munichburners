@@ -21,8 +21,6 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
         <meta name="theme-color" content="#221111"/>
-        <link rel="preconnect" href="https://fonts.googleapis.com" /> 
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> 
     </Head>
       <body>
         <Main />
