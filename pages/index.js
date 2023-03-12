@@ -15,10 +15,10 @@ export default function Home({ posts }) {
 
       <main className="">
         <header className="mt-10 mb-10">
-          <div className="max-w-xs mx-auto">
-            <img className="mx-auto" src="./logo.svg" />
+          <div className="max-w-xs mx-auto mb-6">
+            <img className="mx-auto" src="./signet.svg" />
           </div>
-          <h1 className="text-center hidden">
+          <h1 className="text-center text-6xl">
           Munich Burners
 
           </h1>
