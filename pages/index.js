@@ -23,7 +23,8 @@ export default function Home({ posts }) {
 
           </h1>
         </header>
-        <h2 className="h2 text-center">Community Places</h2>
+        <h2 className="h2 text-center leading-5 mt-10">Community Places<br /><small className="text-center uppercase text-xs">get connected online</small></h2>
+        
         <div className="panel">
           <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <li className="link text-center"><a href="http://discord.munichburners.de" target="_blank">DISCORD</a> </li>
@@ -34,7 +35,7 @@ export default function Home({ posts }) {
           </ul>
           </div>
 
-        <h2 className="h2 text-center">Burner Activities</h2>
+        <h2 className="h2 text-center leading-5 mt-10">Burner Activities<br /><small className="text-center uppercase text-xs">meet for real</small></h2>
         <ol className="">
           {posts.filter(post => new Date(post.properties.Date.date.start.substr(0, 10)) > new Date().setHours(0) )
                 .sort((a,b) => a.properties.Date.date.start > b.properties.Date.date.start ? 1 : -1)
