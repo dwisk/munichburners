@@ -26,9 +26,14 @@
   }
   .panel {
     background: rgba(0, 0, 0, 0.3);
-    @apply md:rounded md:-mx-4 my-4 p-4 overflow-hidden;
+    @apply md:rounded-lg md:-mx-4 my-4 p-4 overflow-hidden;
+    backdrop-filter: blur(5px);
   }
-
+  .gridpanel {
+    background: rgba(0, 0, 0, 0.3);
+    @apply md:rounded-lg overflow-hidden;
+    backdrop-filter: blur(5px);
+  }
 }
 
 html,
