@@ -10,7 +10,7 @@
     @apply text-center uppercase text-5xl font-black pt-6 mb-6 text-white;
   }
   .h2 {
-    @apply text-center uppercase text-xl pt-6 text-white;
+    @apply text-center uppercase text-3xl pt-6 text-white;
   }
   .page-h1 {
     @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
@@ -35,9 +35,14 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: var('--burner-font '), sans-serif;
+  font-family: var('--text-font'), sans-serif;
+  line-height: 1.8;
   min-height:100vh;
 }
+h1, h2, h3, h4 , h5 {
+  font-family: var('--title-font'), sans-serif;
+}
+
 
 body {
   background-color: #211 ;
