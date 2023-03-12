@@ -37,7 +37,7 @@ export default function Activity({ publicPage, blocks }) {
           <Text text={page.properties.Name.title} />
         </h1>
 
-        <section className="panel">
+        <section className="panel content">
           <ActivityMeta post={page} />
           {blocks.length === 0 && page.properties.Description && (
             <p className="mb-4">

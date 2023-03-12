@@ -43,6 +43,17 @@ h1, h2, h3, h4 , h5 {
   font-family: var('--title-font'), sans-serif;
 }
 
+.content li {
+  line-height: 1.5;
+  list-style-type: circle;
+  margin-bottom: .5rem;
+  text-indent: -1em;
+  padding-left: 1em;
+}
+.content p {
+  margin-bottom: 1.2rem
+}
+
 
 body {
   background-color: #211 ;

@@ -34,7 +34,7 @@ export default function ChildPage (props) {
                 {loading ? childPage.child_page?.title : page?.properties?.title?.title[0].plain_text}
             </a>
         </h1>
-        <section className="panel dsk:mb-0"  onDoubleClick={reval}>
+        <section className="panel content dsk:mb-0"  onDoubleClick={reval}>
             {loading ? (
                 <div>...</div>
             ) : (

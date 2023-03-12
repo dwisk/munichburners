@@ -72,7 +72,7 @@ export default function Page({ page, blocks, parent, onepager }) {
             <Blocks blocks={blocks} showChildren />
           </div>
         ) : (
-          <section className="panel">
+          <section className="panel content">
             <Blocks blocks={blocks} />
           </section>
         )}
