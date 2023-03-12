@@ -5,6 +5,8 @@ import Blocks from "../../components/Blocks";
 import Text from "../../components/Text";
 import { useRouter } from "next/dist/client/router";
 import { revalidatePage } from "../../lib/_clienthelpers";
+import { useLanguage } from "../../lib/LanguageContext";
+import { useEffect } from "react";
 
 
 export default function Page({ page, blocks, parent, onepager }) {
@@ -32,12 +34,27 @@ export default function Page({ page, blocks, parent, onepager }) {
     refresh();
   }
 
+  const langs = [
+    { title: "DE"},
+    { title: "EN"}
+  ];
+  const { language, setLanguage } = useLanguage();
+  useEffect(() => {
+    setLanguage(language)
+  }, [language])
+
+
   return (
     <div className="container mx-auto">
       <Head>
         <title>{page.properties.title.title[0].plain_text}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      {langs.filter(l => l.title !== language).map(l => (
+          <button key={l.title} className="ml-2 font-bold fixed top-0 right-0 px-4 rounded-bl-xl z-50 bg-white bg-opacity-20 shadow-md backdrop-blur-sm p-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+      ))}
+
       {hasCover && (
           <style>{`
             html::before {

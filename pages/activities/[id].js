@@ -8,6 +8,8 @@ import Text from "../../components/Text";
 import { usePage } from "../../lib/_clienthelpers";
 import { useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import { useLanguage } from "../../lib/LanguageContext";
+import { useEffect } from "react";
 
 
 export default function Activity({ publicPage, blocks }) {
@@ -21,6 +23,15 @@ export default function Activity({ publicPage, blocks }) {
     return <div />;
   }
 
+  const langs = [
+    { title: "DE"},
+    { title: "EN"}
+  ];
+  const { language, setLanguage } = useLanguage();
+  useEffect(() => {
+    setLanguage(language)
+  }, [language])
+
   // refreshPage if notion data is older than 1h, aws-image links expire
   const router = useRouter();
   const cacheAge = Math.floor((new Date() - new Date(page.lastFetch)) / 1000) ;
@@ -32,6 +43,11 @@ export default function Activity({ publicPage, blocks }) {
         <title>{page.properties.Name.title[0].plain_text}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      {langs.filter(l => l.title !== language).map(l => (
+          <button key={l.title} className="ml-2 font-bold fixed top-0 right-0 px-4 rounded-bl-xl z-50 bg-white bg-opacity-20 shadow-md backdrop-blur-sm p-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+      ))}
+
       <article>
         <h1 className="h1">
           <Text text={page.properties.Name.title} />
