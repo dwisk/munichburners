@@ -2,6 +2,8 @@ import { ImageResponse } from 'next/og';
 
  
 export const runtime = 'edge';
+
+const getFont = async () => { const res = await fetch( new URL('../../../public/Tourney-Semibold.ttf', import.meta.url) ); return await res.arrayBuffer(); };
  
 export async function GET(request) {
   try {
@@ -13,14 +15,6 @@ export async function GET(request) {
     if (searchParams.has('title')) {
         title = `${searchParams.get('title') }`;
     }
-
-    const fontData = await fetch(
-      new URL('./Tourney-Semibold.ttf', `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` || 'http://localhost:3000'),
-    ).then((res) => res.arrayBuffer());
-
-    // const fontData = fs.promises.readFile(
-    //   path.join(fileURLToPath(import.meta.url), '../../assets/TYPEWR__.ttf'),
-    // );
     
     return new ImageResponse(
       (
@@ -79,7 +73,7 @@ export async function GET(request) {
         fonts: [
           {
             name: 'Tourney',
-            data: fontData,
+            data: await getFont(),
             style: 'bold',
           },
         ],
