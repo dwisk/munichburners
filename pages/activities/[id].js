@@ -42,6 +42,10 @@ export default function Activity({ publicPage, blocks }) {
       <Head>
         <title>{page.properties.Name.title[0].plain_text}</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          property="og:image"
+          content={`https://munichburners.de/api/og?title=${page.properties.Name.title[0].plain_text}`}
+        />
       </Head>
 
       {langs.filter(l => l.title !== language).map(l => (

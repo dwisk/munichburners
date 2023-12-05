@@ -8,12 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "@next/font": "^13.0.2",
+    "@next/font": "^14.0.3",
     "@notionhq/client": "^0.4.4",
     "eslint-config-next": "^13.0.2",
     "ics": "^2.35.0",
     "memory-cache": "^0.2.0",
-    "next": "^13.0.2",
+    "next": "^14.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "swr": "^1.3.0"

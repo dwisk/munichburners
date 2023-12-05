@@ -11,6 +11,10 @@ export default function Home({ posts }) {
     <div className="container mx-auto">
       <Head>
         <title>Munich Burners</title>
+        <meta
+          property="og:image"
+          content={`https://munichburners.de/api/og`}
+        />
       </Head>
 
       <main className="">
