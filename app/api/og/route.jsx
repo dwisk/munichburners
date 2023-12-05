@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
  
-export const runtime = 'edge';
+// export const runtime = 'edge';
  
 export async function GET(request) {
   try {
@@ -14,9 +14,13 @@ export async function GET(request) {
         title = `${searchParams.get('title') }`;
     }
 
-    const fontData = await fetch(
-      new URL('../../../assets/Tourney-Semibold.ttf', import.meta.url),
-    ).then((res) => res.arrayBuffer());
+    // const fontData = await fetch(
+    //   new URL('../../../assets/Tourney-Semibold.ttf', import.meta.url),
+    // ).then((res) => res.arrayBuffer());
+
+    const fontData = fs.promises.readFile(
+      path.join(fileURLToPath(import.meta.url), '../../assets/TYPEWR__.ttf'),
+    );
     
     return new ImageResponse(
       (
