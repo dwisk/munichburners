@@ -15,7 +15,7 @@ export async function GET(request) {
     }
 
     const fontData = await fetch(
-      new URL('../../../assets/Tourney-Semibold.ttf', import.meta.url),
+      new URL('./Tourney-Semibold.ttf', process.env.APP_URL || 'http://localhost:3000'),
     ).then((res) => res.arrayBuffer());
 
     // const fontData = fs.promises.readFile(
