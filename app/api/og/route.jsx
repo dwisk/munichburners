@@ -3,7 +3,7 @@ import { ImageResponse } from 'next/og';
  
 export const runtime = 'edge';
 
-const getFont = async () => { const res = await fetch( new URL('../../../assets/Tourney-Semibold.ttf', import.meta.url) ); return await res.arrayBuffer(); };
+const getFont = async () => { const res = await fetch( new URL('./assets/Tourney-Semibold.ttf', import.meta.url) ); return await res.arrayBuffer(); };
  
 export async function GET(request) {
   try {
