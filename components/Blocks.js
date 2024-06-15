@@ -4,6 +4,7 @@ import { useLanguage } from "../lib/LanguageContext";
 import ChildPage from "./ChildPage";
 import styles from "./notionstyles.module.css";
 import Text from "./Text";
+import Image from "next/image";
 
   
 export const Block = ({block, showChildren}) => {
@@ -78,8 +79,13 @@ export const Block = ({block, showChildren}) => {
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
             <figure>
-            <img src={src} alt={caption} />
-            {caption && <figcaption>{caption}</figcaption>}
+                <Image
+                src={src}
+                alt={caption}
+                width={value.dimension.width}
+                height={value.dimension.height}
+                />
+                {caption && <figcaption>{caption}</figcaption>}
             </figure>
         );
         case "divider":

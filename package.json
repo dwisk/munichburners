@@ -12,6 +12,7 @@
     "@notionhq/client": "^0.4.4",
     "eslint-config-next": "^13.0.2",
     "ics": "^2.35.0",
+    "image-dimensions": "^2.3.0",
     "memory-cache": "^0.2.0",
     "next": "^14.0.3",
     "react": "^18.2.0",
