@@ -27,6 +27,7 @@ export default function Page({ page, blocks, parent, onepager }) {
   if (cacheAge > 3600) refresh();
 
   const showSignet = onepager || page.icon?.emoji === "🔥";
+  const hideBack = page.icon?.emoji === "🛡️";
   const hasCover = page.cover?.file?.url;
 
   const reval = (e) => {
@@ -71,7 +72,7 @@ export default function Page({ page, blocks, parent, onepager }) {
         )}
 
         <h1 className={onepager ? 'h1-title mb-10' : 'h1'}>
-          {parent && (
+          {(parent && !hideBack) && (
             <>
               <Link href={`/page/${parent.id}`}>
                 <Text text={parent.properties.title.title} /> 
