@@ -29,12 +29,12 @@ export default function Home({ posts }) {
         </header>
         
         
-        <h2 className="h2 text-center leading-5 mt-10">Munich Micro Burn 2024<br /><small className="text-center uppercase text-xs">let's burn together</small></h2>
+        <h2 className="h2 text-center leading-5 mt-10">Munich Micro Burn 2025<br /><small className="text-center uppercase text-xs">let's burn together</small></h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 -mx-5 my-5">
-          <div className="gridpanel h2 p-5 leading-8"><a href="/activities/f4c700a5-4339-467e-87c7-750cdd7eff6e">Community<br/>Gathering</a></div>
-          <div className="gridpanel h2 p-5 leading-5"><a href="/activities/f4c700a5-4339-467e-87c7-750cdd7eff6e">01.08.<br/>-<br/>04.08.</a></div>
-          <div className="gridpanel h2 p-5 leading-8"><a href="/activities/f4c700a5-4339-467e-87c7-750cdd7eff6e">South of<br/>Munich</a></div>
+          <div className="gridpanel h2 p-5 leading-8">Community<br/>Gathering</div>
+          <div className="gridpanel h2 p-5 leading-5">05.06.2025<br/>-<br/>08.08.2025</div>
+          <div className="gridpanel h2 p-5 leading-8">South of<br/>Munich</div>
         </div>
 
         <h2 className="h2 text-center leading-5 mt-10">Community Places<br /><small className="text-center uppercase text-xs">get connected online</small></h2>
