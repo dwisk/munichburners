@@ -33,7 +33,7 @@ export default function Home({ posts }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 -mx-5 my-5">
           <div className="gridpanel h2 p-5 leading-8">Community<br/>Gathering</div>
-          <div className="gridpanel h2 p-5 leading-5">05.06.2025<br/>-<br/>08.08.2025</div>
+          <div className="gridpanel h2 p-5 leading-5">05.06.2025<br/>-<br/>09.06.2025</div>
           <div className="gridpanel h2 p-5 leading-8">South of<br/>Munich</div>
         </div>
 
