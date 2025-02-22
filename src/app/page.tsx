@@ -1,5 +1,8 @@
 import Head from "next/head";
 import { getActivities } from "../lib/activities";
+import Link from "next/link";
+import ActivityMeta from "munichburners/components/ActivityMeta";
+import ReactMarkdown from "react-markdown";
 
 export default async function Home() {
   const activities = await getActivities();
@@ -45,40 +48,38 @@ export default async function Home() {
             <li className="link text-center"><a href="http://signal.munichburners.de" target="_blank">SIGNAL</a> </li>
             <li className="link text-center line-through">WHATSAPP </li>
           </ul>
-          </div>
+        </div>
 
-        <h2 className="h2 text-center leading-5 mt-10">Burner Activities<br /><small className="text-center uppercase text-xs">meet for real</small></h2>
-        <pre>{JSON.stringify(activities,null,2)}</pre>
-        {/* <ol className="">
-          {posts.filter(post => new Date(post.properties.Date.date.start.substr(0, 10)) > new Date().setHours(0) )
-                .sort((a,b) => a.properties.Date.date.start > b.properties.Date.date.start ? 1 : -1)
-                .map((post) => {
+        <h2 className="h2 text-center leading-5 mt-10 font-bold pb-0">Burner Activities</h2>
+        <div className="text-center uppercase text-xs font-bold mt-2">meet for real</div>
+        <ol className="">
+          {activities.filter(activity => new Date(activity.startDate.substr(0, 10)) > new Date(new Date().setHours(0, 0, 0, 0)) )
+                .sort((a,b) => a.startDate > b.startDate ? 1 : -1)
+                .map((activity) => {
             
             return (
-              <li key={post.id} className="panel">
+              <li key={activity.id} className="panel">
                 <h3 className="link">
-                  <Link href={`/activities/${post.id}`}>
-
-                    <Text text={post.properties.Name.title} />
-
+                  <Link href={`/activities/${activity.documentId}`}>
+                    {activity.name}
                   </Link>
                 </h3>
 
-                <ActivityMeta post={post} />
-                {post.properties.Description && (
+                <ActivityMeta activity={activity} />
+                {activity.description && (
                   <p className="mb-4">
-                    <Text text={post.properties.Description.rich_text} />
+                    <ReactMarkdown>{activity.shortDescription}</ReactMarkdown>
                   </p>
                 )}
                 <p className="text-right">
-                <Link href={`/activities/${post.id}`} className="font-black">
+                <Link href={`/activities/${activity.documentId}`} className="font-black">
                    Mehr lesen →
                 </Link>
                 </p>
               </li>
             );
           })}
-        </ol> */}
+        </ol>
         <p className="px-4 md:px-0 pb-4 text-center">
           <a href="/api/activities.ics" className="link">In Kalender importieren ↓</a>
         </p>

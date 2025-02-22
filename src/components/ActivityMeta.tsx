@@ -1,0 +1,54 @@
+import { Activity } from "munichburners/lib/activities/schema";
+import ReactMarkdown from "react-markdown";
+
+export default function ActivityMeta({activity}: {activity: Activity}) {
+    const date = new Date(activity.startDate).toLocaleString(
+        "de-DE",
+        activity.startDate.length > 10 ? {
+          month: "long",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        } : {
+          month: "long",
+          day: "2-digit",
+          year: "numeric"
+        }
+      );
+
+      let enddate:string|boolean = false;
+      if (activity.endDate && activity.startDate.length > 10) {
+        enddate = new Date(activity.endDate).toLocaleString(
+          "de-DE",
+          activity.endDate && activity.startDate.substr(0,10) === activity.endDate.substr(0,10) ? {
+            hour: "2-digit",
+            minute: "2-digit"
+          } : {
+            month: "long",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+      } else if (activity.endDate) {
+        enddate = new Date(activity.endDate).toLocaleString(
+          "de-DE",
+          {
+            month: "long",
+            day: "2-digit",
+            year: "numeric",
+          });
+      }
+      
+    return (<p className="my-2 text-white">
+    <span className="icon-cal">{date}
+    {enddate && (
+      <>{` - ${enddate}`}</>
+    )}
+    </span>
+    <span className="block md:inline md:ml-4 icon-pin">
+      {activity.location}
+    </span>
+  </p>)
+} 

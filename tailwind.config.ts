@@ -17,6 +17,14 @@ export default {
         text: ['var(--font-text)'],
       },
     },
+    screens: {
+      mb: {'raw': '(hover: none)'},
+      dsk: {'raw': '(hover: hover)'},
+      sm: '400px',
+      md: '708px',
+      lg: '916px',
+      xl: '916px',
+    },
   },
   plugins: [],
 } satisfies Config;

@@ -1,8 +1,11 @@
   
 export interface Activity {
   id:number,
+  documentId:string,
   name:string,
-  date:string,
+  startDate:string,
+  endDate:string,
   location:string,
-  description:string  
+  shortDescription:string,
+  description:string,
 }
