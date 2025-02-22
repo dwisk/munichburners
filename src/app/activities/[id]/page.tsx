@@ -54,7 +54,6 @@ export default async function Activity({ id }:{id:string}) {
         <Link href="/" className="link">
           ← Startseite
         </Link>
-        {/* <a href={`/api/activities/${activity.documentId}.ics`} className="link float-right">Kalender ↓</a> */}
       </p>
     </div>
   );

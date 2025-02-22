@@ -1,11 +1,12 @@
 import { ImageResponse } from 'next/og';
+import { NextRequest } from 'next/server';
 
  
 export const runtime = 'edge';
 
 const getFont = async () => { const res = await fetch( 'https://munichburners.de/Tourney-SemiBold.ttf' ); return await res.arrayBuffer(); };
  
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
  
@@ -74,13 +75,16 @@ export async function GET(request) {
           {
             name: 'Tourney',
             data: await getFont(),
-            style: 'bold',
           },
         ],
       },
     );
   } catch (e) {
-    console.log(`${e.message}`);
+    if (e instanceof Error) {
+      console.log(`${e.message}`);
+    } else {
+      console.log('An unknown error occurred');
+    }
     return new Response(`Failed to generate the image`, {
       status: 500,
     });
