@@ -1,22 +1,23 @@
-import Head from "next/head";
 import { getActivities } from "../lib/activities";
 import Link from "next/link";
 import ActivityMeta from "munichburners/components/ActivityMeta";
 import ReactMarkdown from "react-markdown";
+
+export async function generateMetadata() {
+  return {
+    title: "Munich Burners",
+    openGraph: {
+      description: `Find local burners in Munich`,
+      images: [`/api/og`],
+    }
+}
+}
 
 export default async function Home() {
   const activities = await getActivities();
 
   return (
     <div className="container mx-auto">
-      <Head>
-        <title>Munich Burners</title>
-        <meta
-          property="og:image"
-          content={`https://munichburners.de/api/og`}
-        />
-      </Head>
-
       <main className="">
         <header className="mt-10 mb-10">
           <div className="max-w-xs mx-auto mb-6">

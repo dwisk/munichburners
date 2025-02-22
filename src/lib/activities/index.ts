@@ -24,7 +24,7 @@ export async function getActivities():Promise<Activity[]> {
   
 export async function getActivity(region:string):Promise<Activity> {
     const filters = {
-        id: {
+        documentId: {
         "$eqi": region
       }
     };
