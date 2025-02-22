@@ -5,7 +5,7 @@ import ActivityMeta from "./ActivityMeta";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { langs, useLanguage } from "munichburners/lib/LanguageContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ActivityDetails({ activity }: { activity: Activity }) {
     const [localizedActivity, setLocalizedActivity] = useState<Activity>(activity);
@@ -13,24 +13,23 @@ export default function ActivityDetails({ activity }: { activity: Activity }) {
     const { language, setLanguage } = useLanguage();
     const locale = langs.find(l => l.title === language)?.locale;
 
-    const loadLanguage = async (lang:string) => {
+    const loadLanguage = useCallback(async (lang: string) => {
       const locale = langs.find(l => l.title === lang)?.locale;
       const res = await fetch(`/api/activities/${activity.documentId}?locale=${locale}`);
       const data = await res.json();
       if (data.success) {
-        setLocalizedActivity(data.activity);
+      setLocalizedActivity(data.activity);
       }
-    }
+    }, [activity.documentId]);
     
     useEffect(() => {
       if (language) {
         const locale = langs.find(l => l.title === language)?.locale;
-        console.log("Setting language", language)
         if (localizedActivity.locale !== locale) {
           loadLanguage(language);
         }
       }
-    }, [language]);
+    }, [language, loadLanguage, localizedActivity.locale]);
 
     return (
       <div className="container mx-auto">

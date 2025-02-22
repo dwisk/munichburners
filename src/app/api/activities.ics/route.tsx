@@ -1,6 +1,6 @@
 import { getActivities } from "munichburners/lib/activities";
 import { Activity } from "munichburners/lib/activities/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import ics, { DateTime, EventAttributes } from "ics";
 
 export function transformEvent (activity:Activity):EventAttributes {
@@ -28,8 +28,8 @@ export function transformEvent (activity:Activity):EventAttributes {
   }
 }
 
-export async function GET(req: NextRequest) {
-  // parse database
+export async function GET() {
+  // get activities
   const activities = await getActivities();
 
   // create ics

@@ -55,11 +55,11 @@ export async function fetchAPI(path:string, urlParamsObject = {}, options = {}, 
 
 interface HelperParams {
   endpoint:string,
-  data?:Object,
+  data?:object,
   session: Session | null,
   method?: 'GET'|'PUT'|'POST'|'DELETE',
-  onSuccess?: Function,
-  onError?: Function
+  onSuccess?: (result: object) => void,
+  onError?: (message: string) => void
 }
 
 export async function fetchHelper({endpoint, session, data, method = 'GET', onSuccess, onError}:HelperParams) {

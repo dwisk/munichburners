@@ -1,7 +1,4 @@
-import Link from "next/link";
 import { getActivity } from "munichburners/lib/activities";
-import ActivityMeta from "munichburners/components/ActivityMeta";
-import ReactMarkdown from "react-markdown";
 import ActivityDetails from "munichburners/components/ActivityDetails";
 
 type PageProps = {
