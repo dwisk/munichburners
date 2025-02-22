@@ -68,10 +68,10 @@ export default async function Home() {
                 </h3>
 
                 <ActivityMeta activity={activity} />
-                {activity.description && (
-                  <p className="mb-4">
+                {activity.shortDescription && (
+                  <div className="mb-4">
                     <ReactMarkdown>{activity.shortDescription}</ReactMarkdown>
-                  </p>
+                  </div>
                 )}
                 <p className="text-right">
                 <Link href={`/activities/${activity.documentId}`} className="font-black">

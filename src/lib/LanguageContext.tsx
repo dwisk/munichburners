@@ -1,15 +1,19 @@
 'use client'; 
 import { createContext, useContext, useState } from 'react'
 
-export const langs = [
+export const langs:Lang[] = [
   { title: "DE", locale: "de-DE"},
   { title: "EN", locale: "en"}
 ];
 
+interface Lang {
+  title: 'DE' | 'EN';
+  locale: 'de-DE' | 'en';
+}
 
 interface LanguageContextType {
-  language: string;
-  setLanguage: React.Dispatch<React.SetStateAction<string>>;
+  language: 'DE' | 'EN';
+  setLanguage: React.Dispatch<React.SetStateAction<'DE' | 'EN'>>;
 }
 const initialLanguageContext:LanguageContextType = {
   language: 'DE',
@@ -19,7 +23,7 @@ const initialLanguageContext:LanguageContextType = {
 export const LanguageContext = createContext<LanguageContextType>(initialLanguageContext)
 
 export function LanguageProvider({ children }: {children: React.ReactNode,}) {
-  const [language, setLanguage] = useState('DE');
+  const [language, setLanguage] = useState<'DE'|'EN'>('DE');
   
   return (
     <LanguageContext.Provider

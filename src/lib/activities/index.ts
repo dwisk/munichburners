@@ -40,7 +40,7 @@ export async function getActivity(region:string, locale:string = 'de-DE'):Promis
       filters,
       locale,
       populate: {
-        
+        content: true
       },
       pagination: {
         pageSize: 10

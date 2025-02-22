@@ -2,10 +2,10 @@
 
 import { Activity } from "munichburners/lib/activities/schema";
 import ActivityMeta from "./ActivityMeta";
-import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { langs, useLanguage } from "munichburners/lib/LanguageContext";
 import { useCallback, useEffect, useState } from "react";
+import Content from "./Content";
 
 export default function ActivityDetails({ activity }: { activity: Activity }) {
     const [localizedActivity, setLocalizedActivity] = useState<Activity>(activity);
@@ -44,7 +44,7 @@ export default function ActivityDetails({ activity }: { activity: Activity }) {
   
           <section className="panel content">
             <ActivityMeta activity={localizedActivity} locale={locale} />
-            <ReactMarkdown>{localizedActivity.description}</ReactMarkdown>
+            <Content content={localizedActivity.content} language={language} />
           </section>
         </article>
         <p className="px-4 md:px-0 ">
