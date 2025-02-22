@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-  .h1 {
+  h1, .h1 {
     @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
   }
   .h1-title {
@@ -45,7 +45,7 @@ body {
   min-height:100vh;
 }
 h1, h2, h3, h4 , h5 {
-  @apply font-title;
+  @apply font-title font-bold;
 }
 
 .content li {

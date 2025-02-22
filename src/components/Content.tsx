@@ -1,4 +1,5 @@
-import { ContentMap, ContentText, ContentType } from "munichburners/lib/content/schema";
+import { ContentImage, ContentMap, ContentText, ContentType } from "munichburners/lib/content/schema";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 
 export default function Content({content, language}:{content:ContentType[], language:'DE'|'EN'}) {
@@ -7,11 +8,13 @@ export default function Content({content, language}:{content:ContentType[], lang
             {content.map((item, index) => {
                 switch (item.__component) {
                     case 'content.text':
-                        return <Text key={index} content={item} language={language} />
+                        return <Text key={index} content={item} />
                     case 'content.map':
                         return <Map key={index} content={item} />
+                    case 'content.image':
+                        return <ImageContent key={index} content={item} />
                     default:
-                        return <div key={index}>Unknown content type</div>
+                        return <div key={index}>Unknown content type {item['__component']}</div>
                 }
             })}
         </div>
@@ -19,12 +22,27 @@ export default function Content({content, language}:{content:ContentType[], lang
 
 }
 
-function Text({content, language}:{content:ContentText, language:'DE'|'EN'}) {
-    const text = language === 'DE' ? content.textDE : content.textEN;
-
+function Text({content}:{content:ContentText}) {
     return (
-        <ReactMarkdown>{text}</ReactMarkdown>
+        <ReactMarkdown>{content.text}</ReactMarkdown>
     );
+}
+
+function ImageContent({content}:{content:ContentImage}) {
+    if (!content.image) {
+        return null;
+    }
+    return(
+        <figure>
+            <Image
+            src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${content.image.formats.large.url}`}
+            alt={content.image.caption}
+            width={content.image.formats.large.width}
+            height={content.image.formats.large.height}
+            />
+            {content.image.caption && <figcaption>{content.image.caption}</figcaption>}
+        </figure>
+    )
 }
 
 function Map({content}:{content:ContentMap}) {
