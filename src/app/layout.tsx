@@ -1,3 +1,4 @@
+import { LanguageProvider } from 'munichburners/lib/LanguageContext';
 import '../styles/globals.css'
 import { textFont, titleFont } from './fonts';
 interface props {
@@ -8,7 +9,9 @@ export default async function Layout({ children }:props) {
     return (
         <html lang="en" className={`${textFont.variable} ${titleFont.variable}`}>
             <body>
-                {children}
+                <LanguageProvider>
+                    {children}
+                </LanguageProvider>
             </body>
         </html>
     );

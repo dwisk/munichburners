@@ -1,9 +1,8 @@
 import { Activity } from "munichburners/lib/activities/schema";
-import ReactMarkdown from "react-markdown";
 
-export default function ActivityMeta({activity}: {activity: Activity}) {
+export default function ActivityMeta({activity, locale='de-DE'}: {activity: Activity, locale?:string}) {
     const date = new Date(activity.startDate).toLocaleString(
-        "de-DE",
+        locale,
         activity.startDate.length > 10 ? {
           month: "long",
           day: "2-digit",
@@ -20,7 +19,7 @@ export default function ActivityMeta({activity}: {activity: Activity}) {
       let enddate:string|boolean = false;
       if (activity.endDate && activity.startDate.length > 10) {
         enddate = new Date(activity.endDate).toLocaleString(
-          "de-DE",
+          locale,
           activity.endDate && activity.startDate.substr(0,10) === activity.endDate.substr(0,10) ? {
             hour: "2-digit",
             minute: "2-digit"
@@ -33,7 +32,7 @@ export default function ActivityMeta({activity}: {activity: Activity}) {
           });
       } else if (activity.endDate) {
         enddate = new Date(activity.endDate).toLocaleString(
-          "de-DE",
+          locale,
           {
             month: "long",
             day: "2-digit",

@@ -22,7 +22,7 @@ export async function getActivities():Promise<Activity[]> {
 
 
   
-export async function getActivity(region:string):Promise<Activity> {
+export async function getActivity(region:string, locale:string = 'de-DE'):Promise<Activity> {
     const filters = {
         documentId: {
         "$eqi": region
@@ -38,6 +38,7 @@ export async function getActivity(region:string):Promise<Activity> {
   
     const res = await fetchAPI("/activities", {
       filters,
+      locale,
       populate: {
         
       },
