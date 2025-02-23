@@ -2,9 +2,9 @@ import { getActivity } from "munichburners/lib/activities";
 import ActivityDetails from "munichburners/components/ActivityDetails";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  }
+  }>;
 };
 
 export async function generateMetadata(props:PageProps) {

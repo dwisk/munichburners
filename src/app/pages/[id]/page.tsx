@@ -1,13 +1,14 @@
 import PageDetails from "munichburners/components/PageDetails";
 import { getPage } from "munichburners/lib/pages";
-import { ChildPage, Page } from "munichburners/lib/pages/schema";
+import { ChildPage } from "munichburners/lib/pages/schema";
 import Link from "next/link";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  }
+  }>;
 };
+
 
 export async function generateMetadata(props:PageProps) {
   const params = await props.params;
@@ -54,10 +55,10 @@ export default async function PagePage(props:PageProps) {
       {page.childPages && page.childPages.map(childPage => <SubPage key={childPage.id} childPage={childPage} />)}
     </div>
     <p className="container mx-auto px-4 md:px-0 mb-10">
-          <Link href="/" className="link">
-            ← Startseite
-          </Link>
-        </p>
+      <Link href="/" className="link">
+        ← Startseite
+      </Link>
+    </p>
   </>);
 }
 

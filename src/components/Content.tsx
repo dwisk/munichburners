@@ -2,7 +2,7 @@ import { ContentImage, ContentMap, ContentText, ContentType } from "munichburner
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 
-export default function Content({content, language}:{content:ContentType[], language:'DE'|'EN'}) {
+export default function Content({content}:{content:ContentType[]}) {
     return (
         <div>
             {content.map((item, index) => {
@@ -22,7 +22,7 @@ export default function Content({content, language}:{content:ContentType[], lang
 
 }
 
-function LinkRenderer(props: any) {
+function LinkRenderer(props: { href?: string; children?: React.ReactNode }) {
     return (
       <a href={props.href} target="_blank" rel="noreferrer">
         {props.children}

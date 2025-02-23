@@ -1,4 +1,3 @@
-import { Session } from "next-auth"
 import qs from "qs"
 
 /**
@@ -29,7 +28,7 @@ export async function fetchAPI(path:string, urlParamsObject = {}, options = {}, 
     mergedOptions.headers =  {
       "Content-Type": "application/json",
       Authorization:
-          `Bearer ${jwt || '3c890c5163f1c55b5beb8eb3abdc7e92da8e1b884220a42a8668b5d03dc3389fd6534d4d059c44d9b88d4044e562f56da3428604a3499f5d9ac8e13753c21b059a4c76dd0c51c31ba1407e72e012fea9917c9e290970836c442a8d50dc0f5cdfb56df469d4ed2d3d2dca09f79d03977a0796963ba5a6010fdffc7f82d0418469'}`,
+          `Bearer ${jwt || '14d196505f53564e2ed68d1d8aced145a9a751e85131b83a013af8e9d0e368501ce2378963490f6c2f67f91973112403a7a195e0c08cd9eec57da94e9669443ac3cfa22775b7ca464f9820728fb91df34945273f440b6260e1fa8904b7ae5f06dadaa24978b5991f609016a2f144101a59b8a752f5828f94c78b780b7c0128d8'}`,
     };
   }
 
@@ -56,18 +55,18 @@ export async function fetchAPI(path:string, urlParamsObject = {}, options = {}, 
 interface HelperParams {
   endpoint:string,
   data?:object,
-  session: Session | null,
+  // session: Session | null,
   method?: 'GET'|'PUT'|'POST'|'DELETE',
   onSuccess?: (result: object) => void,
   onError?: (message: string) => void
 }
 
-export async function fetchHelper({endpoint, session, data, method = 'GET', onSuccess, onError}:HelperParams) {
+export async function fetchHelper({endpoint, data, method = 'GET', onSuccess, onError}:HelperParams) {
   // Send the data to the server in JSON format.
   const JSONdata = JSON.stringify({
     data,
-    token: session?.jwt,
-    sessionId: session?.id
+    // token: session?.jwt,
+    // sessionId: session?.id
   })
 
   // Form the request for sending data to the server.

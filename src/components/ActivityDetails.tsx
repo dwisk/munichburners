@@ -44,7 +44,7 @@ export default function ActivityDetails({ activity }: { activity: Activity }) {
   
           <section className="panel content">
             <ActivityMeta activity={localizedActivity} locale={locale} />
-            <Content content={localizedActivity.content} language={language} />
+            <Content content={localizedActivity.content} />
           </section>
         </article>
         <p className="px-4 md:px-0 ">

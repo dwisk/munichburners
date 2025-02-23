@@ -1,7 +1,5 @@
 'use client';
 
-import ActivityMeta from "./ActivityMeta";
-import Link from "next/link";
 import { langs, useLanguage } from "munichburners/lib/LanguageContext";
 import { useCallback, useEffect, useState } from "react";
 import Content from "./Content";
@@ -40,7 +38,7 @@ export default function PageDetails({ page }: { page: Page }) {
         <article>
         {!!page.showSignet && (
           <div className="max-w-xs mx-auto mt-10 mb-4">
-            <img className="mx-auto" src="/signet.svg" />
+            <Image className="mx-auto" src="./signet.svg" alt="Munich Burners Logo" width={255} height={277}/>
           </div>
         )}
           <h1 className={`h1 ${!page.childPages || page.childPages.length == 0 ? '' : 'h1-title'}`}>
@@ -59,7 +57,7 @@ export default function PageDetails({ page }: { page: Page }) {
                 {page.coverImage.caption && <figcaption>{page.coverImage.caption}</figcaption>}
             </figure>
             )}
-            <Content content={localizedPage.content} language={language} />
+            <Content content={localizedPage.content} />
           </section>
         </article>
       </div>
