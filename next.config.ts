@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     domains: [
       'localhost',
       'munichburners.de',
+      'strapi.munichburners.de',
+      'admin.munichburners.de',
     ],
   },
 };
