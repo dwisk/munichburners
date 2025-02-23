@@ -22,7 +22,7 @@ export default async function Home() {
       <main className="">
         <header className="mt-10 mb-10">
           <div className="max-w-xs mx-auto mb-6">
-            <Image className="mx-auto" src="./signet.svg" alt="Munich Burners Logo" width={255} height={277}/>
+            <Image className="mx-auto" src="/signet.svg" alt="Munich Burners Logo" width={255} height={277}/>
           </div>
           <h1 className="text-center text-6xl font-title">
           Munich Burners

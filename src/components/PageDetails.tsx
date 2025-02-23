@@ -38,7 +38,7 @@ export default function PageDetails({ page }: { page: Page }) {
         <article>
         {!!page.showSignet && (
           <div className="max-w-xs mx-auto mt-10 mb-4">
-            <Image className="mx-auto" src="./signet.svg" alt="Munich Burners Logo" width={255} height={277}/>
+            <Image className="mx-auto" src="/signet.svg" alt="Munich Burners Logo" width={255} height={277}/>
           </div>
         )}
           <h1 className={`h1 ${!page.childPages || page.childPages.length == 0 ? '' : 'h1-title'}`}>
