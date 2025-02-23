@@ -22,9 +22,19 @@ export default function Content({content, language}:{content:ContentType[], lang
 
 }
 
+function LinkRenderer(props: any) {
+    return (
+      <a href={props.href} target="_blank" rel="noreferrer">
+        {props.children}
+      </a>
+    );
+  }
+
 function Text({content}:{content:ContentText}) {
     return (
-        <ReactMarkdown>{content.text}</ReactMarkdown>
+        <div className="markdown">
+            <ReactMarkdown components={{ a: LinkRenderer}}>{content.text}</ReactMarkdown>
+        </div>
     );
 }
 

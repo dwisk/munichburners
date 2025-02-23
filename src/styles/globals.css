@@ -7,22 +7,10 @@
     @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
   }
   .h1-title {
-    @apply text-center uppercase text-5xl font-black pt-6 mb-6 text-white;
+    @apply text-center uppercase text-5xl font-normal pt-6 mb-6 text-white;
   }
   .h2 {
     @apply text-center uppercase text-3xl pt-6 text-white;
-  }
-  .page-h1 {
-    @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
-  }
-  .page-h2 {
-    @apply uppercase font-black text-xl pt-6 text-white;
-  }
-  .page-h3 {
-    @apply uppercase pt-6 text-white;
-  }
-  .link {
-    @apply font-black text-xl text-white;
   }
   .panel {
     background: rgba(0, 0, 0, 0.3);
@@ -34,6 +22,31 @@
     @apply md:rounded-lg overflow-hidden;
     backdrop-filter: blur(5px);
   }
+}
+
+
+.markdown h1 {
+  @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
+}
+.markdown h2 {
+  @apply uppercase font-black text-xl pt-6 text-white;
+}
+.markdown h3 {
+  @apply uppercase pt-6 text-white;
+}
+.markdown a {
+  @apply font-black text-xl text-white;
+}
+
+.markdown ul {
+  @apply list-outside ml-5;
+
+}
+.markdown li {
+  @apply mb-3 ml-0 pl-0 list-disc leading-7;
+}
+.markdown p {
+  margin-bottom: 1.2rem
 }
 
 html,
@@ -48,16 +61,7 @@ h1, h2, h3, h4 , h5 {
   @apply font-title font-bold;
 }
 
-.content li {
-  line-height: 1.5;
-  list-style-type: circle;
-  margin-bottom: .5rem;
-  text-indent: -1em;
-  padding-left: 1em;
-}
-.content p {
-  margin-bottom: 1.2rem
-}
+
 
 
 body {
