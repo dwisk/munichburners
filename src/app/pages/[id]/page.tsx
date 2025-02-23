@@ -67,7 +67,7 @@ async function SubPage({childPage}:{childPage:ChildPage}) {
 
   const backgroundImage = page.background ? `url('/_next/image?url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${page.background.formats.large.url}`)}&w=2048&q=75')` : 'none';
 
-  return <div style={{backgroundImage}} className={page.background ? 'childpage dsk:py-20 relative pt-20 bx-container mb:bg-none bg-fixed bg-cover bg-cente' : 'py-20'}>
+  return <div style={{backgroundImage}} className={page.background ? 'childpage dsk:py-20 relative pt-20 bx-container mb:bg-none bg-fixed bg-cover bg-cente' : 'py-0'}>
     <PageDetails page={page} />
     <div className="childsticky dsk:hidden bx-container" style={{backgroundImage}}  />
   </div>;
