@@ -24,22 +24,22 @@ export default async function Home() {
           <div className="max-w-xs mx-auto mb-6">
             <Image className="mx-auto" src="/signet.svg" alt="Munich Burners Logo" width={255} height={277}/>
           </div>
-          <h1 className="text-center text-6xl font-title">
+          <h1 className="text-center text-6xl font-title font-normal">
           Munich Burners
           </h1>
         </header>
         
         
-        <h2 className="h2 text-center leading-5 mt-10 font-bold">Munich Micro Burn 2025</h2>
+        <h2 className="h2 font-title text-center leading-5 mt-10 font-bold">Munich Micro Burn 2025</h2>
         <div className="text-center uppercase text-xs font-bold mt-2">let&apos;s burn together</div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 -mx-5 my-5 font-title font-bold">
           <div className="gridpanel h2 p-5 leading-8">Community<br/>Gathering</div>
-          <div className="gridpanel h2 p-5 leading-5">05.06.2025<br/>-<br/>09.06.2025</div>
+          <div className="gridpanel h2 p-5 leading-2">05.06.2025<br/>09.06.2025</div>
           <div className="gridpanel h2 p-5 leading-8">South of<br/>Munich</div>
         </div>
 
-        <h2 className="h2 text-center leading-5 mt-10 font-bold pb-0">Community Places</h2>
+        <h2 className="h2 font-title text-center leading-5 mt-10 font-bold pb-0">Community Places</h2>
         <div className="text-center uppercase text-xs font-bold mt-2">get connected online</div>
         
         <div className="panel">
@@ -52,7 +52,7 @@ export default async function Home() {
           </ul>
         </div>
 
-        <h2 className="h2 text-center leading-5 mt-10 font-bold pb-0">Burner Activities</h2>
+        <h2 className="h2 font-title text-center leading-5 mt-10 font-bold pb-0">Burner Activities</h2>
         <div className="text-center uppercase text-xs font-bold mt-2">meet for real</div>
         <ol className="">
           {activities.filter(activity => new Date(activity.startDate.substr(0, 10)) > new Date(new Date().setHours(0, 0, 0, 0)) )

@@ -2,27 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  h1, .h1 {
-    @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white;
-  }
-  .h1-title {
-    @apply text-center uppercase text-5xl font-normal pt-6 mb-6 text-white;
-  }
-  .h2 {
-    @apply text-center uppercase text-3xl pt-6 text-white;
-  }
-  .panel {
-    background: rgba(0, 0, 0, 0.3);
-    @apply md:rounded-lg md:-mx-4 my-4 p-4 overflow-hidden;
-    backdrop-filter: blur(5px);
-  }
-  .gridpanel {
-    background: rgba(0, 0, 0, 0.3);
-    @apply md:rounded-lg overflow-hidden;
-    backdrop-filter: blur(5px);
-  }
+h1, .h1 {
+  @apply text-center uppercase text-3xl font-black pt-6 mb-6 text-white font-title;
 }
+.h1-title {
+  @apply text-center uppercase text-5xl font-normal pt-6 mb-6 text-white  font-title;
+}
+.h2 {
+  @apply text-center uppercase text-3xl pt-6 text-white font-title;
+}
+h3 {
+  @apply font-title;
+}
+.panel {
+  background: rgba(0, 0, 0, 0.3);
+  @apply md:rounded-lg md:-mx-4 my-4 p-4 overflow-hidden;
+  backdrop-filter: blur(5px);
+}
+.gridpanel {
+  background: rgba(0, 0, 0, 0.3);
+  @apply md:rounded-lg overflow-hidden;
+  backdrop-filter: blur(5px);
+}
+
 
 
 .markdown h1 {
@@ -49,6 +51,10 @@
   margin-bottom: 1.2rem
 }
 
+.link {
+  @apply font-black text-xl text-white;
+}
+
 html,
 body {
   @apply font-text;
@@ -57,7 +63,7 @@ body {
   line-height: 1.8;
   min-height:100vh;
 }
-h1, h2, h3, h4 , h5 {
+.markdown h1, .markdown h2, .markdown h3, .markdown h4 , .markdown h5 {
   @apply font-title font-bold;
 }
 
