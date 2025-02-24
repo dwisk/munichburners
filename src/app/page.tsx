@@ -43,12 +43,13 @@ export default async function Home() {
         <div className="text-center uppercase text-xs font-bold mt-2">get connected online</div>
         
         <div className="panel">
-          <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <li className="link text-center"><a href="http://discord.munichburners.de" target="_blank">DISCORD</a> </li>
-            <li className="link text-center"><a href="http://fb.munichburners.de" target="_blank">FACEBOOK</a> </li>
+          <ul className="grid grid-cols-2 md:grid-cols-6 gap-4">
             <li className="link text-center"><a href="http://telegram.munichburners.de" target="_blank">TELEGRAM</a> </li>
+            <li className="link text-center"><a href="http://discord.munichburners.de" target="_blank">DISCORD</a> </li>
+            <li className="link text-center"><a href="http://bluesky.munichburners.de" target="_blank">BLUESKY</a> </li>
             <li className="link text-center"><a href="http://signal.munichburners.de" target="_blank">SIGNAL</a> </li>
-            <li className="link text-center line-through">WHATSAPP </li>
+            <li className="link text-center"><a href="http://fb.munichburners.de" target="_blank">FACEBOOK</a> </li>
+            <li className="link text-center"><a href="http://whatsapp.munichburners.de" target="_blank">WHATSAPP</a></li>
           </ul>
         </div>
 
