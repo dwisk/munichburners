@@ -20,8 +20,8 @@ function transformEvent (activity:Activity):EventAttributes {
   // return event-json
   return {
     title: activity.name,
-    description: `${activity.shortDescription}\n\nhttps://munichburners.de/activities/${activity.documentId}`,
-    location: activity.location,
+    description: activity.shortDescription || '',
+    location: activity.location || 't.b.d.',
     start,
     end: activity.endDate ? end : start,
     url: `https://munichburners.de/activities/${activity.documentId}`
