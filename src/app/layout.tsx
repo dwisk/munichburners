@@ -1,12 +1,17 @@
+'use server';
 import { LanguageProvider } from 'munichburners/lib/LanguageContext';
+import { cookies } from 'next/headers';
 import '../styles/globals.css'
 import { textFont, titleFont } from './fonts';
-import Head from 'next/head';
+import Analytics from 'munichburners/components/Analytics';
 interface props {
     children: React.ReactNode;
 }
  
 export default async function Layout({ children }:props) {
+  const cookieStore = await cookies();
+  const doNotTrack = cookieStore.get('doNotTrack')?.value === 'true';
+
     return (
         <html lang="en" className={`${textFont.variable} ${titleFont.variable}`}>
             <head>
@@ -32,6 +37,9 @@ export default async function Layout({ children }:props) {
                 <LanguageProvider>
                     {children}
                 </LanguageProvider>
+                {!doNotTrack && (
+                    <Analytics id={process.env.D2U_ANALYTICS_ID} url={process.env.D2U_ANALYTICS_URL} />
+                )}
             </body>
         </html>
     );
