@@ -1,4 +1,3 @@
-import { ContentType } from "../content/schema";
 import { Page } from "../pages/schema";
 
 export interface Menu {

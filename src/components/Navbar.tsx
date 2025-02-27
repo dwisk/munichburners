@@ -1,12 +1,9 @@
 import { getMenu } from "munichburners/lib/menu"
-import { headers } from "next/headers";
-import Link from "next/link";
 import React from "react";
 import NavbarMenu from "./NavbarMenu";
 
 export default async function Navbar({children}: {children: React.ReactNode}) {
     const menu = await getMenu();
-    const headerList = await headers();
 
     const menuitems = <NavbarMenu menu={menu} />;
 
