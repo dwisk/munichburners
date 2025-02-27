@@ -26,5 +26,23 @@ export default {
       xl: '916px',
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
+  daisyui: {
+    base: false,
+    themes: [
+      {
+        munichburners: {
+          primary: "#ffd0ff",
+          secondary: "#90ffff",
+          accent: "#ffd760",
+          neutral: "#f3ffff",
+          "base-100": "#000000",
+          info: "#41ffff",
+          success: "#9affdc",
+          warning: "#fff129",
+          error: "#ffbab9",
+          },
+        },
+      ],
+  }
 } satisfies Config;

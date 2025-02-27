@@ -37,7 +37,7 @@ export default async function PagePage(props:PageProps) {
   const page = await getPage(params.id);
   
   if (!page) {
-    return <div>Activity {params.id} not found</div>;
+    return <div>Page {params.id} not found</div>;
   }
 
 

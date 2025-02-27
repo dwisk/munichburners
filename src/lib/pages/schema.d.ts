@@ -2,6 +2,7 @@ import { ContentType } from "../content/schema";
 
 export interface Page {
   id:number,
+  slug:string,
   documentId:string,
   locale:'en'|'de-DE',
   name:string,

@@ -1,9 +1,10 @@
 'use server';
 import { LanguageProvider } from 'munichburners/lib/LanguageContext';
 import { cookies } from 'next/headers';
-import '../styles/globals.css'
+import './globals.css'
 import { textFont, titleFont } from './fonts';
 import Analytics from 'munichburners/components/Analytics';
+import Navbar from 'munichburners/components/Navbar';
 interface props {
     children: React.ReactNode;
 }
@@ -13,7 +14,7 @@ export default async function Layout({ children }:props) {
   const doNotTrack = cookieStore.get('doNotTrack')?.value === 'true';
 
     return (
-        <html lang="en" className={`${textFont.variable} ${titleFont.variable}`}>
+        <html lang="en" className={`${textFont.variable} ${titleFont.variable}`}  data-theme="munichburners">
             <head>
                 <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"/>
                 <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"/>
@@ -35,7 +36,9 @@ export default async function Layout({ children }:props) {
             </head>
             <body>
                 <LanguageProvider>
-                    {children}
+                    <Navbar>
+                        {children}
+                    </Navbar>
                 </LanguageProvider>
                 {!doNotTrack && (
                     <Analytics id={process.env.D2U_ANALYTICS_ID} url={process.env.D2U_ANALYTICS_URL} />
