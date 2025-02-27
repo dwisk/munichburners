@@ -41,11 +41,15 @@ h3 {
 }
 
 .markdown ul {
-  @apply list-outside ml-5;
+  @apply list-outside ml-5 list-disc;
+
+}
+.markdown ol {
+  @apply list-outside ml-5 list-decimal;
 
 }
 .markdown li {
-  @apply mb-3 ml-0 pl-0 list-disc leading-7;
+  @apply mb-3 ml-0 pl-0 leading-7;
 }
 .markdown p {
   margin-bottom: 1.2rem
