@@ -4,7 +4,7 @@ import Link from "next/link";
 import ActivityMeta from "./ActivityMeta";
 import ReactMarkdown from "react-markdown";
 
-export default async function ContentActivitiesList({ content }: { content: ContentActivities }) {
+export default async function ContentActivitiesList({  }: { content?: ContentActivities }) {
       const activities = await getActivities();
     
   return (<>

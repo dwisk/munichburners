@@ -1,4 +1,3 @@
-import type { Schema } from '@strapi/strapi';
 import { Image } from "../pages/schema";
 
 export type ContentType = ContentMap 
