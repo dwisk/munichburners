@@ -32,7 +32,7 @@ export default function PageDetails({ page }: { page: Page }) {
     return (
       <div className="container mx-auto px-4 md:px-0">
         {langs.filter(l => l.title !== language).map(l => (
-            <button key={l.title} className="ml-2 font-bold fixed top-0 right-0 px-4 rounded-bl-xl z-50 bg-white bg-opacity-20 shadow-md backdrop-blur-sm p-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
+            <button key={l.title} className="ml-2 font-bold fixed top-0 right-0 px-4 rounded-bl-xl z-50 bg-black bg-opacity-20 p-2" onClick={() => setLanguage(l.title)}>{l.title}</button> 
         ))}
   
         <article>
