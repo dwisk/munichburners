@@ -1,6 +1,7 @@
 import { ContentHeadline, ContentImage, ContentLinktree, ContentMap, ContentTeaser, ContentText, ContentType } from "munichburners/lib/content/schema";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 import ContentActivitiesList from "./ContentActivities";
 
 export default function Content({content}:{content:ContentType[]}) {
@@ -46,7 +47,7 @@ function LinkRenderer(props: { href?: string; children?: React.ReactNode }) {
 function Text({content}:{content:ContentText}) {
     return (
         <div className="markdown">
-            <ReactMarkdown components={{ a: LinkRenderer}}>{content.text}</ReactMarkdown>
+            <ReactMarkdown components={{ a: LinkRenderer}} remarkPlugins={[remarkGfm]}>{content.text}</ReactMarkdown>
         </div>
     );
 }

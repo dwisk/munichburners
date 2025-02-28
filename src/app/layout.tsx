@@ -1,7 +1,7 @@
 'use server';
 import { LanguageProvider } from 'munichburners/lib/LanguageContext';
 import { cookies } from 'next/headers';
-import './globals.css'
+import './globals.scss'
 import { textFont, titleFont } from './fonts';
 import Analytics from 'munichburners/components/Analytics';
 import Navbar from 'munichburners/components/Navbar';
