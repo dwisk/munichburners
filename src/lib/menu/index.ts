@@ -15,6 +15,9 @@ export async function getMenu(locale:string = 'de-DE'):Promise<Menu> {
       populate: {
         mainmenu: {
           populate: '*'
+        },
+        footermenu: {
+          populate: '*'
         }
       },
       pagination: {

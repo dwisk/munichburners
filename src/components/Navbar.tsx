@@ -5,7 +5,7 @@ import NavbarMenu from "./NavbarMenu";
 export default async function Navbar({children}: {children: React.ReactNode}) {
     const menu = await getMenu();
 
-    const menuitems = <NavbarMenu menu={menu} />;
+    const mainmenu = <NavbarMenu menu={menu.mainmenu} showHome />;
 
     return (
         <div className="drawer">
@@ -29,17 +29,22 @@ export default async function Navbar({children}: {children: React.ReactNode}) {
                     </div>
                     <div className="hidden lg:block">
                         <ul className="menu menu-horizontal py-0">
-                            {menuitems}
+                            {mainmenu}
                         </ul>
                     </div>
 
                 </div>
                 {children}
+                {menu.footermenu && menu.footermenu.length > 0 && (
+                    <ul className="flex flex-row justify-center bg-base-300 bg-opacity-20 gap-4 text-xs p-2 mt-20">
+                        <NavbarMenu menu={menu.footermenu} />
+                    </ul>
+                )}
             </div>
             <div className="drawer-side">
                 <label htmlFor="navbar-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 min-h-full w-80 p-4 bg-opacity-90">
-                {menuitems}
+                {mainmenu}
                 </ul>
             </div>
             </div>
