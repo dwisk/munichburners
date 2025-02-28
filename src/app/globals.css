@@ -55,6 +55,14 @@ h3 {
   margin-bottom: 1.2rem
 }
 
+.markdown blockquote {
+  @apply bg-black bg-opacity-60 text-white p-4 rounded-lg border-x-4 border-white;
+}
+
+.markdown blockquote p:last-child {
+  @apply mb-0;
+}
+
 .link {
   @apply font-black text-xl text-white no-underline;
 }
