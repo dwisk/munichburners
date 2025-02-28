@@ -90,9 +90,9 @@ function Teaser({content}:{content:ContentTeaser}) {
     const panels = content.panels.filter(panel => panel.type === 'paragraph');
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 -mx-5 my-5 font-title font-bold">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 mx-0 font-title font-bold">
             {panels.map((panel, index) => (
-                <div key={index} className="gridpanel h2 p-5 leading-8">
+                <div key={index} className="gridpanel h2 py-5 leading-8">
                     {panel.children.filter((child) => child.type === 'text').map((child, index) => (
                         <ReactMarkdown key={index} components={{ a: LinkRenderer}}>{child.text}</ReactMarkdown>
                     ))}
