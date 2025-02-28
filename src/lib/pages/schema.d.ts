@@ -1,12 +1,15 @@
 import { ContentType } from "../content/schema";
 
-export interface Page {
+export interface RootPage {
   id:number,
+  locale:'en'|'de-DE',
+  content: ContentType[],
+}
+
+export interface Page extends RootPage {
   slug:string,
   documentId:string,
-  locale:'en'|'de-DE',
   name:string,
-  content: ContentType[],
   childPages: ChildPage[],
   coverImage: Image,
   background: Image,
