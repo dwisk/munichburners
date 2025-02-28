@@ -7,6 +7,23 @@ export default async function Navbar({children}: {children: React.ReactNode}) {
 
     const mainmenu = <NavbarMenu menu={menu.mainmenu} showHome />;
 
+    if (menu.mainmenu.length <= 3) {
+        return (<>
+            <div className="navbar bg-base-300 w-full bg-opacity-60 py-1 min-h-1 justify-center">
+                <ul className="menu menu-horizontal py-0">
+                    {mainmenu}
+                </ul>
+            </div>
+            {children}
+            {menu.footermenu && menu.footermenu.length > 0 && (
+                <ul className="flex flex-row justify-center bg-base-300 bg-opacity-20 gap-4 text-xs p-2 mt-20">
+                    <NavbarMenu menu={menu.footermenu} />
+                </ul>
+            )}
+            </>
+        )
+    }
+
     return (
         <div className="drawer">
             <input id="navbar-drawer" type="checkbox" className="drawer-toggle" />
