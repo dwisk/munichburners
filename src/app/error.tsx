@@ -15,7 +15,7 @@ export default function Error({
   }, [error])
  
   return (  
-    <div className="content max-w-4xl mx-auto px-2 card bg-white my-11">
+    <div className="content max-w-4xl mx-auto px-2 card bg-black bg-opacity-30 my-11">
         <div className="card-body">
           <h1>Something went wrong!</h1>
           <button

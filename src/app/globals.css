@@ -56,7 +56,7 @@ h3 {
 }
 
 .link {
-  @apply font-black text-xl text-white;
+  @apply font-black text-xl text-white no-underline;
 }
 
 html,
