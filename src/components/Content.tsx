@@ -93,7 +93,7 @@ function Teaser({content}:{content:ContentTeaser}) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 mx-0 font-title font-bold">
             {panels.map((panel, index) => (
-                <div key={index} className="gridpanel h2 py-5 leading-8">
+                <div key={index} className="gridpanel h2 py-5 md:px-5 leading-8">
                     {panel.children.filter((child) => child.type === 'text').map((child, index) => (
                         <ReactMarkdown key={index} components={{ a: LinkRenderer}}>{child.text}</ReactMarkdown>
                     ))}
