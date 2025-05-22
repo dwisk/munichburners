@@ -42,8 +42,8 @@ export default async function Page(props:PageProps) {
 
   const usages = [
     { value: dreamGrantTotal, color: "bg-white text-black bg-opacity-90", label: `${dreamGrantTotal}€ granted` },
-    { value: dreamRequestMin, color: "bg-white bg-opacity-40", label: `${dreamGrantTotal + dreamRequestMin}€ min` },
-    { value: dreamRequestMax, color: "bg-white bg-opacity-20", label: `${dreamGrantTotal + dreamRequestMin + dreamRequestMax}€ max` },
+    { value: dreamRequestMin, color: "bg-white text-white bg-opacity-40", label: `${dreamGrantTotal + dreamRequestMin}€ min` },
+    { value: dreamRequestMax, color: "bg-white text-white bg-opacity-20", label: `${dreamGrantTotal + dreamRequestMin + dreamRequestMax}€ max` },
   ];
 
 
@@ -139,7 +139,7 @@ const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, cl
       return (
         <div
         key={index}
-        className={`h-full ${usage.color} truncat text-xs vertical-center flex items-center justify-end text-white ${showLabels ? 'px-1' : ''}`}
+        className={`h-full ${usage.color} truncat text-xs vertical-center flex items-center justify-end ${showLabels ? 'px-1' : ''}`}
         style={{ width: `${widthPercent}%` }}
         >
           {showLabels && (  
