@@ -75,18 +75,18 @@ export default async function Page(props:PageProps) {
           )}
           </div>
 
-          <div className="w-full bg-black bg-opacity-20 flex justify-items-stretch gap-px">
+          <div className="w-full bg-black bg-opacity-20 flex justify-items-stretch gap-px leading-5">
             {dream.budgetNeed !== 'NONE' && (<>
-              <div className={`bg-black p-4 flex items-center ${dream.budgetNeed === 'MUST' ? '' : 'bg-opacity-30'}`}>{dream.budgetNeed}</div>
+              <div className={`bg-black p-3 flex items-center ${dream.budgetNeed === 'MUST' ? '' : 'bg-opacity-30'}`}>{dream.budgetNeed}</div>
             </>)}
-            {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-4">
+            {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMin}€ min
             </div>)}
-            {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-4">
+            {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMax}€ max
             </div>)}
             {dream.grant > 0 && (
-              <div className={`${['ACCEPTED','INVOICE','PAID'].includes(dream.grantStatus) ? 'bg-green-800' :'bg-black'} bg-opacity-60 grow font-bold p-4`}>{dream.grant}€ granted</div>
+              <div className={`${['ACCEPTED','INVOICE','PAID'].includes(dream.grantStatus) ? 'bg-green-800' :'bg-black'} bg-opacity-60 grow font-bold p-3 text-right`}>{dream.grant}€ granted</div>
             )}
           </div>
           
