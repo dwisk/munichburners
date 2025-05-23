@@ -6,15 +6,18 @@ export interface DreamYear {
   dreams: Dream[],
 }
 export interface Dream {
-  id:number,
-  documentId:string,
+  id?:number,
+  documentId?:string,
+  dream_year?:string,
   name:string,
   budgetNeed: 'MUST' | 'NICE' | 'NONE';
   requestMin:number,
   requestMax:number,
   grant:number,
-  grantStatus: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' |  'PAID';
+  grantStatus: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' | 'PAID';
   shortDescription: string,
-  dreamer: string,
-  dreamType: 'ART','ROOM','WORKSHOP','OTHER';
+  dreamer: string;
+  dreamType: 'ART' | 'ROOM' | 'WORKSHOP' | 'OTHER';
+  timestamp: string,
+  email: string,
 }

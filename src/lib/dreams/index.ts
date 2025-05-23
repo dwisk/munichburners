@@ -1,46 +1,49 @@
 import { Dream, DreamYear } from "./schema";
 import { fetchAPI } from "../api";
 
-// export async function getDreams():Promise<Activity[]> {
-//     const options:RequestInit = { 
-//       next : { 
-//         revalidate: parseInt(process.env.REVALIDATE || "120"), 
-//         tags: [ `root`]
-//       }
-//     };
-    
-//     const res = await fetchAPI("/activities", {
-//       populate: {
-        
-//       },
-//       pagination: {
-//         pageSize: 25
-//       },
-//     }, options);
-//     return res.data;
-// }
-
-
-  
-export async function getDreamYear(id:string):Promise<DreamYear> {
+export async function getDreams(dream_year:string):Promise<Dream[]> {
     const filters = {
-      $or: [
-        {
-          id: {
-            "$eqi": id
-          }
-        },
-        {
-          slug: {
-            "$eqi": id
-          }
-        }
-      ]
+      dream_year
     };
+    const options:RequestInit = { 
+      next : { 
+        revalidate: parseInt(process.env.REVALIDATE || "120"), 
+        tags: [ `root`]
+      }
+    };
+    
+    const res = await fetchAPI("/dreams", {
+      filters,
+      sort: ['name:asc'],
+      populate: {
+        
+      },
+      pagination: {
+        pageSize: 100
+      },
+    }, options);
+    return res.data;
+}
+
+export async function getDreamYear(id:string):Promise<DreamYear> {
+  const filters = {
+    $or: [
+      {
+        id: {
+          "$eqi": id
+        }
+      },
+      {
+        slug: {
+          "$eqi": id
+        }
+      }
+    ]
+  };
   
   const options:RequestInit = { 
     next : { 
-      revalidate: 0,// parseInt(process.env.REVALIDATE || "120"), 
+      revalidate: parseInt(process.env.REVALIDATE || "120"), 
       tags: [ `root`]
     }
   };
@@ -68,7 +71,7 @@ export async function getDream(id:string):Promise<Dream> {
   
   const options:RequestInit = { 
     next : { 
-      revalidate: 0,// parseInt(process.env.REVALIDATE || "120"), 
+      revalidate: parseInt(process.env.REVALIDATE || "120"), 
       tags: [ `root`]
     }
   };
@@ -82,4 +85,22 @@ export async function getDream(id:string):Promise<Dream> {
       },
     }, options);
     return res.data[0];
+}
+
+export async function postDream(dream:Dream):Promise<Dream> {
+
+  const options:RequestInit = { 
+    headers: {
+    'Content-Type': 'application/json'
+  },
+    method: 'POST',
+        body: JSON.stringify({
+      data: dream
+    })
+  };
+
+  const res = await fetchAPI("/dreams", {
+  }, options);
+
+  return res;
 }

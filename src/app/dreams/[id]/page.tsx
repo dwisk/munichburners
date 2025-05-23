@@ -1,4 +1,4 @@
-import { getDreamYear } from "munichburners/lib/dreams";
+import { getDreams, getDreamYear } from "munichburners/lib/dreams";
 
 type PageProps = {
   params: Promise<{
@@ -9,16 +9,12 @@ type PageProps = {
 
 export default async function Page(props:PageProps) {
   const params = await props.params;
-  const dreamYear = await getDreamYear(params.id);
+  const dreamYear = await getDreamYear(params.id);  
   
   if (!dreamYear) {
     return <div>Dream year not found</div>;
   }
-
-
-  const dreams = dreamYear.dreams.filter((dream) => {
-    return dream.budgetNeed !== 'NONE';
-  });
+  const dreams = await getDreams(dreamYear.id.toString());
 
   const dreamGrantTotal = dreams.reduce((acc, dream) => {
     if (['ACCEPTED', 'INVOICES', 'PAID'].includes(dream.grantStatus)) {
@@ -45,17 +41,14 @@ export default async function Page(props:PageProps) {
     { value: dreamRequestMin, color: "bg-white text-white bg-opacity-40", label: `${dreamGrantTotal + dreamRequestMin}€ min` },
     { value: dreamRequestMax, color: "bg-white text-white bg-opacity-20", label: `${dreamGrantTotal + dreamRequestMin + dreamRequestMax}€ max` },
   ];
-
-
   
   return (
     <div className="container mx-auto px-4 md:px-0 mb-10">
       <h1 className="text-2xl font-bold">
         {dreams.length} Dreams {dreamYear.name}
-        <br /><small className="text-sm">with financial support</small>
       </h1>
       
-      <UsageBar max={dreamYear.budget} usages={usages} showLabels className="mb-12" />
+      <UsageBar max={dreamYear.budget} usages={usages} showLabels showMax className="mb-12" />
 
       {dreams.map((dream) => (
         <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
@@ -63,10 +56,10 @@ export default async function Page(props:PageProps) {
           <h2 className="text-2xl font-bold">
             {dream.name}
           </h2>
-          
           <p>
-            <span className="font-bold">{dream.dreamType}</span> by {dream.dreamer}: {dream.shortDescription}
+            <span className="font-bold">{dream.dreamType}</span> <span className="italic">by {dream.dreamer}</span>:<br />{dream.shortDescription}
           </p>
+
           {dream.budgetNeed !== 'NONE' && (
             <UsageBar max={dreamYear.budget} className="mt-4" usages={[
               { value: dream.requestMin, color: "bg-white bg-opacity-60", label: 'min' },
@@ -85,18 +78,22 @@ export default async function Page(props:PageProps) {
             {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMax}€ max
             </div>)}
-            {dream.grant > 0 && (
-              <div className={`${['ACCEPTED','INVOICE','PAID'].includes(dream.grantStatus) ? 'bg-green-800' :'bg-black'} bg-opacity-60 grow font-bold p-3 text-right`}>{dream.grant}€ granted</div>
+            {['ACCEPTED','INVOICE','PAID'].includes(dream.grantStatus) && (
+              <div className={`bg-green-800 bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
+            )}
+            {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus) && (
+              <div className={`bg-blue-800 bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
+            )}
+            {dream.budgetNeed !== 'NONE' && ['DENIED'].includes(dream.grantStatus) && (
+              <div className={`bg-red-800-800 bg-opacity-60 font-bold p-3 text-right`}>DENIED</div>
             )}
           </div>
           
         </div>
       ))}
-      
     </div>
   );
 }
-
 
 
 type Usage = {
@@ -109,10 +106,11 @@ type UsageBarProps = {
   max: number;
   usages: Usage[];
   showLabels?: boolean;
+  showMax?: boolean;
   className?: string;
 };
 
-const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, className }) => {
+const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, showMax = false, className }) => {
   const totalUsage = usages.reduce((acc, usage) => acc + usage.value, 0);
   const diplayedMax = Math.max(max, totalUsage);
 
@@ -120,7 +118,7 @@ const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, cl
 
   return (
     <div className={`w-full ${showLabels ? 'h-6' : 'h-2'} bg-gray-200 bg-opacity-15 rounded-full relative ${className}`}>
-      {showLabels && (
+      {showMax && (
       <div 
         className={`absolute h-full ${overMax ? 'w-[4px] bg-red-500':''} `}
         style={{ left: `${(max / diplayedMax) * 100}%` }}
@@ -139,7 +137,7 @@ const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, cl
       return (
         <div
         key={index}
-        className={`h-full ${usage.color} truncat text-xs vertical-center flex items-center justify-end ${showLabels ? 'px-1' : ''}`}
+        className={`h-full ${usage.color} truncate text-xs vertical-center flex items-center justify-end ${showLabels ? 'px-1' : ''}`}
         style={{ width: `${widthPercent}%` }}
         >
           {showLabels && (  
