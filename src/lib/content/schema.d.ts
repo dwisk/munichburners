@@ -1,3 +1,4 @@
+import { DreamYear } from "../dreams/schema";
 import { Image } from "../pages/schema";
 
 export type ContentType = ContentMap 
@@ -6,7 +7,8 @@ export type ContentType = ContentMap
                           | ContentHeadline 
                           | ContentTeaser 
                           | ContentLinktree
-                          | ContentActivities;
+                          | ContentActivities
+                          | ContentDreams;
 
 export interface ContentMap {
     __component: 'content.map'
@@ -46,6 +48,12 @@ export interface ContentLinktree {
 export interface ContentActivities {
     __component: 'content.activities'
     id: number
+}
+
+export interface ContentDreams {
+    __component: 'content.dreams'
+    id: number;
+    Year: DreamYear;
 }
 
 

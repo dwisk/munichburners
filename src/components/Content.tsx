@@ -3,6 +3,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 import ContentActivitiesList from "./ContentActivities";
+import ContentDreamsList from "./ContentDreams";
 
 export default function Content({content}:{content:ContentType[]}) {
     return (
@@ -23,6 +24,8 @@ export default function Content({content}:{content:ContentType[]}) {
                         return <LinkTree key={index} content={item} />
                     case 'content.activities':
                         return <ContentActivitiesList key={index} content={item} />
+                    case 'content.dreams':
+                        return <ContentDreamsList key={index} content={item} />
                     default:
                         return <div key={index}>
                             Unknown content type {item['__component']}

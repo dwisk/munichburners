@@ -50,8 +50,26 @@ export async function getPage(id:string, locale:string = 'de-DE'):Promise<Page> 
       locale,
       populate: {
         content: {
-          populate: '*'
+          populate: '*',
+          on: {
+            'content.text': { populate: '*'},
+            'content.map': { populate: '*'},
+            'content.image': { populate: '*'},
+            'content.headline': { populate: '*'},
+            'content.teaser': { populate: '*'},
+            'content.linktree': { populate: '*'},
+            'content.activities': { populate: '*'},
+            'content.dreams': {
+              populate: {
+                Year: {
+                  populate: '*'
+                }
+              }
+            },
+            
+          }, 
         },
+
         childPages: {
           populate: '*'
         },
