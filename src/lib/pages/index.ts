@@ -62,7 +62,11 @@ export async function getPage(id:string, locale:string = 'de-DE'):Promise<Page> 
             'content.dreams': {
               populate: {
                 Year: {
-                  populate: '*'
+                  populate: {
+                    dreams: {
+                      sort: ['name:asc'],
+                    }
+                  }
                 }
               }
             },
