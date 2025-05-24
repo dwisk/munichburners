@@ -50,7 +50,7 @@ export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
     }
 
     let dreamType: 'ART' | 'ROOM' | 'WORKSHOP' | 'OTHER';
-    switch (record['Was ist dein Traum? / What is your dream?']) {
+    switch (record['Art deines Traums / What kind of dream?']) {
       case 'Kunstprojekt':
         dreamType = 'ART';
         break;
