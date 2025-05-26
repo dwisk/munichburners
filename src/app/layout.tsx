@@ -1,10 +1,11 @@
 'use server';
-import { LanguageProvider } from 'munichburners/lib/LanguageContext';
 import { cookies } from 'next/headers';
 import './globals.scss'
 import { textFont, titleFont } from './fonts';
 import Analytics from 'munichburners/components/Analytics';
 import Navbar from 'munichburners/components/Navbar';
+import { getSession } from 'munichburners/lib/auth';
+import Providers from './providers';
 interface props {
     children: React.ReactNode;
 }
@@ -12,6 +13,7 @@ interface props {
 export default async function Layout({ children }:props) {
   const cookieStore = await cookies();
   const doNotTrack = cookieStore.get('doNotTrack')?.value === 'true';
+  const session = await getSession()
 
     return (
         <html lang="en" className={`${textFont.variable} ${titleFont.variable}`}  data-theme="munichburners">
@@ -35,11 +37,11 @@ export default async function Layout({ children }:props) {
                 <meta name="theme-color" content="#221111"/>
             </head>
             <body>
-                <LanguageProvider>
+                <Providers session={session}>
                     <Navbar>
                         {children}
                     </Navbar>
-                </LanguageProvider>
+                </Providers>
                 {!doNotTrack && (
                     <Analytics id={process.env.D2U_ANALYTICS_ID} url={process.env.D2U_ANALYTICS_URL} />
                 )}
