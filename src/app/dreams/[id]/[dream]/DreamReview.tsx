@@ -40,7 +40,7 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
     
   return (<>
       <h1 className="text-3xl">Geld freigeben</h1>
-      <UsageBar max={dream.grant} className="mt-4 mb-8" showLabels showMax usages={usages} />
+      <UsageBar max={dream.grant || 0} className="mt-4 mb-8" showLabels showMax usages={usages} />
 
       <div className="grid md:grid-cols-2 gap-4 mb-4">
       {dream.invoices?.map((invoice) => (

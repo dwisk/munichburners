@@ -101,7 +101,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   const checks = {
     accepted: ['ACCEPTED','INVOICES','PAID'].includes(dream.grantStatus),
     invoicesUploaded: dream.invoices && dream.invoices.length > 0,
-    invoiceSumOK: invoiceSum > 0 && invoiceSum <= dream.grant * 1.1,
+    invoiceSumOK: invoiceSum > 0 && invoiceSum <= (dream.grant || 0) * 1.1,
     bankDataComplete: validIBAN && validBIC && clientDream.bankName && clientDream.bankName.split(" ").length >= 2,
   };
   const allChecksOK = checks.accepted && checks.invoicesUploaded && checks.invoiceSumOK && checks.bankDataComplete;
@@ -136,7 +136,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
           </div>
         </div>
         )}
-        <UsageBar max={dream.grant} className="mt-4 mb-8" showLabels showMax usages={usages} />
+        <UsageBar max={dream.grant || 0} className="mt-4 mb-8" showLabels showMax usages={usages} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {dream.invoices?.map((invoice) => (

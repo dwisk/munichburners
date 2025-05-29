@@ -28,8 +28,8 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
 
           {dream.budgetNeed !== 'NONE' && (
             <UsageBar max={dreamYear.budget} className="mt-4" usages={[
-              { value: dream.requestMin, color: "bg-white bg-opacity-60", label: 'min' },
-              { value: dream.requestMax - dream.requestMin, color: "bg-white bg-opacity-30", label: 'max' },
+              { value: dream.requestMin || 0, color: "bg-white bg-opacity-60", label: 'min' },
+              { value: (dream.requestMax || 0) - (dream.requestMin || 0), color: "bg-white bg-opacity-30", label: 'max' },
             ]} />
           )}
           </div>
