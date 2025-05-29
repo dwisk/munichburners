@@ -1,6 +1,7 @@
 import { getDreamYear } from "munichburners/lib/dreams";
 import CSVdreams from "./CSVdreams";
 import { getSession } from "munichburners/lib/auth";
+import MMBLogin from "munichburners/components/MMBLogin";
 
 type PageProps = {
   params: Promise<{
@@ -20,7 +21,10 @@ export default async function Page(props:PageProps) {
   }
 
   if (!session || !session.user || !session.user.email) {
-    return <div>Please log in to view the CSV<pre>{JSON.stringify(session)}</pre></div>;
+    return <div>
+      Please log in to view the CSV
+      <MMBLogin />
+    </div>;
   }
 
   return (<CSVdreams dreamYear={dreamYear} userSecret={session?.user?.email} />)

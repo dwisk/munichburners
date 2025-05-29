@@ -128,6 +128,7 @@ export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear
     }
 
     const dream:Dream = {
+      CSVid: parseInt(record['Id']),
       name: record[mapping.name],
       budgetNeed,
       requestMin: parseInt(record['Min']) || 0,
