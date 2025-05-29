@@ -105,6 +105,8 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
     bankDataComplete: validIBAN && validBIC && clientDream.bankName && clientDream.bankName.split(" ").length >= 2,
   };
   const allChecksOK = checks.accepted && checks.invoicesUploaded && checks.invoiceSumOK && checks.bankDataComplete;
+
+  const invoiceAcceptedSum = dream.invoices?.filter((i)=> i.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0);
   
   return (
     <>
@@ -217,12 +219,12 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
             }
             
             { checks.invoicesUploaded ?
-              <div className="">✅ Du hast {dream.invoices?.length || 0} Rechnungen hochgeladen, die insgesamt {invoiceSum}€ betragen.</div> :
+              <div className="">✅ Du hast {dream.invoices?.length || 0} Rechnung(en) hochgeladen, die insgesamt {invoiceSum}€ betragen.</div> :
               <div className="font-bold">❌ Du hast noch keine Rechnungen oder Belege hochgeladen!</div>
             }
 
             { checks.invoiceSumOK ?
-              <div className="">✅ Das sollte klappen</div> : (checks.invoicesUploaded ?
+              <div className="">✅ Das sollte klappen!</div> : (checks.invoicesUploaded ?
                 <div className="font-bold">❌ Das ist deutlich mehr als du zugesagt bekommen hast! Wenn es unbedingt notwendig ist, schreib Mephy.</div> 
               : null)
             }
@@ -233,6 +235,9 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
             }
             {dream.grantStatus === 'INVOICES' && (
               <div className="">✅ Deine Rechnungen sind eingereicht. Bitte hab etwas Geduld 🙂</div>
+            )}
+            {dream.grantStatus === 'READY' && (
+              <div className="">✅ Rechnungen für {invoiceAcceptedSum}€ passen. Bitte hab noch etwas Geduld 🙂</div>
             )}
             {dream.grantStatus === 'PAID' && (
               <div className="font-bold">✅ Das Geld wurde dir überwiesen! 🎉</div>
