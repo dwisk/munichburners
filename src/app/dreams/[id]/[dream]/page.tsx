@@ -62,11 +62,11 @@ export default async function Page(props:PageProps) {
         <DreamRelease dream={dream} userSecret={session.user?.email || ''} />
       )}
 
-      {dreamRights.isDreamer && ['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus) && (<>
+      {dreamRights.isDreamer && ['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '') && (<>
         <DreamUpload dream={dream} userSecret={session.user?.email || ''} />
       </>)}
 
-      {dreamRights.isYearRealizer && ['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus) && (<>
+      {dreamRights.isYearRealizer && ['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '') && (<>
         <DreamReview dream={dream} userSecret={session.user?.email || ''} />
       </>)}
     </div>

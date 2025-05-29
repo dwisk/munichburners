@@ -22,7 +22,7 @@ export interface Dream {
   requestMax?:number,
   requestMaxReason?: string,
   grant?:number,
-  grantStatus: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';
+  grantStatus?: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';
   shortDescription: string,
   dreamer: string;
   dreamType: 'ART' | 'ROOM' | 'WORKSHOP' | 'OTHER';

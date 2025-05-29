@@ -44,13 +44,13 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
             {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMax}€ max
             </div>)}
-            {['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus) && (
+            {['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || '') && (
               <div className={`bg-green-800 bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
             )}
-            {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus) && (
+            {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus || '') && (
               <div className={`bg-blue-800 bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
             )}
-            {dream.budgetNeed !== 'NONE' && ['DENIED'].includes(dream.grantStatus) && (
+            {dream.budgetNeed !== 'NONE' && ['DENIED'].includes(dream.grantStatus || '') && (
               <div className={`bg-red-800 bg-opacity-60 font-bold p-3 text-right`}>DENIED</div>
             )}
           </div>

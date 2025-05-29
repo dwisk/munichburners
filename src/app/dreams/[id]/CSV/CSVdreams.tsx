@@ -145,7 +145,6 @@ export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear
       requestMax: parseInt(record['Max']) || undefined,
       requestMaxReason: record[mapping.requestMaxReason],
       dream_year: dreamYear.documentId,
-      grantStatus: 'OPEN',
       shortDescription: record[mapping.shortDescription],
       dreamer: record[mapping.dreamer],
       dreamType,
