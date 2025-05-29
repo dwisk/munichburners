@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        "source": "/uploads/:match*",
+        "destination": `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/uploads/:match*`
+      },
+      {
         "source": "/stats/:match*",
         "destination": "https://analytics.d2u.de/:match*"
       },

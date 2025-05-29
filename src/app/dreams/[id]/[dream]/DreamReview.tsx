@@ -37,6 +37,8 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
     color: "bg-white text-black bg-opacity-80 border-r-2 border-black",
     label: `${(invoice.File as StrapiFile).name+1} ${invoice.Amount}€`,
   })) || [];
+
+  const invoiceSum = dream.invoices.filter((i)=> i.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0);
     
   return (<>
       <h1 className="text-3xl">Geld freigeben</h1>
@@ -49,7 +51,7 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
     </div>
 
     <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
-      <p className="p-4">
+      <p className="px-4 pt-4">
         <label className="input input-bordered flex grow items-center">
           Kommentar
           <input 
@@ -61,6 +63,14 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
           onChange={(e) => setInvoiceComment(e.target.value)}
         />
         </label>
+      </p>
+      <p className="px-4 pb-4">
+        <strong className="font-bold">Bankdetails:</strong><br />
+        {dream.bankName}<br />
+        IBAN: {dream.bankIBAN}<br />
+        BIC: {dream.bankBIC}<br />
+        Betrag: {invoiceSum}€ <br/>
+        Betreff: MMB2025 Dreams Kostenerstattung<br/>
       </p>
         <div className="flex w-full">
           <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white bg-yellow-600 bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Reset</button>

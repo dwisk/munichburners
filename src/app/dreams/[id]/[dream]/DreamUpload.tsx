@@ -99,7 +99,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   const invoiceSum = dream.invoices?.reduce((sum, invoice) => sum + invoice.Amount, 0) || 0;
 
   const checks = {
-    accepted: ['ACCEPTED','INVOICES','PAID'].includes(dream.grantStatus || ''),
+    accepted: ['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || ''),
     invoicesUploaded: dream.invoices && dream.invoices.length > 0,
     invoiceSumOK: invoiceSum > 0 && invoiceSum <= (dream.grant || 0) * 1.1,
     bankDataComplete: validIBAN && validBIC && clientDream.bankName && clientDream.bankName.split(" ").length >= 2,
@@ -222,8 +222,9 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
             }
 
             { checks.invoiceSumOK ?
-            <div className="">✅ Das sollte klappen</div> :
-            <div className="font-bold">❌ Das ist deutlich mehr als du zugesagt bekommen hast! Wenn es unbedingt notwendig ist, schreib Mephy.</div> 
+              <div className="">✅ Das sollte klappen</div> : (checks.invoicesUploaded ?
+                <div className="font-bold">❌ Das ist deutlich mehr als du zugesagt bekommen hast! Wenn es unbedingt notwendig ist, schreib Mephy.</div> 
+              : null)
             }
 
             {checks.bankDataComplete ?
