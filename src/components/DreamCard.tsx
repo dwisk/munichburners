@@ -1,7 +1,7 @@
-import { UsageBar } from "munichburners/app/dreams/[id]/page";
 import { Dream, DreamYear } from "munichburners/lib/dreams/schema";
 import { Session } from "next-auth";
 import Link from "next/link";
+import { UsageBar } from "./DreamUsage";
 
 export default function DreamCard({ dream, dreamYear, session }: { dream: Dream, dreamYear:DreamYear, session:Session|null }) {
   return (
