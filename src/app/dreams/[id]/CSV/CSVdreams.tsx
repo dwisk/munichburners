@@ -109,7 +109,7 @@ export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear
   const convertToDream = (record: CSVRecord): Dream => {
     let budgetNeed:'NONE' | 'MUST' | 'NICE';
     switch (record[mapping.budgetNeed]) {
-      case 'Ja, ich brauche finanzielle Unterstützung. / Yes, I need monetary support.':
+      case "Ja, sonst klappt's nicht / Yes, without I cannot realize it":
         budgetNeed = 'MUST';
         break;
       case 'Wäre cool, geht aber auch so / Would be great, but also fine without':
