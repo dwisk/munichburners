@@ -23,7 +23,18 @@ export default async function Page(props:PageProps) {
   const dream = await getDream(dreamId);
 
   if (!session) {
-    return <MMBLogin />;
+    return <>
+    <div className="container mx-auto px-4 md:px-0 mb-10">
+      <h1 className="text-4xl font-bold">Dream</h1>
+      <DreamCard key={dream.id} dream={dream} dreamYear={dream.dream_year as DreamYear} userSecret={''} />
+      <h1 className="text-3xl">Dream Status</h1>
+      <DreamProgress dream={dream} />
+      <h1 className="text-3xl">Geld bekommen</h1>
+      <p className="mb-4  text-center font-bold">Bitte einloggen um Details zu sehen und Geld zu bekommen.</p>
+      <p className="mb-4  text-center"><MMBLogin /></p>
+      
+    </div>
+    </>;
   }
 
   if (!dream) {
@@ -33,7 +44,7 @@ export default async function Page(props:PageProps) {
   const dreamRights = getDreamRights(dream, session.user?.email || '');
 
   if (!dreamRights.isDreamer && !dreamRights.isYearRealizer) {
-    return <div>This is not your dream. If it is, ask Mephy</div>;
+    return <div>Das ist nicht dein Dream. Falls doch, frag Mephy</div>;
   }
 
   return (

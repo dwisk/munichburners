@@ -21,8 +21,8 @@ export default function MMBLogin({className = ''}: {className?: string}) {
   }
 
   return (
-    <Link href={`/api/auth/signin?callbackUrl=${path}`} className={`btn ${className}`}>
-      Login with MMB Ticket
+    <Link href={`/api/auth/signin?callbackUrl=${path}`} className={`btn btn-neutral ${className}`}>
+      Mit MMB Ticket einloggen
     </Link>
   );
 }
