@@ -103,9 +103,9 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
           </label>
           </span>
           <div className="flex w-full">
-            <button onClick={() => updateDream('OPEN')} className={`btn rounded-none border-none text-white bg-blue-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'OPEN' ? 'font-bold bg-opacity-100' : ''}`}>Open</button>
-            <button onClick={() => updateDream('DENIED')} className={`btn rounded-none border-none text-white bg-red-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'DENIED' ? 'font-bold bg-opacity-100' : ''}`}>Deny</button>
-            <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white bg-green-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-100' : ''}`}>Accept</button>
+            <button onClick={() => updateDream('OPEN')} className={`btn rounded-none border-none text-white bg-blue-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'OPEN' ? 'font-bold bg-opacity-90' : ''}`}>Open</button>
+            <button onClick={() => updateDream('DENIED')} className={`btn rounded-none border-none text-white bg-red-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'DENIED' ? 'font-bold bg-opacity-90' : ''}`}>Deny</button>
+            <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white bg-green-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : ''}`}>Accept</button>
           </div>
       </div>
     </>

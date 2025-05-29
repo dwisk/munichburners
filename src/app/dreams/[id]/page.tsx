@@ -58,7 +58,7 @@ export default async function Page(props:PageProps) {
       <MMBLogin />
 
       {dreams.map((dream) => (
-        <DreamCard key={dream.id} dream={dream} dreamYear={dreamYear} session={session} />
+        <DreamCard key={dream.id} dream={dream} dreamYear={dreamYear} userSecret={session?.user?.email || ''} />
       ))}
     </div>
   );

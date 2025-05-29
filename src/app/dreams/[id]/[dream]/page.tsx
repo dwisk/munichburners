@@ -39,7 +39,7 @@ export default async function Page(props:PageProps) {
   return (
     <div className="container mx-auto px-4 md:px-0 mb-10">
       <h1 className="text-4xl">Dream Details</h1>
-      <DreamCard key={dream.id} dream={dream} dreamYear={dream.dream_year as DreamYear} session={session} />
+      <DreamCard key={dream.id} dream={dream} dreamYear={dream.dream_year as DreamYear} userSecret={''} />
       {dream.comment && (
         <div className="chat chat-end">
           <div className="chat-image avatar">

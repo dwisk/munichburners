@@ -1,18 +1,20 @@
 import { Dream, DreamYear } from "munichburners/lib/dreams/schema";
-import { Session } from "next-auth";
 import Link from "next/link";
 import { UsageBar } from "./DreamUsage";
+import { getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
 
-export default function DreamCard({ dream, dreamYear, session }: { dream: Dream, dreamYear:DreamYear, session:Session|null }) {
+export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dream, dreamYear:DreamYear, userSecret:string }) {
+  const dreamYearRights = hasDreamYearRights(dreamYear, userSecret);
+  const dreamRights = getDreamRights(dream, userSecret);
   return (
     <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
           <div className="p-4">
-          {dream.dreamerSecret === session?.user?.email && (
+          {dreamRights.isDreamer && (
           <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
             DEIN<br />DREAM
           </Link>
           )}
-          {dreamYear.realizers.map((r) => r.Secret).includes(session?.user?.email || 'NO_SECRET') && (
+          {dreamYearRights && dream.budgetNeed !== 'NONE' && (
           <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
             REALIZE<br />DREAM
           </Link>
