@@ -17,11 +17,11 @@ export interface Dream {
   dream_year?:string | DreamYear,
   name:string,
   budgetNeed: 'MUST' | 'NICE' | 'NONE';
-  requestMin:number,
+  requestMin?:number,
   requestMinReason?: string,
-  requestMax:number,
+  requestMax?:number,
   requestMaxReason?: string,
-  grant:number,
+  grant?:number,
   grantStatus: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';
   shortDescription: string,
   dreamer: string;
