@@ -22,20 +22,20 @@ export default async function Page(props:PageProps) {
   const dreams = await getDreams(dreamYear.id.toString());
 
   const dreamGrantTotal = dreams.reduce((acc, dream) => {
-    if (['ACCEPTED', 'INVOICES', 'PAID'].includes(dream.grantStatus)) {
+    if (['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus)) {
       return acc + dream.grant;
     }
     return acc;
   }, 0);
   
   const dreamRequestMin = dreams.reduce((acc, dream) => {
-    if (!['ACCEPTED', 'INVOICES', 'PAID'].includes(dream.grantStatus)) {
+    if (!['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus)) {
       return acc + dream.requestMin;
     }
     return acc;
   }, 0);
   const dreamRequestMax = dreams.reduce((acc, dream) => {
-    if (!['ACCEPTED', 'INVOICES', 'PAID'].includes(dream.grantStatus)) {
+    if (!['ACCEPTED', 'INVOICES', 'READY', 'PAID'].includes(dream.grantStatus)) {
       return acc + dream.requestMax;
     }
     return acc;

@@ -1,4 +1,4 @@
-import { Dream, DreamYear } from "./schema";
+import { Dream, DreamInvoiceUpload, DreamYear, StrapiFile } from "./schema";
 import { fetchAPI } from "../api";
 
 export async function getDreams(dream_year:string):Promise<Dream[]> {
@@ -53,7 +53,8 @@ export async function getDreamYear(id:string):Promise<DreamYear> {
       populate: {
         dreams: {
           sort: ['createdAt:asc'],
-        }
+        },
+        realizers: true
       },
       pagination: {
         pageSize: 10
@@ -64,7 +65,7 @@ export async function getDreamYear(id:string):Promise<DreamYear> {
 
 export async function getDream(id:string):Promise<Dream> {
     const filters = {
-        id: {
+        documentId: {
         "$eqi": id
       }
     };
@@ -115,14 +116,14 @@ export async function postDream(dream:Dream):Promise<Dream> {
   return res;
 }
 
-export async function updateDream(documentId:string, dream:Dream):Promise<Dream> {
+export async function updateDream(documentId:string, dream:Dream|DreamInvoiceUpload):Promise<Dream> {
 
   const options:RequestInit = { 
     headers: {
-    'Content-Type': 'application/json'
-  },
+      'Content-Type': 'application/json'
+    },
     method: 'PUT',
-      body: JSON.stringify({
+    body: JSON.stringify({
       data: dream
     })
   };
@@ -131,4 +132,133 @@ export async function updateDream(documentId:string, dream:Dream):Promise<Dream>
   }, options);
 
   return res;
+}
+
+export async function uploadInvoice(file: File, dreamId: string, amount: number, comment: string): Promise<Dream> {
+  // 1. Upload the file to Strapi
+  const formData = new FormData();
+  formData.append("files", file);
+
+  const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/upload`, {
+    method: "POST",
+    body: formData,
+    // Add auth headers if needed
+  });
+
+  if (!uploadRes.ok) {
+    throw new Error("File upload failed");
+  }
+
+  const uploadedFiles = await uploadRes.json();
+  const uploadedFile = uploadedFiles[0];
+
+  // 2. Fetch the dream
+  const dream = await getDream(dreamId);
+  if (!dream) throw new Error("Dream not found");
+
+  // 3. Add the new invoice to the dream's invoices array
+  const newInvoice = {
+    Comment: comment,
+    File: uploadedFile.id,
+    Amount: amount,
+  };
+  
+  // Filter out any id fields from existing invoices
+  const existingInvoices = Array.isArray(dream.invoices) 
+    ? dream.invoices.map(({ File, Comment, Amount }) => (
+      { 
+        File: (File as StrapiFile)?.id,
+        Comment,
+        Amount }
+    )) 
+    : [];
+  
+  const updatedInvoices = [...existingInvoices, newInvoice];
+
+  // 4. Update the dream with the new invoices array
+  const updatedDream = await updateDream(dream.documentId!, {
+    invoices: updatedInvoices,
+  } as DreamInvoiceUpload);
+
+  return updatedDream;
+}
+
+export const deleteInvoice = async (dreamId: string, invoiceId: number): Promise<Dream> => {
+  // 1. Fetch the dream
+  const dream = await getDream(dreamId);
+  if (!dream) throw new Error("Dream not found");
+  if (!dream.invoices) throw new Error("Dream has no invoices!");
+  // 2. Filter out the invoice to be deleted
+  const existingInvoices = Array.isArray(dream.invoices) 
+    ? dream.invoices
+    : [];
+  const updatedInvoices = existingInvoices.filter((invoice) => invoice.id !== invoiceId);
+  // console.log(updatedInvoices)
+  // 3. Update the dream with the new invoices array
+  const updatedDream = await updateDream(dream.documentId!, {
+    invoices: updatedInvoices.map(({ File, Comment, Amount }) => (
+      { 
+        File: (File as StrapiFile)?.id,
+        Comment,
+        Amount }
+    )) ,
+  } as DreamInvoiceUpload);
+
+  // 4. Optionally, delete the file from Strapi if needed
+  const fileToDelete = existingInvoices.find((invoice) => invoice.id === invoiceId)?.File;
+  console.log(fileToDelete)
+  if (fileToDelete) {
+    await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/upload/files/${(fileToDelete as StrapiFile).id}`, {
+      method: "DELETE",
+      // Add auth headers if needed
+    });
+  }
+  return updatedDream;  
+}
+
+
+// RIGHTS ######################################################################
+
+export function hasDreamRights(dream: Dream, userSecret: string) {
+  if (!dream || !dream.documentId) {
+    return false;
+  }
+  
+  if (dream.dreamerSecret === userSecret) {
+    return true;
+  }
+  
+  return false;
+}
+
+export function hasDreamYearRights(dream_year: DreamYear, userSecret: string) {
+  if (!dream_year || !dream_year.documentId) {
+    return false;
+  }
+  
+  const dreamYearRealizers = (dream_year as DreamYear).realizers.map((r) => r.Secret);
+  
+  if (dreamYearRealizers.includes(userSecret)) {
+    return true;
+  }
+  
+  return false;
+}
+
+export function getDreamRights(dream: Dream, userSecret: string):{isYearRealizer: boolean, isDreamer: boolean} {
+  if (!dream || !dream.documentId) {
+    return {
+      isYearRealizer: false,
+      isDreamer: false
+    };
+  }
+  
+  const rights = {
+    isYearRealizer: hasDreamYearRights(dream.dream_year as DreamYear, userSecret),
+    isDreamer: hasDreamRights(dream, userSecret),
+  };
+  
+  
+  
+  return rights;
 }

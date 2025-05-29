@@ -26,7 +26,9 @@ const mapping = {
   shortDescription: 'Kurz-Beschreibung / Short Description',
   budgetNeed: 'Brauchst du finanzielle Unterstützung? / Do you need monetary support?',
   requestMin: 'Min',
+  requestMinReason: 'Wieviel € würdest du mindestens benötigen? / How much € would you need at least?',
   requestMax: 'Max',
+  requestMaxReason: 'Wieviel € wären ideal für deinen Traum? / How much € would be ideal for your dream?',
   dreamType: 'Art deines Traums / What kind of dream?',
 }
 
@@ -60,6 +62,13 @@ export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear
       if (dream && dream.timestamp !== record[mapping.timestamp]) {
         item.status = 'UPDATED';
       }
+
+      if (dream && dream.requestMinReason !== record[mapping.requestMinReason]) {
+        item.status = 'UPDATED';
+      }
+      if (dream && dream.requestMaxReason !== record[mapping.requestMaxReason]) {
+        item.status = 'UPDATED';
+      }
       
       return item;
     });
@@ -83,7 +92,7 @@ export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear
   const updateDream = async (dream:Dream | undefined, record:CSVRecord) => {
     if (!dream) return;
     const newDream = convertToDream(record);
-    await fetch(`/api/dreams/${dream.id}`, {
+    await fetch(`/api/dreams/${dream.documentId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -132,7 +141,9 @@ export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear
       name: record[mapping.name],
       budgetNeed,
       requestMin: parseInt(record['Min']) || 0,
+      requestMinReason: record[mapping.requestMinReason],
       requestMax: parseInt(record['Min']) || 0,
+      requestMaxReason: record[mapping.requestMaxReason],
       grant: 0,
       dream_year: dreamYear.documentId,
       grantStatus: 'OPEN',

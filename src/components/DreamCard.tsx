@@ -8,8 +8,13 @@ export default function DreamCard({ dream, dreamYear, session }: { dream: Dream,
     <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
           <div className="p-4">
           {dream.dreamerSecret === session?.user?.email && (
-          <Link href={`/dreams/${dreamYear.slug}/${dream.id}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
+          <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
             DEIN<br />DREAM
+          </Link>
+          )}
+          {dreamYear.realizers.map((r) => r.Secret).includes(session?.user?.email || 'NO_SECRET') && (
+          <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
+            REALIZE<br />DREAM
           </Link>
           )}
           <h2 className="text-2xl font-bold">
@@ -37,14 +42,14 @@ export default function DreamCard({ dream, dreamYear, session }: { dream: Dream,
             {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMax}€ max
             </div>)}
-            {['ACCEPTED','INVOICE','PAID'].includes(dream.grantStatus) && (
+            {['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus) && (
               <div className={`bg-green-800 bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
             )}
             {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus) && (
               <div className={`bg-blue-800 bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
             )}
             {dream.budgetNeed !== 'NONE' && ['DENIED'].includes(dream.grantStatus) && (
-              <div className={`bg-red-800-800 bg-opacity-60 font-bold p-3 text-right`}>DENIED</div>
+              <div className={`bg-red-800 bg-opacity-60 font-bold p-3 text-right`}>DENIED</div>
             )}
           </div>
           

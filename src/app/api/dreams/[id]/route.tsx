@@ -1,5 +1,4 @@
-import { getDream, updateDream } from 'munichburners/lib/dreams';
-import { DreamYear } from 'munichburners/lib/dreams/schema';
+import { getDream, getDreamRights, updateDream } from 'munichburners/lib/dreams';
 import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -37,13 +36,29 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ id: strin
       return NextResponse.json({ error: true, message: `Dream ${id} not found` }, { status: 404 });
     }
 
-    const dreamYearRealizers = (dream.dream_year as DreamYear).realizers.map((r) => r.Secret);
-    console.log("Dream Year Realizers", dreamYearRealizers);
-    console.log("User Secret", body.userSecret);
+    const dreamRights = getDreamRights(dream, body.userSecret);
 
-    if (dream.dreamerSecret !== body.dreamerSecret && dreamYearRealizers.indexOf(body.userSecret) === -1) {
+    if (!dreamRights.isDreamer && !dreamRights.isYearRealizer) {
       return NextResponse.json({ error: true, message: "You are not allowed to update this dream" }, { status: 403 });
     }
+
+    if (!dreamRights.isYearRealizer) {
+      // check allowed fields for dreamer
+      const allowedFields = ['name', 'budgetNeed', 'requestMinReason', 'requestMaxReason', 'invoices', 'bankIBAN', 'bankBIC', 'bankName', 'grantStatus'];
+      const bodyKeys = Object.keys(body.data);
+      for (const key of bodyKeys) {
+        if (!allowedFields.includes(key)) {
+          return NextResponse.json({ error: true, message: `You are not allowed to update the field ${key}` }, { status: 403 });
+        }
+      }
+
+      if (body.data.grantStatus && body.data.grantStatus !== 'INVOICES') {
+        return NextResponse.json({ error: true, message: "You can only update the dream to INVOICES status" }, { status: 403 });
+      }
+
+    }
+    
+
     const newDream = await updateDream(dream.documentId, body.data);
     revalidateTag(`root`);
     return NextResponse.json({ success: true, newDream }, { status: 200 });

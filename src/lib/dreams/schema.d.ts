@@ -18,9 +18,11 @@ export interface Dream {
   name:string,
   budgetNeed: 'MUST' | 'NICE' | 'NONE';
   requestMin:number,
+  requestMinReason?: string,
   requestMax:number,
+  requestMaxReason?: string,
   grant:number,
-  grantStatus: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' | 'PAID';
+  grantStatus: 'OPEN' | 'DENIED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';
   shortDescription: string,
   dreamer: string;
   dreamType: 'ART' | 'ROOM' | 'WORKSHOP' | 'OTHER';
@@ -28,14 +30,27 @@ export interface Dream {
   email: string,
   dreamerSecret?: string,
   invoices?: DreamInvoice[],
+  invoiceComment?: string,
+  comment?:string
+  bankIBAN?: string,
+  bankBIC?: string,
+  bankName?: string,
+}
+
+export interface DreamInvoiceUpload {
+  invoices: DreamInvoice[],
 }
 
 export interface DreamInvoice {
   id?:number,
   Comment:string,
-  File: {
-    name:string,
-    url:string,
-  }
-  Amount:number
+  File: StrapiFile | string | number,
+  Amount:number,
+  reviewStatus: 'REVIEW' | 'ACCEPTED' | 'DENIED';
+}
+
+export interface StrapiFile {
+  id: number;
+  name: string;
+  url: string;
 }
