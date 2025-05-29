@@ -10,9 +10,29 @@ type CSVRecord = {
 
 }
 
-export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
+// Item = Dream & CSVRecord;
+type Item = {
+  record: CSVRecord;
+  dream?: Dream;
+  status: 'NEW' | 'UPDATED' | 'EXISTING';
+};
+
+const mapping = {
+  name: 'Name deines Traums / Name of your Dream',
+  dreamer: 'Dein Name / Your Name',
+  email: 'E-Mail-Adresse',
+  timestamp: 'Zeitstempel',
+  CSVid: 'Id',
+  shortDescription: 'Kurz-Beschreibung / Short Description',
+  budgetNeed: 'Brauchst du finanzielle Unterstützung? / Do you need monetary support?',
+  requestMin: 'Min',
+  requestMax: 'Max',
+  dreamType: 'Art deines Traums / What kind of dream?',
+}
+
+export default function CSVdreams({dreamYear, userSecret}: {dreamYear: DreamYear, userSecret:string}) {
   const [CSV, setCSV] = useState<string>('');
-  const [CSVdreams, setCSVdreams] = useState<(Dream | CSVRecord)[]>([]);
+  const [CSVdreams, setCSVdreams] = useState<(Item)[]>([]);
   const router = useRouter();
 
   const dreams = dreamYear.dreams;
@@ -24,11 +44,24 @@ export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
       skip_empty_lines: true
     });
     const recordDreams = records.map((record: CSVRecord) => {
+      const item:Item = {
+        record,
+        status: 'NEW',
+      }
       const dream = dreams.find((d) => {
-        return d.timestamp === record['Zeitstempel'] && d.email === record['E-Mail-Adresse'];
+        return d.CSVid === parseInt(record['Id']) && d.email === record[mapping.email];
       }
       );
-      return dream || record;
+      if (!!dream?.documentId) { 
+        item.status = 'EXISTING';
+        item.dream = dream;
+      }
+
+      if (dream && dream.timestamp !== record[mapping.timestamp]) {
+        item.status = 'UPDATED';
+      }
+      
+      return item;
     });
 
 
@@ -36,8 +69,37 @@ export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
   }, [CSV, dreams]);
 
   const addDream = async (record:CSVRecord) => {
+    const dream = convertToDream(record);
+    await fetch('/api/dreams', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dream),
+    })
+    await fetch('/api/revalidate?tag=root');
+    router.refresh();
+  }
+  const updateDream = async (dream:Dream | undefined, record:CSVRecord) => {
+    if (!dream) return;
+    const newDream = convertToDream(record);
+    await fetch(`/api/dreams/${dream.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: newDream,
+        userSecret
+      }),
+    })
+    await fetch('/api/revalidate?tag=root');
+    router.refresh();
+  }
+
+  const convertToDream = (record: CSVRecord): Dream => {
     let budgetNeed:'NONE' | 'MUST' | 'NICE';
-    switch (record['Brauchst du finanzielle Unterstützung? / Do you need monetary support?']) {
+    switch (record[mapping.budgetNeed]) {
       case 'Ja, ich brauche finanzielle Unterstützung. / Yes, I need monetary support.':
         budgetNeed = 'MUST';
         break;
@@ -50,7 +112,7 @@ export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
     }
 
     let dreamType: 'ART' | 'ROOM' | 'WORKSHOP' | 'OTHER';
-    switch (record['Art deines Traums / What kind of dream?']) {
+    switch (record[mapping.dreamType]) {
       case 'Kunstprojekt':
         dreamType = 'ART';
         break;
@@ -66,32 +128,20 @@ export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
     }
 
     const dream:Dream = {
-      name: record['Name deines Traums / Name of your Dream'],
+      name: record[mapping.name],
       budgetNeed,
       requestMin: parseInt(record['Min']) || 0,
       requestMax: parseInt(record['Min']) || 0,
       grant: 0,
       dream_year: dreamYear.documentId,
       grantStatus: 'OPEN',
-      shortDescription: record['Kurz-Beschreibung / Short Description'],
-      dreamer: record['Dein Name / Your Name'],
+      shortDescription: record[mapping.shortDescription],
+      dreamer: record[mapping.dreamer],
       dreamType,
-      timestamp: record['Zeitstempel'],
-      email: record['E-Mail-Adresse'],
+      timestamp: record[mapping.timestamp],
+      email: record[mapping.email],
     };
-
-    await fetch('/api/dreams', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dream),
-    })
-    await fetch('/api/revalidate?tag=root');
-    router.refresh();
-
-
-
+    return dream;
   }
 
   return (
@@ -99,16 +149,54 @@ export default function CSVdreams({dreamYear}: {dreamYear: DreamYear}) {
       <textarea value={CSV} onChange={(e) => setCSV(e.target.value)} className="w-full h-96 text-black" />
       <table className="table-auto table-xs w-full">
         <tbody>
-          {CSVdreams.filter((record) => !record.documentId).map((record, index) => (
+          {CSVdreams
+          .filter((item) => item.status !== 'EXISTING')
+          .map((item, index) => (
             <tr key={index} className="border-b">
-              <td className="px-4 py-2">{record.name ||  (record as CSVRecord)['Name deines Traums / Name of your Dream']}</td>
-              <td className="px-4 py-2">{record.timestamp ||  (record as CSVRecord)['Zeitstempel']}</td>
-              <td className="px-4 py-2">{record.email ||  (record as CSVRecord)['E-Mail-Adresse']}</td>
-              <td className="px-4 py-2">{record.documentId ? 'found' : (
-                <button className="btn btn-xs btn-neutral" onClick={() => {
-                  addDream(record as CSVRecord);
-                }}>add</button>
-              )}</td>
+              <td className="px-4 py-2">{item.dream?.CSVid} {item.status} {(item.record as CSVRecord)['Id']} </td>
+              {item.status === 'EXISTING' && item.dream && (
+                <>
+                  <td className="px-4 py-2">{item.dream.name}</td>
+                  <td className="px-4 py-2">{item.dream.dreamer}</td>
+                  <td></td>
+                </>
+              )}
+              {item.status === 'UPDATED' && item.dream && (
+                <>
+                  <td className="px-4 py-2">{item.record[mapping.name]}</td>
+                  <td className="px-4 py-2">
+                    {item.dream.name} &raquo; {item.record[mapping.name]}<br />
+                    {item.dream.dreamer} &raquo; {item.record[mapping.dreamer]}<br />
+                    {item.record[mapping.shortDescription]} &raquo; {item.dream.shortDescription}<br />
+                    {item.record[mapping.timestamp]} &raquo; {item.dream.timestamp}<br />
+                    {item.record[mapping.email]} &raquo; {item.dream.email}<br />
+
+
+                  </td>
+                  <td>
+                    <button className="btn btn-xs" onClick={() => {
+                      updateDream(item.dream, item.record);
+                    }}>update</button> 
+                  </td>
+                </>
+              )}
+              {item.status === 'NEW' && (
+                <>
+                  <td className="px-4 py-2">{item.record[mapping.name]}</td>
+                  <td className="px-4 py-2">{item.record[mapping.dreamer]}</td>
+                  <td>
+                    <button className="btn btn-xs btn-neutral" onClick={() => {
+                      addDream(item.record);
+                    }}>add</button> 
+                  </td>
+                </>
+              )}
+              {/* 
+              <td className="px-4 py-2">{item.name ||  (item as CSVRecord)['Name deines Traums / Name of your Dream']}</td>
+              <td className="px-4 py-2">{item.timestamp } | {(item as CSVRecord)['Zeitstempel']}</td>
+              <td className="px-4 py-2">{item.email ||  (item as CSVRecord)['E-Mail-Adresse']}</td>
+               */}
+
             </tr>
           ))}
         </tbody>

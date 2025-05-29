@@ -79,6 +79,16 @@ export async function getDream(id:string):Promise<Dream> {
     const res = await fetchAPI("/dreams", {
       filters,
       populate: {
+        dream_year: {
+          populate: {
+            realizers: true
+          }
+        },
+        invoices: {
+          populate: {
+            File: true
+          }
+        }
       },
       pagination: {
         pageSize: 10
@@ -100,6 +110,24 @@ export async function postDream(dream:Dream):Promise<Dream> {
   };
 
   const res = await fetchAPI("/dreams", {
+  }, options);
+
+  return res;
+}
+
+export async function updateDream(documentId:string, dream:Dream):Promise<Dream> {
+
+  const options:RequestInit = { 
+    headers: {
+    'Content-Type': 'application/json'
+  },
+    method: 'PUT',
+      body: JSON.stringify({
+      data: dream
+    })
+  };
+
+  const res = await fetchAPI(`/dreams/${documentId}`, {
   }, options);
 
   return res;

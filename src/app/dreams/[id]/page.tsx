@@ -1,3 +1,6 @@
+import DreamCard from "munichburners/components/DreamCard";
+import MMBLogin from "munichburners/components/MMBLogin";
+import { getSession } from "munichburners/lib/auth";
 import { getDreams, getDreamYear } from "munichburners/lib/dreams";
 
 type PageProps = {
@@ -7,7 +10,8 @@ type PageProps = {
 };
 
 
-export default async function Page(props:PageProps) {
+export default async function Page(props:PageProps) { 
+  const session = await getSession()
   const params = await props.params;
   const dreamYear = await getDreamYear(params.id);  
   
@@ -50,46 +54,10 @@ export default async function Page(props:PageProps) {
       
       <UsageBar max={dreamYear.budget} usages={usages} showLabels showMax className="mb-12" />
 
+      <MMBLogin />
+
       {dreams.map((dream) => (
-        <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
-          <div className="p-4">
-          <h2 className="text-2xl font-bold">
-            {dream.name}
-          </h2>
-          <p>
-            <span className="font-bold">{dream.dreamType}</span> <span className="italic">by {dream.dreamer}</span>:<br />{dream.shortDescription}
-          </p>
-
-          {dream.budgetNeed !== 'NONE' && (
-            <UsageBar max={dreamYear.budget} className="mt-4" usages={[
-              { value: dream.requestMin, color: "bg-white bg-opacity-60", label: 'min' },
-              { value: dream.requestMax - dream.requestMin, color: "bg-white bg-opacity-30", label: 'max' },
-            ]} />
-          )}
-          </div>
-
-          <div className="w-full bg-black bg-opacity-20 flex justify-items-stretch gap-px leading-5">
-            {dream.budgetNeed !== 'NONE' && (<>
-              <div className={`bg-black p-3 flex items-center ${dream.budgetNeed === 'MUST' ? '' : 'bg-opacity-30'}`}>{dream.budgetNeed}</div>
-            </>)}
-            {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
-              {dream.requestMin}€ min
-            </div>)}
-            {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
-              {dream.requestMax}€ max
-            </div>)}
-            {['ACCEPTED','INVOICE','PAID'].includes(dream.grantStatus) && (
-              <div className={`bg-green-800 bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
-            )}
-            {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus) && (
-              <div className={`bg-blue-800 bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
-            )}
-            {dream.budgetNeed !== 'NONE' && ['DENIED'].includes(dream.grantStatus) && (
-              <div className={`bg-red-800-800 bg-opacity-60 font-bold p-3 text-right`}>DENIED</div>
-            )}
-          </div>
-          
-        </div>
+        <DreamCard key={dream.id} dream={dream} dreamYear={dreamYear} session={session} />
       ))}
     </div>
   );
@@ -110,7 +78,7 @@ type UsageBarProps = {
   className?: string;
 };
 
-const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, showMax = false, className }) => {
+export const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = false, showMax = false, className }) => {
   const totalUsage = usages.reduce((acc, usage) => acc + usage.value, 0);
   const diplayedMax = Math.max(max, totalUsage);
 

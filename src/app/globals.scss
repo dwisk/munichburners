@@ -177,3 +177,11 @@ p + p, .lang + p, table + p, h1 + p, h2 + p, h3 + p {
 :root {
 --container-padding: 1rem;
 }
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
