@@ -31,6 +31,7 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
           requestMax: clientDream.requestMax,
           grant: clientDream.grant,
           grantStatus: status,
+          dreamerSecret: clientDream.dreamerSecret || '',
           comment: clientDream.comment || '',
         },
         userSecret
@@ -55,7 +56,7 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
             {clientDream.requestMaxReason}
           </p>
         </div>
-        <span className="flex flex-col md:flex-row gap-2 p-4">
+        <span className="flex flex-col md:flex-row gap-2 px-4 mb-2">
           <label className="input input-bordered flex items-center md:w-1/2">
             Min
             <input 
@@ -83,7 +84,7 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
             €
           </label>
         </span>
-        <span className="flex flex-col md:flex-row gap-2 p-4">
+        <span className="flex flex-col md:flex-row gap-2 px-4">
           <label className="input input-bordered flex items-center">
             Grant
             <input 
@@ -98,10 +99,16 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
             €
           </label>
           <label className="input input-bordered flex grow items-center">
+            DreamerSecret
+            <input type="text" className="text grow rounded-r-none text-right" placeholder="7gtcz9nvb47olbzq" name="dreamerSecret" value={clientDream.dreamerSecret || ''} onChange={updateClientDream}  />
+          </label>
+          </span>
+          <div className="px-4 py-2">
+          <label className="input input-bordered flex grow items-center">
             Kommentar
             <input type="text" className="ml-2 text grow rounded-r-none" placeholder="Danke für deinen Dream." name="comment" value={clientDream.comment || ''} onChange={updateClientDream}  />
           </label>
-          </span>
+          </div>
           <div className="flex w-full">
             <button onClick={() => updateDream('OPEN')} className={`btn rounded-none border-none text-white bg-blue-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'OPEN' ? 'font-bold bg-opacity-90' : ''}`}>Open</button>
             <button onClick={() => updateDream('DENIED')} className={`btn rounded-none border-none text-white bg-red-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'DENIED' ? 'font-bold bg-opacity-90' : ''}`}>Deny</button>
