@@ -37,6 +37,13 @@ export default {
     'md:grid-cols-4',
     'md:grid-cols-5',
     'md:grid-cols-6',
+    'bg-blue-800',
+    'bg-purple-800',
+    'bg-red-800',
+    'bg-green-800',
+    'bg-cyan-600',
+    'bg-lime-600',
+    'bg-green-500',
   ],
   plugins: [require('daisyui')],
   daisyui: {
