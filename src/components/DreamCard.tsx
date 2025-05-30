@@ -6,17 +6,43 @@ import { getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
 export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dream, dreamYear:DreamYear, userSecret:string }) {
   const dreamYearRights = hasDreamYearRights(dreamYear, userSecret);
   const dreamRights = getDreamRights(dream, userSecret);
+
+  let dreamStatusColor = 'bg-black';
+  switch (dream.grantStatus) {
+    case 'OPEN':
+      dreamStatusColor = 'bg-blue-800';
+      break;
+    case 'CANCELED':
+      dreamStatusColor = 'bg-red-800';
+      break;
+    case 'ACCEPTED':
+      dreamStatusColor = 'bg-green-800';
+      break;
+    case 'INVOICES':
+      dreamStatusColor = 'bg-cyan-800';
+      break;
+    case 'READY':
+      dreamStatusColor = 'bg-lime-600';
+      break;
+    case 'PAID':
+      dreamStatusColor = 'bg-green-500';
+      break;
+    default:
+      dreamStatusColor = 'bg-black';
+      break;
+  }
+
   return (
     <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
           <div className="p-4">
-          {dreamRights.isDreamer && (
+          {dreamRights.isDreamer && !dreamYearRights && (
           <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
             DEIN<br />DREAM
           </Link>
           )}
           {dreamYearRights && dream.budgetNeed !== 'NONE' && (
-          <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
-            REALIZE<br />DREAM
+          <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className={`absolute top-0 right-0 p-2 text-right text-xs ${dreamStatusColor} bg-opacity-60 rounded-bl-lg`}>
+            DREAM<br /><span className="font-bold">{dream.grantStatus || 'OPEN'}</span>
           </Link>
           )}
           <h2 className="text-2xl font-bold">
@@ -50,8 +76,8 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
             {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus || '') && (
               <div className={`bg-blue-800 bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
             )}
-            {dream.budgetNeed !== 'NONE' && ['DENIED'].includes(dream.grantStatus || '') && (
-              <div className={`bg-red-800 bg-opacity-60 font-bold p-3 text-right`}>DENIED</div>
+            {dream.budgetNeed !== 'NONE' && ['CANCELED'].includes(dream.grantStatus || '') && (
+              <div className={`bg-red-800 bg-opacity-60 font-bold p-3 text-right`}>CANCELED</div>
             )}
           </div>
           

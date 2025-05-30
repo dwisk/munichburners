@@ -1,7 +1,7 @@
 import { Dream } from "munichburners/lib/dreams/schema";
 
 export default function DreamProgress({dream}:{dream: Dream}) {
-  const statusNum = ['OPEN', 'DENIED', 'ACCEPTED', 'INVOICES', 'READY', 'PAID'].indexOf(dream.grantStatus || '');
+  const statusNum = ['OPEN', 'CANCELED', 'ACCEPTED', 'INVOICES', 'READY', 'PAID'].indexOf(dream.grantStatus || '');
   return (
     <ul className="steps w-full steps-vertical md:steps-horizontal">
       <li data-content="🌈" className={`leading-snug step ${statusNum >= 0 ? 'step-neutral' : ''}`}>Neuer Dream eingereicht</li>

@@ -18,7 +18,7 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
     }));
   };
 
-  const updateDream = async (status: 'OPEN' | 'DENIED' | 'ACCEPTED') => {
+  const updateDream = async (status: 'OPEN' | 'CANCELED' | 'ACCEPTED') => {
     // Here you would typically send the updated dream to your backend
     await fetch(`/api/dreams/${clientDream.documentId}`, {
       method: 'PUT',
@@ -111,7 +111,7 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
           </div>
           <div className="flex w-full">
             <button onClick={() => updateDream('OPEN')} className={`btn rounded-none border-none text-white bg-blue-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'OPEN' ? 'font-bold bg-opacity-90' : ''}`}>Open</button>
-            <button onClick={() => updateDream('DENIED')} className={`btn rounded-none border-none text-white bg-red-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'DENIED' ? 'font-bold bg-opacity-90' : ''}`}>Deny</button>
+            <button onClick={() => updateDream('CANCELED')} className={`btn rounded-none border-none text-white bg-red-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'CANCELED' ? 'font-bold bg-opacity-90' : ''}`}>Cancel</button>
             <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white bg-green-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : ''}`}>Accept</button>
           </div>
       </div>
