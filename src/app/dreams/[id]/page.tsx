@@ -2,7 +2,7 @@ import DreamCard from "munichburners/app/dreams/_components/DreamCard";
 import { UsageBar } from "munichburners/app/dreams/_components/DreamUsage";
 import MMBLogin from "munichburners/components/MMBLogin";
 import { getSession } from "munichburners/lib/auth";
-import { getDreamColor, getDreams, getDreamYear } from "munichburners/lib/dreams";
+import { getDreamColor, getDreamEmoji, getDreamLabel, getDreams, getDreamYear } from "munichburners/lib/dreams";
 import { DreamGrantStatus } from "munichburners/lib/dreams/schema";
 
 type PageProps = {
@@ -49,8 +49,8 @@ export default async function Page(props:PageProps) {
   }, 0) - dreamRequestMin;
 
   const usages = [
-    { value: dreamGrantTotal, color: "bg-white text-black bg-opacity-90", label: `${dreamGrantTotal}€ granted` },
-    { value: dreamGrantPlanned, color: "bg-white text-black bg-opacity-60", label: `${dreamGrantPlanned}€ planned` },
+    { value: dreamGrantTotal, color: "bg-white text-black bg-opacity-90", label: `${dreamGrantTotal}€ ${getDreamLabel('ACCEPTED')}` },
+    { value: dreamGrantPlanned, color: "bg-white text-black bg-opacity-60", label: `${dreamGrantTotal + dreamGrantPlanned}€ ${getDreamLabel('PLANNED')}` },
     { value: dreamRequestMin, color: "bg-white text-white bg-opacity-40", label: `${dreamGrantTotal + dreamGrantPlanned +  dreamRequestMin}€ min` },
     { value: dreamRequestMax, color: "bg-white text-white bg-opacity-20", label: `${dreamGrantTotal + dreamGrantPlanned + dreamRequestMin + dreamRequestMax}€ max` },
   ];
@@ -77,7 +77,7 @@ export default async function Page(props:PageProps) {
   const usagesByGrantStatus = Object.entries(usagesByGrantStatusAccumlated).map(([status, value]) => ({
     value,
     color: `${getDreamColor(status as DreamGrantStatus)} text-white bg-opacity-80`,
-    label: `${status}`,
+    label: `${getDreamLabel(status as DreamGrantStatus)} ${getDreamEmoji(status as DreamGrantStatus)}`,
   })).filter((usage) => usage.value > 0);
 
   const yourDreams = dreams.filter((dream) => dream.dreamerSecret === session?.user?.email || '');

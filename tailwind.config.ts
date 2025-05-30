@@ -38,7 +38,7 @@ export default {
     'md:grid-cols-5',
     'md:grid-cols-6',
     'bg-blue-800',
-    'bg-purple-800',
+    'bg-teal-600',
     'bg-red-800',
     'bg-green-800',
     'bg-cyan-600',

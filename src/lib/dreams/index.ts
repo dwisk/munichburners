@@ -268,7 +268,7 @@ export function getDreamColor(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACC
     case 'OPEN':
       return 'bg-blue-800';
     case 'PLANNED':
-      return 'bg-purple-800';
+      return 'bg-teal-600';
     case 'CANCELED':
       return 'bg-red-800';
     case 'ACCEPTED':
@@ -279,6 +279,48 @@ export function getDreamColor(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACC
       return 'bg-lime-600';
     case 'PAID':
       return 'bg-green-500';
+    default:
+      return '';
+  }
+}
+
+export function getDreamEmoji(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID' | undefined):string {
+  switch (grantStatus) {
+    case 'OPEN':
+      return '🌈';
+    case 'PLANNED':
+      return '🏁';
+    case 'CANCELED':
+      return '❌';
+    case 'ACCEPTED':
+      return '✅';
+    case 'INVOICES':
+      return '🧾';
+    case 'READY':
+      return '⏳';
+    case 'PAID':
+      return '💶';
+    default:
+      return '';
+  }
+}
+
+export function getDreamLabel(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID' | undefined):string {
+  switch (grantStatus) {
+    case 'OPEN':
+      return 'offen';
+    case 'PLANNED':
+      return 'geplant'
+    case 'CANCELED':
+      return '';
+    case 'ACCEPTED':
+      return 'angenommen';
+    case 'INVOICES':
+      return 'Rechnungen';
+    case 'READY':
+      return 'bereit';
+    case 'PAID':
+      return 'ausgezahlt';
     default:
       return '';
   }

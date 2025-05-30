@@ -1,7 +1,7 @@
 import { Dream, DreamYear } from "munichburners/lib/dreams/schema";
 import Link from "next/link";
 import { UsageBar } from "./DreamUsage";
-import { getDreamColor, getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
+import { getDreamColor, getDreamEmoji, getDreamLabel, getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
 
 export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dream, dreamYear:DreamYear, userSecret:string }) {
   const dreamYearRights = hasDreamYearRights(dreamYear, userSecret);
@@ -47,17 +47,11 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
             {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMax}€ max
             </div>)}
-            {['PLANNED'].includes(dream.grantStatus || '') && (
-              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ planned</div>
+            {['PLANNED', 'ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || '') && (
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{getDreamEmoji(dream.grantStatus)} {dream.grant}€ {getDreamLabel(dream.grantStatus)}</div>
             )}
-            {['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || '') && (
-              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
-            )}
-            {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus || '') && (
-              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
-            )}
-            {dream.budgetNeed !== 'NONE' && ['CANCELED'].includes(dream.grantStatus || '') && (
-              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>CANCELED</div>
+            {dream.budgetNeed !== 'NONE' && ['OPEN', 'CANCELED'].includes(dream.grantStatus || '') && (
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{getDreamEmoji(dream.grantStatus)} {getDreamLabel(dream.grantStatus)}</div>
             )}
           </div>
           
