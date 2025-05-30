@@ -65,7 +65,7 @@ export default function InvoiceCard({invoice, dream, userSecret, actions}: Incoi
   }
 
   const dreamRights = getDreamRights(dream, userSecret);
-  const canUpdate = dreamRights.isYearRealizer || (dreamRights.isDreamer && dream.grantStatus === 'ACCEPTED');
+  const canUpdate = dreamRights.isYearRealizer || (dreamRights.isDreamer && ['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || ''));
   let statusColor = '';
   if (invoice.reviewStatus === 'ACCEPTED') {
     statusColor = 'bg-green-800 bg-opacity-20';
@@ -85,7 +85,7 @@ export default function InvoiceCard({invoice, dream, userSecret, actions}: Incoi
             placeholder="Material für meinen Dream."
             value={clientInvoice.Comment}
             name="Comment"
-            disabled={!dreamRights.isDreamer}
+            disabled={!dreamRights.isDreamer || !canUpdate}
             onChange={updateClientInvoice}
             />
         </label>
@@ -99,6 +99,7 @@ export default function InvoiceCard({invoice, dream, userSecret, actions}: Incoi
             placeholder="123"  
             min={0} 
             name="Amount"
+            disabled={!canUpdate}
             value={clientInvoice.Amount}
             onChange={updateClientInvoice}
           />

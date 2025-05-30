@@ -99,6 +99,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   const invoiceSum = dream.invoices?.reduce((sum, invoice) => sum + invoice.Amount, 0) || 0;
 
   const checks = {
+    planned: ['PLANNED'].includes(dream.grantStatus || ''),
     accepted: ['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || ''),
     invoicesUploaded: dream.invoices && dream.invoices.length > 0,
     invoiceSumOK: invoiceSum > 0 && invoiceSum <= (dream.grant || 0) * 1.1,
@@ -172,7 +173,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
                 className="grow mx-2 text-left" 
                 placeholder="DE89 1234 4500 0012 3456 78"
                 name="bankIBAN"
-                disabled={dream.grantStatus !== 'ACCEPTED'}
+                disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
                 value={clientDream.bankIBAN || ''}
                 onChange={updateClientDream}
                 min={0} 
@@ -185,7 +186,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
                 className="grow mx-2 text-left" 
                 placeholder="DEUTDEDBBER"  
                 name="bankBIC"
-                disabled={dream.grantStatus !== 'ACCEPTED'}
+                disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
                 value={clientDream.bankBIC || ''}
                 onChange={updateClientDream}
                 min={0} 
@@ -201,21 +202,25 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
               placeholder="Martina Mustermann"  
               min={0} 
               name="bankName"
-              disabled={dream.grantStatus !== 'ACCEPTED'}
+              disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
               value={clientDream.bankName || ''}
               onChange={updateClientDream}
               />
             </label>
-            {dream.grantStatus == 'ACCEPTED' && (
+            {['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '') && (
               <button className="btn btn-md btn-neutral" onClick={() => updateDream()} disabled={!checks.bankDataComplete}>Speichern</button>
             )}
           </span>
         </div>
         <div className="card relative gridpanel mb-4 rounded-lg p-4">
           <p className="text-center font-bold">Zusammenfassung</p>
+            { checks.planned &&
+              <div className="">✅ Dein Dream ist mit {dream.grant}€ eingeplant.</div>
+            }
+            
             { checks.accepted ?
             <div className="">✅ Du hast {dream.grant}€ zugesagt bekommen.</div> :
-            <div className="font-bold">❌ Dein Dream ist noch nicht angenommen!</div>
+            <div className="font-bold">❌ Dein Dream ist noch nicht angenommen.</div>
             }
             
             { checks.invoicesUploaded ?
@@ -242,7 +247,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
             {dream.grantStatus === 'PAID' && (
               <div className="font-bold">✅ Das Geld wurde dir überwiesen! 🎉</div>
             )}
-           {dream.grantStatus === 'ACCEPTED' && (
+           {['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '') && (
               <button disabled={!allChecksOK} onClick={() => updateDream(true)} className="btn mt-4 btn-md btn-neutral">Rechnungen einreichen!</button>
             )}
           </div>
