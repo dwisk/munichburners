@@ -46,6 +46,30 @@ export default async function Page(props:PageProps) {
     { value: dreamRequestMin, color: "bg-white text-white bg-opacity-40", label: `${dreamGrantTotal + dreamRequestMin}€ min` },
     { value: dreamRequestMax, color: "bg-white text-white bg-opacity-20", label: `${dreamGrantTotal + dreamRequestMin + dreamRequestMax}€ max` },
   ];
+
+  const usagesByGrantStatusAccumlated = dreams.reduce((acc, dream) => {
+    if (dream.grantStatus && !acc[dream.grantStatus]) {
+      acc[dream.grantStatus] = 0;
+    }
+    if (dream.grantStatus) {
+      acc[dream.grantStatus] += dream.grant || 0;
+    }
+    return acc;
+  }
+  , {
+    OPEN: 0,
+    CANCELED: 0,
+    ACCEPTED: 0,
+    INVOICES: 0,
+    READY: 0,
+    PAID: 0,
+  });
+
+  const usagesByGrantStatus = Object.entries(usagesByGrantStatusAccumlated).map(([status, value]) => ({
+    value,
+    color: `bg-${status === 'OPEN' ? 'blue-800' : status === 'CANCELED' ? 'red-800' : status === 'ACCEPTED' ? 'green-800' : status === 'INVOICES' ? 'cyan-800' : status === 'READY' ? 'lime-600' : 'green-500'} text-white bg-opacity-80`,
+    label: `${status}`,
+  })).filter((usage) => usage.value > 0);
   
   return (
     <div className="container mx-auto px-4 md:px-0 mb-10">
@@ -53,6 +77,7 @@ export default async function Page(props:PageProps) {
         {dreams.length} Dreams {dreamYear.name}
       </h1>
       
+      <UsageBar max={dreamYear.budget} usages={usagesByGrantStatus} showLabels className="mb-2" />
       <UsageBar max={dreamYear.budget} usages={usages} showLabels showMax className="mb-12" />
 
       <MMBLogin />

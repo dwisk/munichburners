@@ -33,7 +33,7 @@ export const UsageBar: React.FC<UsageBarProps> = ({ max, usages, showLabels = fa
       <div className="h-full w-full flex  overflow-hidden rounded-full">
 
       
-      {usages.map((usage, index) => {
+      {usages.filter((usage) => usage.value > 0).map((usage, index) => {
       const widthPercent = (usage.value / diplayedMax) * 100;
 
       return (
