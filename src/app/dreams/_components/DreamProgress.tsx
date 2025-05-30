@@ -9,10 +9,10 @@ export default function DreamProgress({dream}:{dream: Dream}) {
         <li data-content="❌" className={`leading-snug step step-neutral`}>Keine Finanzierung</li>
       ) : (<>
         <li data-content="🏁" className={`leading-snug step ${statusNum >= 2 ? 'step-neutral' : ''}`}>Im Budget vorgeplant</li>
-        <li data-content="✅" className={`leading-snug step ${statusNum >= 2 ? 'step-neutral' : ''}`}>Geldbetrag ist fixiert</li>
-      <li data-content="🧾" className={`leading-snug step ${statusNum >= 3 ? 'step-neutral' : ''}`}>Rechnungen eingereicht</li>
-      <li data-content="⏳" className={`leading-snug step ${statusNum >= 4 ? 'step-neutral' : ''}`}>Bereit für Überweisung</li>
-      <li data-content="💶" className={`leading-snug step ${statusNum >= 5 ? 'step-neutral' : ''}`}>Geld ist ausgezahlt</li>
+        <li data-content="✅" className={`leading-snug step ${statusNum >= 3 ? 'step-neutral' : ''}`}>Geldbetrag ist fixiert</li>
+      <li data-content="🧾" className={`leading-snug step ${statusNum >= 4 ? 'step-neutral' : ''}`}>Rechnungen eingereicht</li>
+      <li data-content="⏳" className={`leading-snug step ${statusNum >= 5 ? 'step-neutral' : ''}`}>Bereit für Überweisung</li>
+      <li data-content="💶" className={`leading-snug step ${statusNum >= 6 ? 'step-neutral' : ''}`}>Geld ist ausgezahlt</li>
       </>)}
     </ul>
   );
