@@ -1,5 +1,5 @@
-import DreamCard from "munichburners/components/DreamCard";
-import { UsageBar } from "munichburners/components/DreamUsage";
+import DreamCard from "munichburners/app/dreams/_components/DreamCard";
+import { UsageBar } from "munichburners/app/dreams/_components/DreamUsage";
 import MMBLogin from "munichburners/components/MMBLogin";
 import { getSession } from "munichburners/lib/auth";
 import { getDreams, getDreamYear } from "munichburners/lib/dreams";

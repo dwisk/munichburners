@@ -1,13 +1,13 @@
-import DreamCard from "munichburners/components/DreamCard";
+import DreamCard from "munichburners/app/dreams/_components/DreamCard";
 import MMBLogin from "munichburners/components/MMBLogin";
 import { getSession } from "munichburners/lib/auth";
 import { getDream, getDreamRights } from "munichburners/lib/dreams";
 import { DreamYear } from "munichburners/lib/dreams/schema";
 import Image from "next/image";
-import DreamRelease from "./DreamRelease";
-import DreamUpload from "./DreamUpload";
-import DreamReview from "./DreamReview";
-import DreamProgress from "./DreamProgress";
+import DreamRelease from "../../_components/DreamRelease";
+import DreamUpload from "../../_components/DreamUpload";
+import DreamReview from "../../_components/DreamReview";
+import DreamProgress from "../../_components/DreamProgress";
 
 type PageProps = {
   params: Promise<{

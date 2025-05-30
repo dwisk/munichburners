@@ -1,6 +1,6 @@
 'use client';
 import { electronicFormatIBAN, isValidIBAN, isValidBIC } from 'ibantools';
-import { UsageBar } from 'munichburners/components/DreamUsage';
+import { UsageBar } from 'munichburners/app/dreams/_components/DreamUsage';
 import { Dream, StrapiFile } from 'munichburners/lib/dreams/schema';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

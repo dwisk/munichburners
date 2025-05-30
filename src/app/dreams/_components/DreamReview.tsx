@@ -1,5 +1,5 @@
 'use client';
-import { UsageBar } from "munichburners/components/DreamUsage";
+import { UsageBar } from "munichburners/app/dreams/_components/DreamUsage";
 import InvoiceCard from "./InvoiceCard";
 import { Dream, StrapiFile } from "munichburners/lib/dreams/schema";
 import { useState } from "react";
