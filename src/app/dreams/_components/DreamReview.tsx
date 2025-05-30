@@ -4,6 +4,7 @@ import InvoiceCard from "./InvoiceCard";
 import { Dream, StrapiFile } from "munichburners/lib/dreams/schema";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getDreamColor } from "munichburners/lib/dreams";
 
 export default function DreamReview({dream, userSecret}:{dream: Dream, userSecret: string}) {
   const [invoiceComment, setInvoiceComment] = useState<string>(dream.invoiceComment || '');
@@ -73,10 +74,10 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
         Betreff: MMB2025 Dreams Kostenerstattung<br/>
       </p>
         <div className="flex w-full">
-          <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white bg-yellow-600 bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Reset</button>
-          <button onClick={() => updateDream('INVOICES')} className={`btn rounded-none border-none text-white bg-cyan-600 bg-opacity-40 p-3 grow ${dream.grantStatus === 'INVOICES' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Invoices</button>
-          <button onClick={() => updateDream('READY')} className={`btn rounded-none border-none text-white bg-lime-600 bg-opacity-40 p-3 grow ${dream.grantStatus === 'READY' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Ready</button>
-          <button onClick={() => updateDream('PAID')} className={`btn rounded-none border-none text-white bg-green-600 bg-opacity-40 p-3 grow ${dream.grantStatus === 'PAID' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Paid</button>
+          <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white ${getDreamColor('ACCEPTED')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Reset</button>
+          <button onClick={() => updateDream('INVOICES')} className={`btn rounded-none border-none text-white ${getDreamColor('INVOICES')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'INVOICES' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Invoices</button>
+          <button onClick={() => updateDream('READY')} className={`btn rounded-none border-none text-white ${getDreamColor('READY')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'READY' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Ready</button>
+          <button onClick={() => updateDream('PAID')} className={`btn rounded-none border-none text-white ${getDreamColor('PAID')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'PAID' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Paid</button>
         </div>
     </div>
 

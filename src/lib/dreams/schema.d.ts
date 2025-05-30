@@ -22,7 +22,7 @@ export interface Dream {
   requestMax?:number,
   requestMaxReason?: string,
   grant?:number,
-  grantStatus?: 'OPEN' | 'CANCELED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';
+  grantStatus?: DreamGrantStatus;
   shortDescription: string,
   dreamer: string;
   dreamType: 'ART' | 'ROOM' | 'WORKSHOP' | 'OTHER';
@@ -36,6 +36,8 @@ export interface Dream {
   bankBIC?: string,
   bankName?: string,
 }
+
+export type DreamGrantStatus = 'OPEN' | 'CANCELED' | 'PLANNED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';
 
 export interface DreamInvoiceUpload {
   invoices: DreamInvoice[],

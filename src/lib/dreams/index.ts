@@ -262,3 +262,24 @@ export function getDreamRights(dream: Dream, userSecret: string):{isYearRealizer
   
   return rights;
 }
+
+export function getDreamColor(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID' | undefined):string {
+  switch (grantStatus) {
+    case 'OPEN':
+      return 'bg-blue-800';
+    case 'PLANNED':
+      return 'bg-purple-800';
+    case 'CANCELED':
+      return 'bg-red-800';
+    case 'ACCEPTED':
+      return 'bg-green-800';
+    case 'INVOICES':
+      return 'bg-cyan-600';
+    case 'READY':
+      return 'bg-lime-600';
+    case 'PAID':
+      return 'bg-green-500';
+    default:
+      return '';
+  }
+}

@@ -1,36 +1,13 @@
 import { Dream, DreamYear } from "munichburners/lib/dreams/schema";
 import Link from "next/link";
 import { UsageBar } from "./DreamUsage";
-import { getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
+import { getDreamColor, getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
 
 export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dream, dreamYear:DreamYear, userSecret:string }) {
   const dreamYearRights = hasDreamYearRights(dreamYear, userSecret);
   const dreamRights = getDreamRights(dream, userSecret);
 
-  let dreamStatusColor = 'bg-black';
-  switch (dream.grantStatus) {
-    case 'OPEN':
-      dreamStatusColor = 'bg-blue-800';
-      break;
-    case 'CANCELED':
-      dreamStatusColor = 'bg-red-800';
-      break;
-    case 'ACCEPTED':
-      dreamStatusColor = 'bg-green-800';
-      break;
-    case 'INVOICES':
-      dreamStatusColor = 'bg-cyan-800';
-      break;
-    case 'READY':
-      dreamStatusColor = 'bg-lime-600';
-      break;
-    case 'PAID':
-      dreamStatusColor = 'bg-green-500';
-      break;
-    default:
-      dreamStatusColor = 'bg-black';
-      break;
-  }
+  const dreamStatusColor = getDreamColor(dream.grantStatus) || 'bg-black';
 
   return (
     <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
@@ -70,14 +47,17 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
             {dream.budgetNeed !== 'NONE' && (<div className="bg-black bg-opacity-60 grow p-3 text-center">
               {dream.requestMax}€ max
             </div>)}
+            {['PLANNED'].includes(dream.grantStatus || '') && (
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ planned</div>
+            )}
             {['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || '') && (
-              <div className={`bg-green-800 bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{dream.grant}€ granted</div>
             )}
             {dream.budgetNeed !== 'NONE' && ['OPEN'].includes(dream.grantStatus || '') && (
-              <div className={`bg-blue-800 bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>OPEN</div>
             )}
             {dream.budgetNeed !== 'NONE' && ['CANCELED'].includes(dream.grantStatus || '') && (
-              <div className={`bg-red-800 bg-opacity-60 font-bold p-3 text-right`}>CANCELED</div>
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>CANCELED</div>
             )}
           </div>
           

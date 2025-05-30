@@ -1,4 +1,5 @@
 'use client';
+import { getDreamColor } from 'munichburners/lib/dreams';
 import { Dream } from 'munichburners/lib/dreams/schema';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
@@ -18,7 +19,7 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
     }));
   };
 
-  const updateDream = async (status: 'OPEN' | 'CANCELED' | 'ACCEPTED') => {
+  const updateDream = async (status: 'OPEN' | 'PLANNED' | 'CANCELED' | 'ACCEPTED') => {
     // Here you would typically send the updated dream to your backend
     await fetch(`/api/dreams/${clientDream.documentId}`, {
       method: 'PUT',
@@ -110,9 +111,10 @@ export default function DreamRelease({dream, userSecret}:{dream: Dream, userSecr
           </label>
           </div>
           <div className="flex w-full">
-            <button onClick={() => updateDream('OPEN')} className={`btn rounded-none border-none text-white bg-blue-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'OPEN' ? 'font-bold bg-opacity-90' : ''}`}>Open</button>
-            <button onClick={() => updateDream('CANCELED')} className={`btn rounded-none border-none text-white bg-red-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'CANCELED' ? 'font-bold bg-opacity-90' : ''}`}>Cancel</button>
-            <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white bg-green-800 bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : ''}`}>Accept</button>
+            <button onClick={() => updateDream('OPEN')} className={`btn rounded-none border-none text-white ${getDreamColor('OPEN')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'OPEN' ? 'font-bold bg-opacity-90' : ''}`}>Open</button>
+            <button onClick={() => updateDream('PLANNED')} className={`btn rounded-none border-none text-white ${getDreamColor('PLANNED')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'PLANNED' ? 'font-bold bg-opacity-90' : ''}`}>Plan</button>
+            <button onClick={() => updateDream('CANCELED')} className={`btn rounded-none border-none text-white ${getDreamColor('CANCELED')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'CANCELED' ? 'font-bold bg-opacity-90' : ''}`}>Cancel</button>
+            <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white ${getDreamColor('ACCEPTED')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : ''}`}>Accept</button>
           </div>
       </div>
     </>

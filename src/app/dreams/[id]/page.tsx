@@ -2,7 +2,8 @@ import DreamCard from "munichburners/app/dreams/_components/DreamCard";
 import { UsageBar } from "munichburners/app/dreams/_components/DreamUsage";
 import MMBLogin from "munichburners/components/MMBLogin";
 import { getSession } from "munichburners/lib/auth";
-import { getDreams, getDreamYear } from "munichburners/lib/dreams";
+import { getDreamColor, getDreams, getDreamYear } from "munichburners/lib/dreams";
+import { DreamGrantStatus } from "munichburners/lib/dreams/schema";
 
 type PageProps = {
   params: Promise<{
@@ -27,6 +28,12 @@ export default async function Page(props:PageProps) {
     }
     return acc;
   }, 0);
+  const dreamGrantPlanned = dreams.reduce((acc, dream) => {
+    if (['PLANNED'].includes(dream.grantStatus || '')) {
+      return acc + (dream.grant || 0);
+    }
+    return acc;
+  }, 0);
   
   const dreamRequestMin = dreams.reduce((acc, dream) => {
     if (!['ACCEPTED', 'INVOICES', 'READY', 'PAID', 'CANCELED'].includes(dream.grantStatus || '')) {
@@ -43,8 +50,9 @@ export default async function Page(props:PageProps) {
 
   const usages = [
     { value: dreamGrantTotal, color: "bg-white text-black bg-opacity-90", label: `${dreamGrantTotal}€ granted` },
-    { value: dreamRequestMin, color: "bg-white text-white bg-opacity-40", label: `${dreamGrantTotal + dreamRequestMin}€ min` },
-    { value: dreamRequestMax, color: "bg-white text-white bg-opacity-20", label: `${dreamGrantTotal + dreamRequestMin + dreamRequestMax}€ max` },
+    { value: dreamGrantPlanned, color: "bg-white text-black bg-opacity-60", label: `${dreamGrantPlanned}€ planned` },
+    { value: dreamRequestMin, color: "bg-white text-white bg-opacity-40", label: `${dreamGrantTotal + dreamGrantPlanned +  dreamRequestMin}€ min` },
+    { value: dreamRequestMax, color: "bg-white text-white bg-opacity-20", label: `${dreamGrantTotal + dreamGrantPlanned + dreamRequestMin + dreamRequestMax}€ max` },
   ];
 
   const usagesByGrantStatusAccumlated = dreams.reduce((acc, dream) => {
@@ -58,6 +66,7 @@ export default async function Page(props:PageProps) {
   }
   , {
     OPEN: 0,
+    PLANNED: 0,
     CANCELED: 0,
     ACCEPTED: 0,
     INVOICES: 0,
@@ -67,7 +76,7 @@ export default async function Page(props:PageProps) {
 
   const usagesByGrantStatus = Object.entries(usagesByGrantStatusAccumlated).map(([status, value]) => ({
     value,
-    color: `bg-${status === 'OPEN' ? 'blue-800' : status === 'CANCELED' ? 'red-800' : status === 'ACCEPTED' ? 'green-800' : status === 'INVOICES' ? 'cyan-800' : status === 'READY' ? 'lime-600' : 'green-500'} text-white bg-opacity-80`,
+    color: `${getDreamColor(status as DreamGrantStatus)} text-white bg-opacity-80`,
     label: `${status}`,
   })).filter((usage) => usage.value > 0);
 
