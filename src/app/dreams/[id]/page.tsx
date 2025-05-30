@@ -70,18 +70,35 @@ export default async function Page(props:PageProps) {
     color: `bg-${status === 'OPEN' ? 'blue-800' : status === 'CANCELED' ? 'red-800' : status === 'ACCEPTED' ? 'green-800' : status === 'INVOICES' ? 'cyan-800' : status === 'READY' ? 'lime-600' : 'green-500'} text-white bg-opacity-80`,
     label: `${status}`,
   })).filter((usage) => usage.value > 0);
+
+  const yourDreams = dreams.filter((dream) => dream.dreamerSecret === session?.user?.email || '');
   
   return (
     <div className="container mx-auto px-4 md:px-0 mb-10">
-      <h1 className="text-2xl font-bold">
+      <h1 className="text-4xl font-bold">
         {dreams.length} Dreams {dreamYear.name}
       </h1>
       
+      <h1 className="text-2xl font-bold mb-4">Budget</h1>
       <UsageBar max={dreamYear.budget} usages={usagesByGrantStatus} showLabels className="mb-2" />
-      <UsageBar max={dreamYear.budget} usages={usages} showLabels showMax className="mb-12" />
+      <UsageBar max={dreamYear.budget} usages={usages} showLabels showMax className="mb-8" />
 
-      <MMBLogin />
+      <p className="text-sm mb-4 text-center">
+        Du hast einen Dream und willst ihn bearbeiten und dein Budget bekommen? Dann melde dich bitte an.<br />
+        <MMBLogin className="mt-2 btn-sm" />
+      </p>
 
+      {yourDreams.length > 0 && (
+        <>
+          <h1 className="text-lg font-bold mb-4">Deine Dreams</h1>
+          {yourDreams.map((dream) => (
+            <DreamCard key={dream.id} dream={dream} dreamYear={dreamYear} userSecret={session?.user?.email || ''} />
+          ))}
+        </>
+      )}      
+
+
+      <h1 className="text-3xl font-bold mb-4">Alle {dreams.length} Dreams</h1>
       {dreams.map((dream) => (
         <DreamCard key={dream.id} dream={dream} dreamYear={dreamYear} userSecret={session?.user?.email || ''} />
       ))}

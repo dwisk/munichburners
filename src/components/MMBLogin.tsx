@@ -14,8 +14,8 @@ export default function MMBLogin({className = ''}: {className?: string}) {
 
   if (session) {
     return (
-      <Link href={`/api/auth/signout?callbackUrl=${path}`} className={`btn ${className}`}>
-        Logout as {session.user?.name}
+      <Link href={`/api/auth/signout?callbackUrl=${path}`} className={`btn btn-neutral ${className}`}>
+        {session.user?.name} ausloggen
       </Link>
     );
   }

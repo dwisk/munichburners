@@ -37,7 +37,7 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
           <div className="p-4">
           {dreamRights.isDreamer && !dreamYearRights && (
           <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
-            DEIN<br />DREAM
+            DREAM<br /><span className="font-bold">BEARBEITEN</span>
           </Link>
           )}
           {dreamYearRights && dream.budgetNeed !== 'NONE' && (
