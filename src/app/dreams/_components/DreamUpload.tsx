@@ -111,7 +111,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   return (
     <>
       <h1 className="text-3xl">1. Rechnungen hochladen</h1>
-      { dream.grantStatus === 'ACCEPTED' && (
+      { ['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '') && (
         <div className="card relative gridpanel mb-4 rounded-lg p-4">
           <p className="text-center">Bitte lade Belege/Rechnungen für <span className="font-bold">maximal {dream.grant}€</span> hoch. Bitte lade nur Belege/Rechnungen hoch, die du für deinen Dream brauchst.</p>
           <span className="flex flex-col md:flex-row w-full gap-2">
