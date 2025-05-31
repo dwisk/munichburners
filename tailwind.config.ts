@@ -5,6 +5,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -37,13 +38,6 @@ export default {
     'md:grid-cols-4',
     'md:grid-cols-5',
     'md:grid-cols-6',
-    'bg-blue-800',
-    'bg-teal-600',
-    'bg-red-800',
-    'bg-green-800',
-    'bg-cyan-600',
-    'bg-lime-600',
-    'bg-green-500',
   ],
   plugins: [require('daisyui')],
   daisyui: {

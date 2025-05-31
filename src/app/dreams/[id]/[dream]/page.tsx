@@ -8,37 +8,46 @@ import DreamRelease from "../../_components/DreamRelease";
 import DreamUpload from "../../_components/DreamUpload";
 import DreamReview from "../../_components/DreamReview";
 import DreamProgress from "../../_components/DreamProgress";
+import Link from "next/link";
 
 type PageProps = {
   params: Promise<{
     dream: string;
+    id: string;
   }>;
 };
 
 
 export default async function Page(props:PageProps) { 
   const session = await getSession();
-  const { dream: dreamId } = await props.params;
+  const { dream: dreamId, id: dreamYear } = await props.params;
 
   const dream = await getDream(dreamId);
+
+  if (!dream) {
+    return <>
+      <h1 className="text-4xl font-bold">404</h1>
+      <p className="text-lg text-center">Dream leider nicht gefunden.<br/>
+        <Link href={`/dreams/${dreamYear}`} className="btn btn-outline mt-4">Zurück zu den {dreamYear} Dreams</Link>
+      </p>
+    </>;
+  }
 
   if (!session) {
     return <>
     <div className="container mx-auto px-4 md:px-0 mb-10">
       <h1 className="text-4xl font-bold">Dream</h1>
       <DreamCard key={dream.id} dream={dream} dreamYear={dream.dream_year as DreamYear} userSecret={''} />
-      <h1 className="text-3xl">Dream Status</h1>
-      <DreamProgress dream={dream} />
-      <h1 className="text-3xl">Geld bekommen</h1>
-      <p className="mb-4  text-center font-bold">Bitte einloggen um Details zu sehen und Geld zu bekommen.</p>
-      <p className="mb-4  text-center"><MMBLogin /></p>
+      {dream.budgetNeed !== 'NONE' && (<>
+        <h1 className="text-3xl">Dream Status</h1>
+        <DreamProgress dream={dream} />
+        <h1 className="text-3xl">Geld bekommen</h1>
+        <p className="mb-4  text-center font-bold">Bitte einloggen um Details zu sehen und Geld zu bekommen.</p>
+        <p className="mb-4  text-center"><MMBLogin /></p>
+      </>)}
       
     </div>
     </>;
-  }
-
-  if (!dream) {
-    return <div>Dream not found</div>;
   }
 
   const dreamRights = getDreamRights(dream, session.user?.email || '');
@@ -66,10 +75,15 @@ export default async function Page(props:PageProps) {
         </div>
       )}
 
-      <h1 className="text-3xl">Dream Status</h1>
-      <DreamProgress dream={dream} />
+      {dream.budgetNeed !== 'NONE' && (
+        <h1 className="text-3xl">Dream Status</h1>
+      )}
 
-      {dreamRights.isYearRealizer && (
+      {dream.budgetNeed !== 'NONE' && (
+        <DreamProgress dream={dream} />
+      )}
+
+      {dream.budgetNeed !== 'NONE' && dreamRights.isYearRealizer && (
         <DreamRelease dream={dream} userSecret={session.user?.email || ''} />
       )}
 

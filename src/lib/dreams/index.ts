@@ -268,7 +268,7 @@ export function getDreamColor(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACC
     case 'OPEN':
       return 'bg-blue-800';
     case 'PLANNED':
-      return 'bg-teal-600';
+      return 'bg-teal-500';
     case 'CANCELED':
       return 'bg-red-800';
     case 'ACCEPTED':
@@ -276,7 +276,7 @@ export function getDreamColor(grantStatus:'OPEN' | 'CANCELED' | 'PLANNED' | 'ACC
     case 'INVOICES':
       return 'bg-cyan-600';
     case 'READY':
-      return 'bg-lime-600';
+      return 'bg-lime-500';
     case 'PAID':
       return 'bg-green-500';
     default:

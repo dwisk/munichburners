@@ -1,26 +1,20 @@
 import { Dream, DreamYear } from "munichburners/lib/dreams/schema";
 import Link from "next/link";
 import { UsageBar } from "./DreamUsage";
-import { getDreamColor, getDreamEmoji, getDreamLabel, getDreamRights, hasDreamYearRights } from "munichburners/lib/dreams";
+import { getDreamColor, getDreamEmoji, getDreamLabel, hasDreamYearRights } from "munichburners/lib/dreams";
 
 export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dream, dreamYear:DreamYear, userSecret:string }) {
   const dreamYearRights = hasDreamYearRights(dreamYear, userSecret);
-  const dreamRights = getDreamRights(dream, userSecret);
 
   const dreamStatusColor = getDreamColor(dream.grantStatus) || 'bg-black';
 
   return (
-    <div key={dream.id} className="card relative gridpanel mb-4 rounded-lg">
+    <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="card relative gridpanel mb-4 rounded-lg">
           <div className="p-4">
-          {dreamRights.isDreamer && !dreamYearRights && (
-          <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="absolute top-0 right-0 p-2 text-right text-xs bg-black bg-opacity-20 rounded-bl-lg">
-            DREAM<br /><span className="font-bold">BEARBEITEN</span>
-          </Link>
-          )}
           {dreamYearRights && dream.budgetNeed !== 'NONE' && (
-          <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className={`absolute top-0 right-0 p-2 text-right text-xs ${dreamStatusColor} bg-opacity-60 rounded-bl-lg`}>
+          <div className={`absolute top-0 right-0 p-2 text-right text-xs ${dreamStatusColor} bg-opacity-60 rounded-bl-lg`}>
             DREAM<br /><span className="font-bold">{dream.grantStatus || 'OPEN'}</span>
-          </Link>
+          </div>
           )}
           <h2 className="text-2xl font-bold">
             {dream.name}
@@ -48,13 +42,13 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
               {dream.requestMax}€ max
             </div>)}
             {['PLANNED', 'ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || '') && (
-              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{getDreamEmoji(dream.grantStatus)} {dream.grant}€ {getDreamLabel(dream.grantStatus)}</div>
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-80 font-bold p-3 text-right`}>{getDreamEmoji(dream.grantStatus)} {dream.grant}€ {getDreamLabel(dream.grantStatus)}</div>
             )}
             {dream.budgetNeed !== 'NONE' && ['OPEN', 'CANCELED'].includes(dream.grantStatus || '') && (
-              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-60 font-bold p-3 text-right`}>{getDreamEmoji(dream.grantStatus)} {getDreamLabel(dream.grantStatus)}</div>
+              <div className={`${getDreamColor(dream.grantStatus)} bg-opacity-80 font-bold p-3 text-right`}>{getDreamEmoji(dream.grantStatus)} {getDreamLabel(dream.grantStatus)}</div>
             )}
           </div>
           
-        </div>
+        </Link>
   );
 }
