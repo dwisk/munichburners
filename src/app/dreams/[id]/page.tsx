@@ -56,11 +56,20 @@ export default async function Page(props:PageProps) {
   ];
 
   const usagesByGrantStatusAccumlated = dreams.reduce((acc, dream) => {
+    let dreamValue =  0;
+    if (['INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '')) {
+      dreamValue = Math.round(
+        (dream?.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0)*100
+      )/100;
+    } else {
+      dreamValue = dream.grant || 0;
+    }
+
     if (dream.grantStatus && !acc[dream.grantStatus]) {
       acc[dream.grantStatus] = 0;
     }
     if (dream.grantStatus) {
-      acc[dream.grantStatus] += dream.grant || 0;
+      acc[dream.grantStatus] += dreamValue || 0;
     }
     return acc;
   }
@@ -77,11 +86,31 @@ export default async function Page(props:PageProps) {
   const usagesByGrantStatus = Object.entries(usagesByGrantStatusAccumlated).map(([status, value]) => ({
     value,
     color: `${getDreamColor(status as DreamGrantStatus)} text-white bg-opacity-80`,
-    label: `${getDreamLabel(status as DreamGrantStatus)} ${getDreamEmoji(status as DreamGrantStatus)}`,
+    label: `${value}€  ${getDreamEmoji(status as DreamGrantStatus)}`,
   })).filter((usage) => usage.value > 0);
 
   const yourDreams = dreams.filter((dream) => dream.dreamerSecret === session?.user?.email || '');
   
+  const dreamInvoicesTotal =  Math.round(dreams.reduce((acc, dream) => {
+    if (['INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '')) {
+      return acc + (dream?.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0)
+      ;
+    }
+    return acc;
+  }, 0)*100)/100;
+  const dreamNoInvoicesTotal = dreams.reduce((acc, dream) => {
+    if (['ACCEPTED','PLANNED'].includes(dream.grantStatus || '')) {
+      return acc + (dream.grant || 0);
+    }
+    return acc;
+  }, 0);
+  const finalUsages = [
+    {value: dreamInvoicesTotal, color: "bg-white text-black bg-opacity-90", label: `Rechnungen ${dreamInvoicesTotal}€ `},
+    {value: dreamNoInvoicesTotal, color: "bg-white text-black bg-opacity-70", label: `Open Grants ${dreamNoInvoicesTotal}€`},
+  ];
+
+  const actualBudget = Math.round((dreamInvoicesTotal + dreamNoInvoicesTotal)*100)/100;
+
   return (
     <div className="container mx-auto px-4 md:px-0 mb-10">
       <h1 className="text-4xl font-bold">
@@ -89,8 +118,15 @@ export default async function Page(props:PageProps) {
       </h1>
       
       <h1 className="text-2xl font-bold mb-4">Budget</h1>
+      <div className="text-xs">Nach Status</div>
       <UsageBar max={dreamYear.budget} usages={usagesByGrantStatus} showLabels className="mb-2" />
+      <div className="text-xs">Geplant {dreamGrantTotal}€</div>
       <UsageBar max={dreamYear.budget} usages={usages} showLabels showMax className="mb-8" />
+      <div className="text-xs">Tatsächlich {actualBudget}€</div>
+      <UsageBar max={dreamYear.budget} usages={finalUsages} showLabels showMax className="mb-8" />
+      <div className="text-right">
+        {dreamYear.budget}€ - {actualBudget}€ = {Math.round((dreamYear.budget - actualBudget)*100)/100}€
+      </div>
 
       <p className="text-sm mb-4 text-center">
         Du hast einen Dream und willst ihn bearbeiten und dein Budget bekommen? Dann melde dich bitte an.<br />

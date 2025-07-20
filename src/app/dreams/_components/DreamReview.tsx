@@ -39,7 +39,7 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
     label: `${(invoice.File as StrapiFile).name+1} ${invoice.Amount}€`,
   })) || [];
 
-  const invoiceSum = dream.invoices.filter((i)=> i.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0);
+  const invoiceSum = Math.round(dream.invoices.filter((i)=> i.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0)*100)/100;
     
   return (<>
       <h1 className="text-3xl">Geld freigeben</h1>

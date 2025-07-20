@@ -16,7 +16,7 @@ export async function getDreams(dream_year:string):Promise<Dream[]> {
       filters,
       sort: ['name:asc'],
       populate: {
-        
+        invoices: true
       },
       pagination: {
         pageSize: 100
