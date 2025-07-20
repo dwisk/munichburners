@@ -31,6 +31,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
       }
       return ({
         name: dream.name,
+        dreamer: dream.dreamer,
         requestMin: dream.requestMin,
         requestMax: dream.requestMax,
         grantStatus: dream.grantStatus,
@@ -46,6 +47,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
       Object.keys(dreamsCSVdata[0] || {}),
       ...dreamsCSVdata.map((dream) => [
         JSON.stringify(dream.name),
+        JSON.stringify(dream.dreamer),
         dream.requestMin?.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
         dream.requestMax?.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
         dream.grantStatus,
