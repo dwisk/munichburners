@@ -35,6 +35,10 @@ export interface Dream {
   bankIBAN?: string,
   bankBIC?: string,
   bankName?: string,
+  addressStreet?: string,
+  addressZipcode?: string,
+  addressCity?: string,
+  addressCountry?: string,
 }
 
 export type DreamGrantStatus = 'OPEN' | 'CANCELED' | 'PLANNED' | 'ACCEPTED' | 'INVOICES' | 'READY' | 'PAID';

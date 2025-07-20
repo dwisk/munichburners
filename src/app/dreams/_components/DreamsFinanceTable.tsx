@@ -31,6 +31,7 @@ export default async function DreamsFinanceTable({dreamYear, userSecret}: {dream
       invoicesAccepted,
       real,
       accepted,
+      address: dream.addressStreet && dream.addressZipcode && dream.addressCity && dream.addressCountry ? 'OK' : 'LEER'
     });
   });
 

@@ -38,6 +38,10 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
           bankIBAN: clientDream.bankIBAN,
           bankBIC: clientDream.bankBIC,
           bankName: clientDream.bankName,
+          addressStreet: clientDream.addressStreet,
+          addressZipcode: clientDream.addressZipcode,
+          addressCity: clientDream.addressCity,
+          addressCountry: clientDream.addressCountry,
           grantStatus: setStatus ? 'INVOICES' : undefined,
         },
         userSecret
@@ -104,8 +108,9 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
     invoicesUploaded: dream.invoices && dream.invoices.length > 0,
     invoiceSumOK: invoiceSum > 0 && invoiceSum <= (dream.grant || 0) * 1.1,
     bankDataComplete: validIBAN && validBIC && clientDream.bankName && clientDream.bankName.split(" ").length >= 2,
+    addressComplete: clientDream.addressStreet && clientDream.addressZipcode && clientDream.addressCity && clientDream.addressCountry,
   };
-  const allChecksOK = checks.accepted && checks.invoicesUploaded && checks.invoiceSumOK && checks.bankDataComplete;
+  const allChecksOK = checks.accepted && checks.invoicesUploaded && checks.invoiceSumOK && checks.bankDataComplete && checks.addressComplete;
 
   const invoiceAcceptedSum = dream.invoices?.filter((i)=> i.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0);
   
@@ -207,10 +212,68 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
               onChange={updateClientDream}
               />
             </label>
-            {['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '') && (
-              <button className="btn btn-md btn-neutral" onClick={() => updateDream()} disabled={!checks.bankDataComplete}>Speichern</button>
-            )}
           </span>
+          <p className="text-center font-bold">Deine Adresse</p>
+            <label className="input input-bordered flex items-center w-full">
+              {(clientDream.addressStreet || '').length >= 2 ? '✅' : '❌'}  Straße
+              <input 
+                type="text" 
+                className="grow mx-2 text-left" 
+                placeholder="Forstenrieder Allee 78"
+                name="addressStreet"
+                // disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
+                value={clientDream.addressStreet || ''}
+                onChange={updateClientDream}
+                min={0} 
+              />
+            </label>
+            <span className="flex flex-col md:flex-row w-full gap-2 my-2">
+              <label className="input input-bordered flex items-center w-full">
+                {(clientDream.addressZipcode || '').length >= 4 ? '✅' : '❌'}  PLZ
+                <input 
+                  type="text" 
+                  className="grow mx-2 text-left" 
+                  placeholder="81476"
+                  name="addressZipcode"
+                  // disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
+                  value={clientDream.addressZipcode || ''}
+                  onChange={updateClientDream}
+                  min={0} 
+                />
+              </label>
+              <label className="input input-bordered flex items-center w-full">
+                {(clientDream.addressCity || '').length >= 2 ? '✅' : '❌'}  Ort
+                <input 
+                  type="text" 
+                  className="grow mx-2 text-left" 
+                  placeholder="München"
+                  name="addressCity"
+                  // disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
+                  value={clientDream.addressCity || ''}
+                  onChange={updateClientDream}
+                  min={0} 
+                />
+              </label>
+            </span>
+            <span className="flex flex-col md:flex-row w-full gap-2">
+              <label className="input input-bordered flex items-center w-full">
+                {(clientDream.addressCountry || '').length >= 2 ? '✅' : '❌'}  Land
+                <input 
+                  type="text" 
+                  className="grow mx-2 text-left" 
+                  placeholder="Deutschland"
+                  name="addressCountry"
+                  // disabled={!['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')}
+                  value={clientDream.addressCountry || ''}
+                  onChange={updateClientDream}
+                  min={0} 
+                />
+              </label>
+              {/* {(['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '')) && ( */}
+                <button className="btn btn-md btn-neutral" onClick={() => updateDream()} disabled={!checks.bankDataComplete}>Speichern</button>
+              {/* )} */}
+            </span>
+
         </div>
         <div className="card relative gridpanel mb-4 rounded-lg p-4">
           <p className="text-center font-bold">Zusammenfassung</p>
@@ -237,6 +300,10 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
             {checks.bankDataComplete ?
             <div className="">✅ Deine Bankdaten sind vollständig.</div> :
             <div className="font-bold">❌ Deine Bankdaten sind unvollständig!</div>
+            }
+            {checks.addressComplete ?
+            <div className="">✅ Deine Adresse ist vollständig.</div> :
+            <div className="font-bold">❌ Deine Adresse ist unvollständig!</div>
             }
             {dream.grantStatus === 'INVOICES' && (
               <div className="">✅ Deine Rechnungen sind eingereicht. Bitte hab etwas Geduld 🙂</div>
