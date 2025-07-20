@@ -46,14 +46,14 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
       Object.keys(dreamsCSVdata[0] || {}),
       ...dreamsCSVdata.map((dream) => [
         JSON.stringify(dream.name),
-        dream.requestMin?.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
-        dream.requestMax?.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
+        dream.requestMin,
+        dream.requestMax,
         dream.grantStatus,
-        dream.grant?.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
-        dream.invoices.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
-        dream.invoicesAccepted.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
-        dream.real.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
-        dream.accepted.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
+        dream.grant,
+        dream.invoices,
+        dream.invoicesAccepted,
+        dream.real,
+        dream.accepted,
       ]),
     ];
 
