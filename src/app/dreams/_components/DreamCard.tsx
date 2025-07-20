@@ -10,12 +10,15 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
 
   const invoiceSum = Math.round((dream.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0)*100)/100;
 
+  const checkAddress = dream.addressStreet && dream.addressZipcode && dream.addressCity && dream.addressCountry;
+
   return (
     <Link href={`/dreams/${dreamYear.slug}/${dream.documentId}`} className="card relative gridpanel mb-4 rounded-lg">
           <div className="p-4">
           {dreamYearRights && dream.budgetNeed !== 'NONE' && (
           <div className={`absolute top-0 right-0 p-2 text-right text-xs ${dreamStatusColor} bg-opacity-60 rounded-bl-lg`}>
-            DREAM<br /><span className="font-bold">{dream.grantStatus || 'OPEN'}</span>
+            {checkAddress ? '✅' : '❌'} DREAM<br /><span className="font-bold">{dream.grantStatus || 'OPEN'}</span>
+            
           </div>
           )}
           <h2 className="text-2xl font-bold">
