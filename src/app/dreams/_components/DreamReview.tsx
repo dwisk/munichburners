@@ -5,6 +5,8 @@ import { Dream, StrapiFile } from "munichburners/lib/dreams/schema";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getDreamColor } from "munichburners/lib/dreams";
+import DreamReceipt from "./DreamReceipt";
+import { electronicFormatIBAN, isValidBIC, isValidIBAN } from "ibantools";
 
 export default function DreamReview({dream, userSecret}:{dream: Dream, userSecret: string}) {
   const [invoiceComment, setInvoiceComment] = useState<string>(dream.invoiceComment || '');
@@ -40,6 +42,20 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
   })) || [];
 
   const invoiceSum = Math.round(dream.invoices.filter((i)=> i.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0)*100)/100;
+
+    const validIBAN = isValidIBAN(electronicFormatIBAN(dream.bankIBAN || '') || '');
+    const validBIC = isValidBIC(dream.bankBIC || '');
+  
+  const checks = {
+    planned: ['PLANNED'].includes(dream.grantStatus || ''),
+    accepted: ['ACCEPTED','INVOICES','READY','PAID'].includes(dream.grantStatus || ''),
+    invoicesUploaded: dream.invoices && dream.invoices.length > 0,
+    invoiceSumOK: invoiceSum > 0 && invoiceSum <= (dream.grant || 0) * 1.1,
+    bankDataComplete: validIBAN && validBIC && dream.bankName && dream.bankName.split(" ").length >= 2,
+    addressComplete: dream.addressStreet && dream.addressZipcode && dream.addressCity && dream.addressCountry,
+  };
+  const allChecksOK = !!(checks.accepted && checks.invoicesUploaded && checks.invoiceSumOK && checks.bankDataComplete && checks.addressComplete);
+
     
   return (<>
       <h1 className="text-3xl">Geld freigeben</h1>
@@ -66,12 +82,16 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
         </label>
       </p>
       <p className="px-4 pb-4">
-        <strong className="font-bold">Bankdetails:</strong><br />
+        {checks.bankDataComplete ? '✅' : '❌'} <strong className="font-bold">Bankdetails:</strong><br />
         {dream.bankName}<br />
         IBAN: {dream.bankIBAN}<br />
         BIC: {dream.bankBIC}<br />
         Betrag: {invoiceSum}€ <br/>
         Betreff: MMB2025 Dreams Kostenerstattung<br/>
+      </p>
+      <p className="px-4 pb-4">
+        {checks.addressComplete ? '✅' : '❌'} <strong className="font-bold">Adresse:</strong><br />
+        {dream.addressStreet || ''}, {dream.addressZipcode || ''} {dream.addressCity || ''}, {dream.addressCountry || ''}
       </p>
         <div className="flex w-full">
           <button onClick={() => updateDream('ACCEPTED')} className={`btn rounded-none border-none text-white ${getDreamColor('ACCEPTED')} bg-opacity-40 p-3 grow ${dream.grantStatus === 'ACCEPTED' ? 'font-bold bg-opacity-90' : 'font-normal'}`}>Reset</button>
@@ -81,7 +101,10 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
         </div>
     </div>
 
-    <button className="btn btn-lg btn-neutral mt-4 w-full">Belege als .zip herunterladen</button>
+    <div className="w-full flex gap-4">
+      <DreamReceipt disabled={!allChecksOK} dream={dream} />
+      <button className="btn btn-lg btn-neutral grow" disabled>Belege als .zip herunterladen</button>
+    </div>
 
   </>);
 }
