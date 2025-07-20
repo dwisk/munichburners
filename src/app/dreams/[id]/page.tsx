@@ -4,6 +4,7 @@ import MMBLogin from "munichburners/components/MMBLogin";
 import { getSession } from "munichburners/lib/auth";
 import { getDreamColor, getDreamEmoji, getDreamLabel, getDreams, getDreamYear } from "munichburners/lib/dreams";
 import { DreamGrantStatus } from "munichburners/lib/dreams/schema";
+import DreamsFinanceTable from "../_components/DreamsFinanceTable";
 
 type PageProps = {
   params: Promise<{
@@ -147,6 +148,9 @@ export default async function Page(props:PageProps) {
       {dreams.map((dream) => (
         <DreamCard key={dream.id} dream={dream} dreamYear={dreamYear} userSecret={session?.user?.email || ''} />
       ))}
+
+      <DreamsFinanceTable dreamYear={dreamYear} userSecret={session?.user?.email || ''} />
+
     </div>
   );
 }
