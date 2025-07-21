@@ -44,7 +44,7 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ id: strin
 
     if (!dreamRights.isYearRealizer) {
       // check allowed fields for dreamer
-      const allowedFields = ['name', 'budgetNeed', 'requestMinReason', 'requestMaxReason', 'invoices', 'bankIBAN', 'bankBIC', 'bankName', 'grantStatus'];
+      const allowedFields = ['name', 'budgetNeed', 'requestMinReason', 'requestMaxReason', 'invoices', 'bankIBAN', 'bankBIC', 'bankName', 'grantStatus', 'addressStreet', 'addressZipcode', 'addressCity', 'addressCountry'];
       const bodyKeys = Object.keys(body.data);
       for (const key of bodyKeys) {
         if (!allowedFields.includes(key)) {
