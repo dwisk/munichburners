@@ -87,7 +87,7 @@ export default async function Page(props:PageProps) {
   const usagesByGrantStatus = Object.entries(usagesByGrantStatusAccumlated).map(([status, value]) => ({
     value,
     color: `${getDreamColor(status as DreamGrantStatus)} text-white bg-opacity-80`,
-    label: `${value}€  ${getDreamEmoji(status as DreamGrantStatus)}`,
+    label: `${Math.round(value*100)/100}€  ${getDreamEmoji(status as DreamGrantStatus)}`,
   })).filter((usage) => usage.value > 0);
 
   const yourDreams = dreams.filter((dream) => dream.dreamerSecret === session?.user?.email || '');
