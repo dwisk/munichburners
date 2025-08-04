@@ -20,6 +20,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
     const dreamsCSVdata = dreams.filter((dream) => dream.budgetNeed !== 'NONE').map((dream) => {
       const invoices = Math.round((dream.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100
       const invoicesAccepted = Math.round((dream.invoices?.filter((invoice) => invoice.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100;
+      const invoicesDenied = Math.round((dream.invoices?.filter((invoice) => invoice.reviewStatus === 'DENIED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100;
       let real = dream.grant || 0;
       let accepted = dream.grant || 0;
       if (invoices > 0) {
@@ -38,6 +39,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
         grant: dream.grant,
         invoices,
         invoicesAccepted,
+        invoicesDenied,
         real,
         accepted,
       });

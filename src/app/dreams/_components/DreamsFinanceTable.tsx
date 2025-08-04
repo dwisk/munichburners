@@ -12,6 +12,7 @@ export default async function DreamsFinanceTable({dreamYear, userSecret}: {dream
   const dreamsCSVdata = dreams.filter((dream) => dream.budgetNeed !== 'NONE').map((dream) => {
     const invoices = Math.round((dream.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100
     const invoicesAccepted = Math.round((dream.invoices?.filter((invoice) => invoice.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100;
+    const invoicesDenied = Math.round((dream.invoices?.filter((invoice) => invoice.reviewStatus === 'DENIED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100;
     let real = dream.grant;
     let accepted = dream.grant;
     if (invoices > 0) {
@@ -29,6 +30,7 @@ export default async function DreamsFinanceTable({dreamYear, userSecret}: {dream
       grant: dream.grant,
       invoices,
       invoicesAccepted,
+      invoicesDenied,
       real,
       accepted,
       address: dream.addressStreet && dream.addressZipcode && dream.addressCity && dream.addressCountry ? 'OK' : 'LEER'
