@@ -56,6 +56,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
         dream.grant?.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
         dream.invoices.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
         dream.invoicesAccepted.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
+        dream.invoicesDenied.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
         dream.real.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
         dream.accepted.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
       ]),
