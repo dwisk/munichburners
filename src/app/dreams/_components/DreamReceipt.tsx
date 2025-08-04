@@ -1,9 +1,9 @@
 'use client';
 
-import { Dream, DreamYear } from 'munichburners/lib/dreams/schema';
+import { Dream, DreamYear, StrapiFile } from 'munichburners/lib/dreams/schema';
 import React from 'react';
 
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -60,7 +60,7 @@ export default function DreamReceipt({dream}: {dream: Dream}) {
           <Text style={{ fontSize: 16, marginTop: 28, marginBottom: 10 }}>Einzelbelege</Text>
           {dream.invoices?.filter(i => i.reviewStatus === 'ACCEPTED').map((invoice, index) => (
             <View key={index} style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Text style={{ fontSize: 12, flexGrow: 1 }}>{belegNr}.zip/{(invoice.File as any).name}</Text>
+              <Text style={{ fontSize: 12, flexGrow: 1 }}>{belegNr}.zip/{(invoice.File as StrapiFile).name}</Text>
               <Text style={{ fontSize: 12 }}>{invoice.Amount.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</Text>
             </View>
           ))}
