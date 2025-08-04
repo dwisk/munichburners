@@ -8,7 +8,8 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
 
   const dreamStatusColor = getDreamColor(dream.grantStatus) || 'bg-black';
 
-  const invoiceSum = Math.round((dream.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0)*100)/100;
+  const invoiceSum = Math.round((dream.invoices?.filter((invoice) => dream.grantStatus === 'INVOICES' || invoice.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100;
+  const deniedSum = Math.round((dream.invoices?.filter((invoice) => invoice.reviewStatus === 'DENIED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) || 0) * 100) / 100;
 
   const checkAddress = dream.addressStreet && dream.addressZipcode && dream.addressCity && dream.addressCountry;
 
@@ -37,6 +38,7 @@ export default function DreamCard({ dream, dreamYear, userSecret }: { dream: Dre
           {['INVOICES','READY','PAID'].includes(dream.grantStatus || '') && (
             <UsageBar max={dream.grant || 0} showMax className="mt-4 mb-6" usages={[
               { value: invoiceSum || 0, color: `${getDreamColor(dream.grantStatus)} bg-opacity-60`, label: 'invoices' },
+              { value: deniedSum || 0, color: `bg-red-500 bg-opacity-80`, label: 'denied' },
             ]} />            
           )}
           </div>

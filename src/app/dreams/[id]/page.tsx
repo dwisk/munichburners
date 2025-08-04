@@ -58,9 +58,13 @@ export default async function Page(props:PageProps) {
 
   const usagesByGrantStatusAccumlated = dreams.reduce((acc, dream) => {
     let dreamValue =  0;
-    if (['INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '')) {
+    if (['INVOICES'].includes(dream.grantStatus || '')) {
       dreamValue = Math.round(
         (dream?.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0)*100
+      )/100;
+    } else if (['READY', 'PAID'].includes(dream.grantStatus || '')) {
+      dreamValue = Math.round(
+        (dream?.invoices?.filter((invoice) => invoice.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0)*100
       )/100;
     } else {
       dreamValue = dream.grant || 0;
@@ -93,9 +97,10 @@ export default async function Page(props:PageProps) {
   const yourDreams = dreams.filter((dream) => dream.dreamerSecret === session?.user?.email || '');
   
   const dreamInvoicesTotal =  Math.round(dreams.reduce((acc, dream) => {
-    if (['INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '')) {
-      return acc + (dream?.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0)
-      ;
+    if (['INVOICES'].includes(dream.grantStatus || '')) {
+      return acc + (dream?.invoices?.reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0);
+    } else if (['INVOICES', 'READY', 'PAID'].includes(dream.grantStatus || '')) {
+      return acc + (dream?.invoices?.filter((invoice) => invoice.reviewStatus === 'ACCEPTED').reduce((acc, invoice) => acc + (invoice.Amount || 0), 0) ?? 0);
     }
     return acc;
   }, 0)*100)/100;
