@@ -121,7 +121,7 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
         <div className="card relative gridpanel mb-4 rounded-lg p-4">
           <p className="text-center">Bitte lade Belege/Rechnungen für <span className="font-bold">maximal {dream.grant}€</span> hoch. Bitte lade nur Belege/Rechnungen hoch, die du für deinen Dream brauchst.</p>
           <span className="flex flex-col md:flex-row w-full gap-2">
-            <input type="file" accept='.pdf,.jpg' className="file-input file-input-neutral file-input-bordered w-full" onChange={handleFileChange} />
+            <input type="file" accept='.pdf,.jpg,.jpeg,.png' className="file-input file-input-neutral file-input-bordered w-full" onChange={handleFileChange} />
             <label className="input input-bordered flex items-center">
               Betrag
               <input 
