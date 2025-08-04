@@ -19,9 +19,7 @@ export default async function DreamsFinanceTable({dreamYear, userSecret}: {dream
       real = invoices;
       accepted = invoices;
     }
-    if (invoicesAccepted > 0) {
-      accepted = invoicesAccepted;
-    }
+    accepted = invoicesAccepted;
     return ({
       name: dream.name,
       requestMin: dream.requestMin,

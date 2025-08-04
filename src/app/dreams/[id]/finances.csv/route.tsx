@@ -27,9 +27,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
         real = invoices;
         accepted = invoices;
       }
-      if (invoicesAccepted > 0) {
-        accepted = invoicesAccepted;
-      }
+      accepted = invoicesAccepted;
       return ({
         name: dream.name,
         dreamer: dream.dreamer,
