@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { getDreamColor } from "munichburners/lib/dreams";
 import DreamReceipt from "./DreamReceipt";
 import { electronicFormatIBAN, isValidBIC, isValidIBAN } from "ibantools";
+import Link from "next/link";
 
 export default function DreamReview({dream, userSecret}:{dream: Dream, userSecret: string}) {
   const [invoiceComment, setInvoiceComment] = useState<string>(dream.invoiceComment || '');
@@ -101,10 +102,19 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
         </div>
     </div>
 
+      {allChecksOK ? (
     <div className="w-full flex gap-4">
-      <DreamReceipt disabled={!allChecksOK} dream={dream} />
-      <button className="btn btn-lg btn-neutral grow" disabled>Belege als .zip herunterladen</button>
+
+      <DreamReceipt dream={dream} />
+      <Link className="btn btn-lg btn-neutral grow" href={`/api/dreams/${dream.documentId}/zip`}>Einzelbelege als .zip</Link>
     </div>
+      ) : (
+        <div className="alert alert-warning">
+          <div>
+            <span>Bitte überprüfe die Angaben, bevor du den Dream freigibst.</span>
+          </div>
+        </div>
+      )}
 
   </>);
 }
