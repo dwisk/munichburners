@@ -15,6 +15,9 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   const [uploading, setUploading] = useState<boolean>(false);
   const router = useRouter();
 
+  const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
   const updateClientDream = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const field = name as keyof Dream; // Ensure the field is a key of Dream
@@ -27,26 +30,42 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   };
 
   const updateDream = async (setStatus = false) => {
-    // Here you would typically send the updated dream to your backend
-    await fetch(`/api/dreams/${clientDream.documentId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: {
-          bankIBAN: clientDream.bankIBAN,
-          bankBIC: clientDream.bankBIC,
-          bankName: clientDream.bankName,
-          addressStreet: clientDream.addressStreet,
-          addressZipcode: clientDream.addressZipcode,
-          addressCity: clientDream.addressCity,
-          addressCountry: clientDream.addressCountry,
-          grantStatus: setStatus ? 'INVOICES' : undefined,
+    let response;
+    try {
+      response =await fetch(`/api/dreams/${clientDream.documentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        userSecret
-      }),
-    });
+        body: JSON.stringify({
+          data: {
+            bankIBAN: clientDream.bankIBAN,
+            bankBIC: clientDream.bankBIC,
+            bankName: clientDream.bankName,
+            addressStreet: clientDream.addressStreet,
+            addressZipcode: clientDream.addressZipcode,
+            addressCity: clientDream.addressCity,
+            addressCountry: clientDream.addressCountry,
+            grantStatus: setStatus ? 'INVOICES' : undefined,
+          },
+          userSecret
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update dream');
+      }
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Error updating dream:', error, response);
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 6000);
+      return;
+    }
     await fetch('/api/revalidate?tag=root');
     router.refresh();
 
@@ -116,6 +135,20 @@ export default function DreamUpload({dream, userSecret}:{dream: Dream, userSecre
   
   return (
     <>
+      {success && (
+        <div className="toast toast-top toast-end z-50">
+          <div className="alert bg-green-600 text-white">
+            <span>Änderungen gespeichert!</span>
+          </div>
+        </div>
+      )}
+      {error && (
+        <div className="toast toast-top toast-end z-50">
+          <div className="alert bg-red-600 text-white">
+            <span>Speichern fehlgeschlagen!</span>
+          </div>
+        </div>
+      )}
       <h1 className="text-3xl">1. Rechnungen hochladen</h1>
       { ['ACCEPTED', 'PLANNED'].includes(dream.grantStatus || '') && (
         <div className="card relative gridpanel mb-4 rounded-lg p-4">
