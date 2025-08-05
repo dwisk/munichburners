@@ -3,7 +3,7 @@
 import { Dream, DreamYear, StrapiFile } from 'munichburners/lib/dreams/schema';
 import React from 'react';
 
-import { Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -69,13 +69,16 @@ export default function DreamReceipt({dream}: {dream: Dream}) {
     </Document>
   );
 
-  return (
-
-    <PDFDownloadLink document={<MyDocument />} className='btn btn-neutral btn-lg grow' fileName={`${belegNr}.pdf`}>
+  return (<>
+    <PDFViewer className='w-full h-[80vh]'>
+      <MyDocument />
+    </PDFViewer>
+    
+    <PDFDownloadLink document={<MyDocument />} className='btn btn-neutral btn-lg w-full' fileName={`${belegNr}.pdf`}>
       {({ loading }) =>
         loading ? 'Loading document...' : `Auszahlungsbeleg ${belegNr}.pdf`
       }
     </PDFDownloadLink>
-    
+    </>
   );
 }

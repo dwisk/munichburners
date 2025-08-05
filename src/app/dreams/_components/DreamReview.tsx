@@ -1,11 +1,10 @@
 'use client';
 import { UsageBar } from "munichburners/app/dreams/_components/DreamUsage";
 import InvoiceCard from "./InvoiceCard";
-import { Dream, StrapiFile } from "munichburners/lib/dreams/schema";
+import { Dream, DreamYear, StrapiFile } from "munichburners/lib/dreams/schema";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getDreamColor } from "munichburners/lib/dreams";
-import DreamReceipt from "./DreamReceipt";
 import { electronicFormatIBAN, isValidBIC, isValidIBAN } from "ibantools";
 import Link from "next/link";
 
@@ -102,18 +101,10 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
         </div>
     </div>
 
-      {allChecksOK ? (
-    <div className="w-full flex gap-4">
-
-      <DreamReceipt dream={dream} />
-      <Link className="btn btn-lg btn-neutral grow" href={`/api/dreams/${dream.documentId}/zip`}>Einzelbelege als .zip</Link>
-    </div>
-      ) : (
-        <div className="alert alert-warning">
-          <div>
-            <span>Bitte überprüfe die Angaben, bevor du den Dream freigibst.</span>
-          </div>
-        </div>
+      {allChecksOK && (
+        <Link href={`/dreams/${(dream.dream_year as DreamYear).slug}/${dream.documentId}/pdf`} className="btn btn-lg btn-neutral grow w-full">
+          Belege herunterladen
+        </Link>
       )}
 
   </>);
