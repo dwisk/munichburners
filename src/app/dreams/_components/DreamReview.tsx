@@ -86,8 +86,8 @@ export default function DreamReview({dream, userSecret}:{dream: Dream, userSecre
         {dream.bankName}<br />
         IBAN: {dream.bankIBAN}<br />
         BIC: {dream.bankBIC}<br />
-        Betrag: {invoiceSum}€ <br/>
-        Betreff: MMB2025 Dreams Kostenerstattung<br/>
+        Betrag: {invoiceSum.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}€ <br/>
+        Betreff: MMB2025 Dreams Kostenerstattung #{dream.id} <br/>
       </p>
       <p className="px-4 pb-4">
         {checks.addressComplete ? '✅' : '❌'} <strong className="font-bold">Adresse:</strong><br />
