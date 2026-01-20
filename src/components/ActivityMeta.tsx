@@ -28,7 +28,8 @@ export default function ActivityMeta({activity, locale='de-DE'}: {activity: Acti
             day: "2-digit",
             year: "numeric",
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            timeZone: 'Europe/Berlin'
           });
       } else if (activity.endDate) {
         enddate = new Date(activity.endDate).toLocaleString(
@@ -37,6 +38,7 @@ export default function ActivityMeta({activity, locale='de-DE'}: {activity: Acti
             month: "long",
             day: "2-digit",
             year: "numeric",
+            timeZone: 'Europe/Berlin'
           });
       }
       
