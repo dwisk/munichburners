@@ -10,7 +10,7 @@ export default async function ContentActivitiesList({  }: { content?: ContentAct
   return (<>
 
     <ol className="">
-          {activities.filter(activity => new Date(activity.startDate.substr(0, 10)) > new Date(new Date().setHours(0, 0, 0, 0)) )
+          {activities.filter(activity => new Date(activity.startDate.substr(0, 10)) >= new Date(new Date().setHours(0, 0, 0, 0)) )
                 .sort((a,b) => a.startDate > b.startDate ? 1 : -1)
                 .map((activity) => {
             
