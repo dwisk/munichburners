@@ -1,6 +1,11 @@
 import { ContentDreams } from "munichburners/lib/content/schema";
+import ContentFullstackDreamsList from "./ContentFullstackDreams";
 
 export default function ContentDreamsList({ content }: { content: ContentDreams }) {
+  if (content.Pool?.trim()) {
+    return <ContentFullstackDreamsList pool={content.Pool} />;
+  }
+
   if (!content.Year || !content.Year.documentId) {
     return <div>No dreams available for this year.</div>;
   }

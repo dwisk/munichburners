@@ -53,6 +53,7 @@ export interface ContentActivities {
 export interface ContentDreams {
     __component: 'content.dreams'
     id: number;
+    Pool?: string;
     Year: DreamYear;
 }
 
