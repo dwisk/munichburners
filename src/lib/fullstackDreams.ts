@@ -5,11 +5,17 @@ export interface FullstackDreamPool {
   slug?: string | null;
 }
 
+interface FullstackDreamerAccount {
+  id: string;
+  name?: string | null;
+}
+
 export interface FullstackDreamListItem {
   id: string;
   title?: string | null;
   shortDescription?: string | null;
   dreamer?: string | null;
+  dreamerAccount?: (FullstackDreamerAccount | string)[] | null;
   isPublic?: boolean | null;
   budgetNeed?: "MUST" | "NICE" | "NONE" | null;
   grantStatus?: "OPEN" | "CANCELED" | "PLANNED" | "ACCEPTED" | "INVOICES" | "READY" | "PAID" | null;
@@ -59,7 +65,7 @@ async function fetchPayloadDocs<T>(
 }
 
 async function fetchPoolByID(poolId: string): Promise<PayloadPoolResponse | null> {
-  const response = await fetch(getBurnDirectoryURL(`/api/pools/${encodeURIComponent(poolId)}?depth=0`), {
+  const response = await fetch(getBurnDirectoryURL(`/api/pools/${encodeURIComponent(poolId)}?depth=1`), {
     next: {
       revalidate: parseInt(process.env.REVALIDATE || "120"),
       tags: ["root", "burn-directory-pools", `burn-directory-pool-${poolId}`],
@@ -132,6 +138,41 @@ export async function getFullstackDreamPool(poolSlugOrId: string): Promise<Fulls
   return null;
 }
 
+function joinNames(values: string[]): string {
+  if (values.length === 0) {
+    return "";
+  }
+
+  if (values.length === 1) {
+    return values[0] || "";
+  }
+
+  return values.slice(0, -1).join(", ") + " & " + values[values.length - 1];
+}
+
+function resolveCurrentDreamerName(dream: FullstackDreamListItem): string | null {
+  const fallbackDreamer = typeof dream.dreamer === "string" && dream.dreamer.trim() ? dream.dreamer.trim() : "";
+
+  if (!Array.isArray(dream.dreamerAccount)) {
+    return fallbackDreamer || null;
+  }
+
+  const names = dream.dreamerAccount.flatMap((account) => {
+    if (!account || typeof account === "string") {
+      return [];
+    }
+
+    const name = typeof account.name === "string" ? account.name.trim() : "";
+    if (name) {
+      return [name];
+    }
+
+    return fallbackDreamer ? [fallbackDreamer] : [];
+  });
+
+  return joinNames(names) || fallbackDreamer || null;
+}
+
 function getDreamDocsFromPool(pool: PayloadPoolResponse): FullstackDreamListItem[] {
   return (pool.dreams?.docs || [])
     .filter((dream): dream is FullstackDreamListItem => {
@@ -139,7 +180,8 @@ function getDreamDocsFromPool(pool: PayloadPoolResponse): FullstackDreamListItem
     })
     .map((dream) => ({
       budgetNeed: dream.budgetNeed,
-      dreamer: dream.dreamer,
+      dreamer: resolveCurrentDreamerName(dream),
+      dreamerAccount: dream.dreamerAccount,
       grant: dream.grant,
       grantStatus: dream.grantStatus,
       id: dream.id,
@@ -152,13 +194,14 @@ function getDreamDocsFromPool(pool: PayloadPoolResponse): FullstackDreamListItem
 }
 
 async function getDreamsForPoolID(poolId: string): Promise<FullstackDreamListItem[]> {
-  return await fetchPayloadDocs<FullstackDreamListItem>("dreams", {
-    depth: 0,
+  const dreams = await fetchPayloadDocs<FullstackDreamListItem>("dreams", {
+    depth: 1,
     limit: 100,
     pagination: false,
     select: {
       budgetNeed: true,
       dreamer: true,
+      dreamerAccount: true,
       grant: true,
       grantStatus: true,
       id: true,
@@ -178,6 +221,11 @@ async function getDreamsForPoolID(poolId: string): Promise<FullstackDreamListIte
       },
     },
   });
+
+  return dreams.map((dream) => ({
+    ...dream,
+    dreamer: resolveCurrentDreamerName(dream),
+  }));
 }
 
 export async function getPublicFullstackDreamsForPool(poolSlugOrId: string): Promise<FullstackDreamListItem[]> {
